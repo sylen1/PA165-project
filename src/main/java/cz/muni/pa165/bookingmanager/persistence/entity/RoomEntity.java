@@ -83,7 +83,7 @@ public class RoomEntity  {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof HotelEntity)) return false;
+        if (!(o instanceof RoomEntity)) return false;
 
         RoomEntity that = (RoomEntity) o;
 
