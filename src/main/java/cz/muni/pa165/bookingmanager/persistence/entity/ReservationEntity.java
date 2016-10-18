@@ -101,7 +101,7 @@ public class ReservationEntity {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof ReservationEntity)) {
             return false;
         }
         final ReservationEntity other = (ReservationEntity) obj;

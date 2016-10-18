@@ -80,7 +80,7 @@ public class CustomerEntity {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof CustomerEntity)) {
             return false;
         }
         final CustomerEntity other = (CustomerEntity) obj;
