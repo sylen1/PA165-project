@@ -5,7 +5,7 @@ import java.sql.Date;
 
 /**
  * Entity class for a hotel room reservation
- * @author Matej Harcar, 422714
+ * @author Matej Harcar, 422714 & Mojmír Odehnal, 374422
  */
 @Entity
 public class ReservationEntity {
