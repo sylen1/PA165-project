@@ -1,10 +1,12 @@
 package cz.muni.pa165.bookingmanager.persistence.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * @Author Ondřej Gasior
  */
+@Entity
 public class RoomEntity  {
 
     @Id
@@ -15,7 +17,7 @@ public class RoomEntity  {
     private String name; //LIKE A320
 
     @Column(nullable=false)
-    private double price;
+    private BigDecimal price;
 
     @Column(nullable=false)
     private int bedCount;
@@ -23,11 +25,12 @@ public class RoomEntity  {
     @Column
     private String description;
 
-    @Column(nullable=false)
     @ManyToOne
-    @JoinColumn(name="hotel_id")
+    @JoinColumn(name = "hotel_id")
     private HotelEntity hotel;
 
+    public RoomEntity() {
+    }
 
     public Long getId() {
         return id;
@@ -45,11 +48,11 @@ public class RoomEntity  {
         this.name = name;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -77,9 +80,6 @@ public class RoomEntity  {
         this.hotel = hotel;
     }
 
-    public RoomEntity() {
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -87,15 +87,15 @@ public class RoomEntity  {
 
         RoomEntity that = (RoomEntity) o;
 
-        if (!name.equalsIgnoreCase(that.name)) return false;
-        return hotel.equals(that.hotel);
+        if (!getName().equals(that.getName())) return false;
+        return getHotel().equals(that.getHotel());
 
     }
 
     @Override
     public int hashCode() {
-        int result = name.toLowerCase().hashCode();
-        result = 31 * result + hotel.hashCode();
+        int result = getName().hashCode();
+        result = 31 * result + getHotel().hashCode();
         return result;
     }
 
