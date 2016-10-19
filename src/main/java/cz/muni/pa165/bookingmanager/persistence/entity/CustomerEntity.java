@@ -1,5 +1,6 @@
 package cz.muni.pa165.bookingmanager.persistence.entity;
 
+import java.sql.Date;
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -8,6 +9,8 @@ import javax.persistence.*;
  * Entity class for a customer wanting to book a hotel room
  * @author Matej Harcar, 422714
  */
+@Entity
+@Table(name="customer")
 public class CustomerEntity {
     
     @Id
@@ -26,10 +29,17 @@ public class CustomerEntity {
     @Column(unique=true,nullable=false)
     private String phoneNumber;
     
+    @Column(nullable=false)
+    private Date birthDate;
+    
     public CustomerEntity(){}
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -62,6 +72,14 @@ public class CustomerEntity {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     @Override // Auto-generated
@@ -97,7 +115,8 @@ public class CustomerEntity {
     public String toString() {
         return "CustomerEntity{" + "id=" + id 
                 + ", name=" + name + ", address=" + address 
-                + ", email=" + email + ", phoneNumber=" + phoneNumber + '}';
+                + ", email=" + email + ", phoneNumber=" + phoneNumber 
+                + ", birthDate=" + birthDate + '}';
     }
     
     
