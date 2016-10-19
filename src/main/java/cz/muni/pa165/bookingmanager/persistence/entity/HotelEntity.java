@@ -1,6 +1,7 @@
 package cz.muni.pa165.bookingmanager.persistence.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Entity represents hotel, containing rooms which can be reserved by customer.
@@ -28,10 +29,14 @@ public class HotelEntity {
     private String streetNumber;
 
     @Column(nullable = false)
-    private String mail;
+    private String email;
 
     @Column(nullable = false)
     private String phoneNumber;
+
+    @OneToMany()
+    @JoinColumn(name = "hotel_id")
+    private Set<RoomEntity> rooms;
 
     public HotelEntity() {
     }
@@ -76,12 +81,12 @@ public class HotelEntity {
         this.streetNumber = streetNumber;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhoneNumber() {
@@ -90,6 +95,14 @@ public class HotelEntity {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Set<RoomEntity> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Set<RoomEntity> rooms) {
+        this.rooms = rooms;
     }
 
     @Override
@@ -115,7 +128,7 @@ public class HotelEntity {
                 ", city='" + city + '\'' +
                 ", street='" + street + '\'' +
                 ", streetNumber='" + streetNumber + '\'' +
-                ", mail='" + mail + '\'' +
+                ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
