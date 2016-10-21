@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
+ * RoomEntity is representation of room in a hotel building. Room name is unique ONLY in one hotel.
  * @Author Ondřej Gasior
  */
 @Entity
