@@ -46,7 +46,7 @@ public class HotelDaoTest {
 
 
         int i = 0;
-        for (HotelEntity hotel : GetSomeHotels(3)) {
+        for (HotelEntity hotel : getSomeHotels(3)) {
             assertNull(hotel.getId());
             assertNotNull(hotelDao.save(hotel).getId());
             assertEquals(++i, hotelDao.count());
@@ -59,7 +59,7 @@ public class HotelDaoTest {
     public void deleteHotelTest() {
 
         List<HotelEntity> savedHotels = new ArrayList<>();
-        for (HotelEntity hotel : GetSomeHotels(3)) {
+        for (HotelEntity hotel : getSomeHotels(3)) {
             assertNull(hotel.getId());
             savedHotels.add(hotelDao.save(hotel));
         }
@@ -71,7 +71,7 @@ public class HotelDaoTest {
 
     @Test
     public void deleteHotelByIdTest() {
-        HotelEntity hotel = (HotelEntity) GetSomeHotels(1).toArray()[0];
+        HotelEntity hotel = (HotelEntity) getSomeHotels(1).get(0);
         HotelEntity savedHotel = hotelDao.save(hotel);
         assertEquals(1, hotelDao.count());
 
@@ -81,9 +81,8 @@ public class HotelDaoTest {
 
     @Test
     public void deleteAllHotelsTest() {
-        for (HotelEntity hotel : GetSomeHotels(3)) {
-            hotelDao.save(hotel);
-        }
+
+        hotelDao.save(getSomeHotels(3));
         assertEquals(3, hotelDao.count());
 
         hotelDao.deleteAll();
@@ -92,7 +91,7 @@ public class HotelDaoTest {
 
     @Test
     public void readAllHotelsTest() {
-        for (HotelEntity hotel : GetSomeHotels(3)) {
+        for (HotelEntity hotel : getSomeHotels(3)) {
             hotelDao.save(hotel);
         }
         assertEquals(3, hotelDao.count());
@@ -104,9 +103,9 @@ public class HotelDaoTest {
     @Test
     public void readHotelByIdTest() {
 
-        hotelDao.save((HotelEntity) GetSomeHotels(1).toArray()[0]);
-        HotelEntity hotelEntity = hotelDao.save((HotelEntity) GetSomeHotels(2).toArray()[1]);
-        hotelDao.save((HotelEntity) GetSomeHotels(3).toArray()[2]);
+        hotelDao.save((HotelEntity) getSomeHotels(1).get(0));
+        HotelEntity hotelEntity = hotelDao.save((HotelEntity) getSomeHotels(2).get(1));
+        hotelDao.save((HotelEntity) getSomeHotels(3).get(2));
         assertEquals(3, hotelDao.count());
         String s = new Date().toString();
         HotelEntity foundHotel = hotelDao.findOne(hotelEntity.getId());
@@ -115,7 +114,7 @@ public class HotelDaoTest {
 
     @Test
     public void updateHotelTest() {
-        HotelEntity hotelEntity = (HotelEntity) GetSomeHotels(1).toArray()[0];
+        HotelEntity hotelEntity = (HotelEntity) getSomeHotels(1).get(0);
         hotelEntity = hotelDao.save(hotelEntity);
         assertEquals(1, hotelDao.count());
 
@@ -135,7 +134,7 @@ public class HotelDaoTest {
         assertEquals(updateHotel, hotel);
     }
 
-    private List<HotelEntity> GetSomeHotels(int count) {
+    private List<HotelEntity> getSomeHotels(int count) {
         List<HotelEntity> hotelEntities = new ArrayList<HotelEntity>();
 
         for (int i = 0; i < count; i++) {
