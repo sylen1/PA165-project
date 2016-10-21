@@ -1,0 +1,163 @@
+package cz.muni.pa165.bookingmanager.persistence.dao;
+
+import cz.muni.pa165.bookingmanager.persistence.entity.CustomerEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.LoggerFactory;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.inject.Inject;
+
+import java.sql.Date;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+/**
+ * Test class for reservation DAO
+ * @author Matej Harcar, 422714
+ */
+@ContextConfiguration("classpath:/application-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+public class ReservationDaoTest {
+
+    private RoomEntity r = new RoomEntity();
+    private CustomerEntity c = new CustomerEntity();
+    private int counter;
+    long day = 3600*24*1000;
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ReservationDaoTest.class);
+
+    @Inject
+    private ReservationDao reservationDao;
+
+    @Before
+    public void clear(){
+        reservationDao.deleteAll();
+        assertEquals(0,reservationDao.count());
+    }
+
+    @Test
+    public void createReservationTest(){
+        log.debug("Testing r9n creation");
+        // too lazy to type reservation
+        ReservationEntity res = makeReservation();
+        assertNull(res.getId());
+
+        ReservationEntity savedRes = reservationDao.save(res);
+        assertNotNull(savedRes.getId());
+
+        assertEquals(1,reservationDao.count());
+
+        log.debug("R9n creation OK");
+    }
+
+    @Test
+    public void deleteReservationTest(){
+        log.debug("Testing r9n deletion by entity handler");
+        ReservationEntity res = makeReservation();
+        ReservationEntity sres = reservationDao.save(res);
+        assertEquals(1, reservationDao.count());
+
+        reservationDao.delete(sres);
+        assertEquals(0,reservationDao.count());
+        log.debug("Deleting r9n by entity handler OK");
+    }
+
+    @Test
+    public void deleteReservationByIdTest(){
+        log.debug("Testing r9n deletion by ID");
+        ReservationEntity res = makeReservation();
+        ReservationEntity sres = reservationDao.save(res);
+        assertEquals(1, reservationDao.count());
+
+        reservationDao.delete(sres.getId());
+        assertEquals(0,reservationDao.count());
+        log.debug("Deleting r9n by ID OK");
+    }
+
+    @Test
+    public void deleteAllReservationsTest(){
+        log.debug("Testing all r9ns deletion");
+        reservationDao.save(makeReservation());
+        reservationDao.save(makeReservation());
+        reservationDao.save(makeReservation());
+        reservationDao.save(makeReservation());
+        assertEquals(4,reservationDao.count());
+
+        reservationDao.deleteAll();
+        assertEquals(0,reservationDao.count());
+        log.debug("Deleting all r9ns OK");
+    }
+
+    @Test
+    public void findAllReservationsTest(){
+        log.debug("Testing all r9ns find");
+        reservationDao.save(makeReservation());
+        reservationDao.save(makeReservation());
+        reservationDao.save(makeReservation());
+        reservationDao.save(makeReservation());
+        assertEquals(4,reservationDao.count());
+
+        List<ReservationEntity> allr9ns = reservationDao.findAll();
+        assertEquals(4,allr9ns.size());
+        log.debug("Finding all r9ns OK");
+    }
+
+    @Test
+    public void findReservationByIdTest(){
+        log.debug("Finding r9n by ID test");
+        ReservationEntity r1 = makeReservation();
+        reservationDao.save(makeReservation());
+        r1 = reservationDao.save(r1);
+        reservationDao.save(makeReservation());
+        assertEquals(3,reservationDao.count());
+
+        ReservationEntity found = reservationDao.findOne(r1.getId());
+        assertEquals(r1.getId(),found.getId());
+        log.debug("Finding r9n by ID OK");
+    }
+
+    @Test
+    public void updateReservationTest(){
+        log.debug("Updating r9n test");
+        ReservationEntity r1 = makeReservation();
+        r1 = reservationDao.save(r1);
+        assertEquals(1,reservationDao.count());
+
+        ReservationEntity updated = new ReservationEntity();
+        updated.setId(r1.getId());
+        updated.setRoom(r1.getRoom());
+        updated.setStartDate(r1.getStartDate());
+        updated.setCustomer(r1.getCustomer());
+        updated.setEndDate(new Date(r1.getEndDate().getTime()+(2*day)));
+
+        reservationDao.save(updated);
+        assertEquals(1,reservationDao.count());
+
+        ReservationEntity found = reservationDao.findOne(updated.getId());
+        assertEquals(updated.getEndDate(),found.getEndDate());
+        log.debug("Updating r9n OK");
+    }
+
+    public void findNoneTest(){
+        log.debug("Finding r9n with none made test");
+        assertEquals(0,reservationDao.count());
+        ReservationEntity r = reservationDao.findOne(1L);
+        assertNull(r);
+    }
+
+    // Helper method
+
+    private ReservationEntity makeReservation(){
+        ReservationEntity re = new ReservationEntity();
+        re.setCustomer(c);
+        re.setRoom(r);
+        re.setStartDate(new Date(1234567890000L + (counter*day*3)));
+        re.setEndDate(new Date(re.getStartDate().getTime()+(day*2)));
+        return re;
+    }
+}

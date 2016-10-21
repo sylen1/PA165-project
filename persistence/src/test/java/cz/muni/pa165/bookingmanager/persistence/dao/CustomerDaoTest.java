@@ -34,7 +34,7 @@ public class CustomerDaoTest {
         c1.setAddress("Address 1");
         c1.setEmail("mail1@mail.mail");
         c1.setPhoneNumber("123456");
-        c1.setBirthDate(new Date(1990, 3, 5));
+        c1.setBirthDate(new Date(636595200000L));
         customerDao.save(c1);
         
         CustomerEntity c2 = new CustomerEntity();
@@ -42,7 +42,7 @@ public class CustomerDaoTest {
         c2.setAddress("Address 2");
         c2.setEmail("mail2@mail.mail");
         c2.setPhoneNumber("654321");
-        c2.setBirthDate(new Date(1985, 8, 20));
+        c2.setBirthDate(new Date(493344000000L));
         customerDao.save(c2);
 
         List<CustomerEntity> storedCustomers  = customerDao.findAll();
@@ -54,14 +54,14 @@ public class CustomerDaoTest {
         c1check.setAddress("Address 1");
         c1check.setEmail("mail1@mail.mail");
         c1check.setPhoneNumber("123456");
-        c1check.setBirthDate(new Date(1990, 3, 5));
+        c1check.setBirthDate(new Date(636595200000L));
         
         CustomerEntity c2check = new CustomerEntity();
         c2check.setName("Customer number 2");
         c2check.setAddress("Address 2");
         c2check.setEmail("mail2@mail.mail");
         c2check.setPhoneNumber("654321");
-        c2check.setBirthDate(new Date(1985, 8, 20));
+        c2check.setBirthDate(new Date(493344000000L));
 
         assertTrue(storedCustomers.contains(c1check));
         assertTrue(storedCustomers.contains(c2check));
@@ -77,7 +77,7 @@ public class CustomerDaoTest {
         c.setAddress("Address");
         c.setEmail("mail@mail.mail");
         c.setPhoneNumber("123456");
-        c.setBirthDate(new Date(1990, 3, 5));
+        c.setBirthDate(new Date(636595200000L));
         customerDao.save(c);
     }
     
@@ -88,7 +88,7 @@ public class CustomerDaoTest {
         c.setAddress(null);
         c.setEmail("mail@mail.mail");
         c.setPhoneNumber("123456");
-        c.setBirthDate(new Date(1990, 3, 5));
+        c.setBirthDate(new Date(636595200000L));
         customerDao.save(c);
     }
     // I checked two. I expect others to not null properties will behave the same.
@@ -101,7 +101,7 @@ public class CustomerDaoTest {
         c1.setAddress("Address 1");
         c1.setEmail("mail1@mail.mail");
         c1.setPhoneNumber("123456");
-        c1.setBirthDate(new Date(1990, 3, 5));
+        c1.setBirthDate(new Date(636595200000L));
         customerDao.save(c1);
         
         CustomerEntity c2 = new CustomerEntity();
@@ -109,7 +109,7 @@ public class CustomerDaoTest {
         c2.setAddress("Address 2");
         c2.setEmail("mail1@mail.mail");
         c2.setPhoneNumber("654321");
-        c2.setBirthDate(new Date(1985, 8, 20));
+        c2.setBirthDate(new Date(493344000000L));
         customerDao.save(c2);
     }
     
@@ -120,7 +120,7 @@ public class CustomerDaoTest {
         c1.setAddress("Address 1");
         c1.setEmail("mail1@mail.mail");
         c1.setPhoneNumber("123456");
-        c1.setBirthDate(new Date(1990, 3, 5));
+        c1.setBirthDate(new Date(636595200000L));
         customerDao.save(c1);
         
         CustomerEntity c2 = new CustomerEntity();
@@ -128,7 +128,7 @@ public class CustomerDaoTest {
         c2.setAddress("Address 2");
         c2.setEmail("mail2@mail.mail");
         c2.setPhoneNumber("123456");
-        c2.setBirthDate(new Date(1985, 8, 20));
+        c2.setBirthDate(new Date(493344000000L));
         customerDao.save(c2);
     }
 
@@ -140,7 +140,7 @@ public class CustomerDaoTest {
         original.setAddress("Address");
         original.setEmail("mail@mail.mail");
         original.setPhoneNumber("123456");
-        original.setBirthDate(new Date(1990, 3, 5));
+        original.setBirthDate(new Date(636595200000L));
         
         assertNull(original.getId());
         customerDao.save(original);
@@ -174,7 +174,7 @@ public class CustomerDaoTest {
         c.setAddress("Address");
         c.setEmail("mail@mail.mail");
         c.setPhoneNumber("123456");
-        c.setBirthDate(new Date(1990, 3, 5));
+        c.setBirthDate(new Date(636595200000L));
         
         customerDao.save(c);
         assertNotNull(customerDao.findOne(c.getId()));
