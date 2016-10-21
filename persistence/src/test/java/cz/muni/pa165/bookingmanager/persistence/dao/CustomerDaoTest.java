@@ -13,6 +13,10 @@ import org.junit.Before;
 import org.springframework.dao.DataAccessException;
 
 
+/**
+ * Test cases for implementation of CustomerDao
+ * @author Mojmír Odehnal, 374422
+ */
 @ContextConfiguration(locations = { "/application-context.xml" } )
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CustomerDaoTest {
