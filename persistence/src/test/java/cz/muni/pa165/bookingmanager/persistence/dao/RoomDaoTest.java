@@ -1,4 +1,6 @@
-import cz.muni.pa165.bookingmanager.persistence.dao.RoomDao;
+package cz.muni.pa165.bookingmanager.persistence.dao;
+
+import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,9 +12,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+
+/**
+ * @author Ludovit Labaj
+ * */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/application-context.xml")
@@ -114,6 +121,14 @@ public class RoomDaoTest {
 
         RoomEntity foundRoom = roomDao.findOne(updatedRoom.getId());
         assertEquals(updatedRoom.getDescription(), foundRoom.getDescription());
+    }
+
+    @Test
+    public void readNonexistentTest(){
+        assertEquals(0, roomDao.count());
+
+        RoomEntity foundRoom = roomDao.findOne(1L);
+        assertNull(foundRoom);
     }
 
     private RoomEntity nextRoom(){
