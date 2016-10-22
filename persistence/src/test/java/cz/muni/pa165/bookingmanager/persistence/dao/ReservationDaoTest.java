@@ -1,8 +1,10 @@
 package cz.muni.pa165.bookingmanager.persistence.dao;
 
 import cz.muni.pa165.bookingmanager.persistence.entity.CustomerEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +13,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -26,17 +31,74 @@ public class ReservationDaoTest {
 
     private RoomEntity r = new RoomEntity();
     private CustomerEntity c = new CustomerEntity();
-    private int counter;
+    private HotelEntity h  = new HotelEntity();
+    private int counter=0;
     long day = 3600*24*1000;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(ReservationDaoTest.class);
 
     @Inject
     private ReservationDao reservationDao;
+    @Inject
+    private RoomDao roomDao;
+    @Inject
+    private CustomerDao customerDao;
+    @Inject
+    private HotelDao hotelDao;
+
 
     @Before
+    public void init(){
+        // clear everything
+        reservationDao.deleteAll();
+        roomDao.deleteAll();
+        customerDao.deleteAll();
+        hotelDao.deleteAll();
+        assertEquals(0,reservationDao.count());
+        assertEquals(0,roomDao.count());
+        assertEquals(0,customerDao.count());
+        assertEquals(0,hotelDao.count());
+
+        // init example hotel
+        h.setName("ZX");
+        h.setEmail("h@h.h");
+        h.setPhoneNumber("+65535");
+        h.setCity("Berlin");
+        h.setStreet("Wilhelm II-strasse");
+        h.setStreetNumber("32");
+        Set<RoomEntity> roomset = new HashSet<>();
+        h.setRooms(roomset);
+        h = hotelDao.save(h);
+
+        // init example room
+        r.setBedCount(2);
+        r.setName("A1");
+        r.setPrice(new BigDecimal("11.53"));
+        r.setDescription("Example room");
+        r.setHotel(h);
+        r = roomDao.save(r);
+
+        // init example customer
+        c.setEmail("c@m.d");
+        c.setName("Qwer Tyui");
+        c.setAddress("Asdf 53");
+        c.setBirthDate(new Date(0L));
+        c.setPhoneNumber("+2147483647");
+        c = customerDao.save(c);
+        // add room to hotel
+        roomset.add(r);
+        assertEquals(1,hotelDao.count());
+        h = hotelDao.findOne(h.getId());
+        h.setRooms(roomset);
+        h = hotelDao.save(h);
+    }
+
+    @After
     public void clear(){
         reservationDao.deleteAll();
-        assertEquals(0,reservationDao.count());
+        customerDao.deleteAll();
+        hotelDao.deleteAll();
+        roomDao.deleteAll();
+        counter = 0;
     }
 
     @Test
@@ -146,6 +208,12 @@ public class ReservationDaoTest {
         log.debug("Testing finding r9ns by customer");
         reservationDao.save(makeReservation());
         CustomerEntity c2 = new CustomerEntity();
+        c2.setEmail("c2@m.d");
+        c2.setPhoneNumber("+262143");
+        c2.setAddress("Opium 23");
+        c2.setBirthDate(new Date(183230805000L));
+        c2.setName("OpieOP");
+        customerDao.save(c2);
         ReservationEntity r1 = makeReservation();
         r1.setCustomer(c2);
         reservationDao.save(r1);
@@ -176,6 +244,7 @@ public class ReservationDaoTest {
         assertEquals(0,reservationDao.count());
         ReservationEntity r = reservationDao.findOne(1L);
         assertNull(r);
+        log.debug("Finding r9n with none made OK");
     }
 
     // Helper method
@@ -184,8 +253,9 @@ public class ReservationDaoTest {
         ReservationEntity re = new ReservationEntity();
         re.setCustomer(c);
         re.setRoom(r);
-        re.setStartDate(new Date(1234567890000L + (counter*day*3)));
+        re.setStartDate(new Date(Date.valueOf("2009-02-13").getTime()+day*3*counter));
         re.setEndDate(new Date(re.getStartDate().getTime()+(day*2)));
+        counter++;
         return re;
     }
 }
