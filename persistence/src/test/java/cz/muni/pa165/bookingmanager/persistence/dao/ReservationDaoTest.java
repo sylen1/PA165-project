@@ -203,7 +203,7 @@ public class ReservationDaoTest {
         assertEquals(updated.getEndDate(),found.getEndDate());
         log.debug("Updating r9n OK");
     }
-
+    @Test
     public void findByCustomerTest(){
         log.debug("Testing finding r9ns by customer");
         reservationDao.save(makeReservation());
@@ -225,10 +225,16 @@ public class ReservationDaoTest {
         assertEquals(r1.getCustomer(),foundList.get(0).getCustomer());
         log.debug("Finding r9ns by customer OK");
     }
-
+    @Test
     public void findByCustomerNoneTest(){
         log.debug("Testing finding r9ns by customer who has none");
         CustomerEntity c2 = new CustomerEntity();
+        c2.setEmail("c2@m.d");
+        c2.setPhoneNumber("+262143");
+        c2.setAddress("Opium 23");
+        c2.setBirthDate(new Date(183230805000L));
+        c2.setName("OpieOP");
+        customerDao.save(c2);
         reservationDao.save(makeReservation());
         reservationDao.save(makeReservation());
         reservationDao.save(makeReservation());
@@ -238,7 +244,7 @@ public class ReservationDaoTest {
         assertEquals(0,foundList.size());
         log.debug("Finding r9ns by customer who has none OK");
     }
-
+    @Test
     public void findNoneTest(){
         log.debug("Finding r9n with none made test");
         assertEquals(0,reservationDao.count());
