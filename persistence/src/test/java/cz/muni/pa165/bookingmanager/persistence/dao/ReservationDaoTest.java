@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-
 import java.sql.Date;
 import java.util.List;
 
@@ -141,6 +140,35 @@ public class ReservationDaoTest {
         ReservationEntity found = reservationDao.findOne(updated.getId());
         assertEquals(updated.getEndDate(),found.getEndDate());
         log.debug("Updating r9n OK");
+    }
+
+    public void findByCustomerTest(){
+        log.debug("Testing finding r9ns by customer");
+        reservationDao.save(makeReservation());
+        CustomerEntity c2 = new CustomerEntity();
+        ReservationEntity r1 = makeReservation();
+        r1.setCustomer(c2);
+        reservationDao.save(r1);
+        reservationDao.save(makeReservation());
+        assertEquals(3,reservationDao.count());
+
+        List<ReservationEntity> foundList = reservationDao.findByCustomer(c2);
+        assertEquals(1,foundList.size());
+        assertEquals(r1.getCustomer(),foundList.get(0).getCustomer());
+        log.debug("Finding r9ns by customer OK");
+    }
+
+    public void findByCustomerNoneTest(){
+        log.debug("Testing finding r9ns by customer who has none");
+        CustomerEntity c2 = new CustomerEntity();
+        reservationDao.save(makeReservation());
+        reservationDao.save(makeReservation());
+        reservationDao.save(makeReservation());
+        assertEquals(3,reservationDao.count());
+
+        List<ReservationEntity> foundList = reservationDao.findByCustomer(c2);
+        assertEquals(0,foundList.size());
+        log.debug("Finding r9ns by customer who has none OK");
     }
 
     public void findNoneTest(){
