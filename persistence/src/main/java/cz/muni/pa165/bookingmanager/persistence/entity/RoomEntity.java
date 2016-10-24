@@ -33,19 +33,19 @@ public class RoomEntity  {
 
     @OneToMany()
     @JoinColumn(name = "room_id")
-    private Set<RoomEntity> rooms;
+    private Set<ReservationEntity> reservationEntities;
 
 
 
     public RoomEntity() {
     }
 
-    public Set<RoomEntity> getRooms() {
-        return rooms;
+    public Set<ReservationEntity> getReservationEntities() {
+        return reservationEntities;
     }
 
-    public void setRooms(Set<RoomEntity> rooms) {
-        this.rooms = rooms;
+    public void setReservationEntities(Set<ReservationEntity> reservationEntities) {
+        this.reservationEntities = reservationEntities;
     }
 
     public Long getId() {
