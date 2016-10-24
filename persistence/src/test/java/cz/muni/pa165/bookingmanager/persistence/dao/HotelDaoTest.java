@@ -1,6 +1,7 @@
 package cz.muni.pa165.bookingmanager.persistence.dao;
 
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,9 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -27,6 +27,9 @@ public class HotelDaoTest {
 
     @Inject
     private HotelDao hotelDao;
+
+    @Inject
+    private RoomDao roomDao;
 
     @Before
     public void clean() {
@@ -53,6 +56,19 @@ public class HotelDaoTest {
         }
 
 
+    }
+
+    @Test
+    public void createHotelWithRoomsTest(){
+        HotelEntity hotel = getSomeHotels(1).get(0);
+        hotelDao.save(hotel);
+
+        Set<RoomEntity> rooms = getSomeRooms(5, hotel);
+        roomDao.save(rooms);
+
+        HotelEntity savedHotel = hotelDao.findOne(hotel.getId());
+        assertEquals(rooms.size(), savedHotel.getRooms().size());
+        assertEquals(rooms, savedHotel.getRooms());
     }
 
     @Test
@@ -135,7 +151,7 @@ public class HotelDaoTest {
     }
 
     private List<HotelEntity> getSomeHotels(int count) {
-        List<HotelEntity> hotelEntities = new ArrayList<HotelEntity>();
+        List<HotelEntity> hotelEntities = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             HotelEntity hotel = new HotelEntity();
@@ -148,6 +164,21 @@ public class HotelDaoTest {
             hotelEntities.add(hotel);
         }
         return hotelEntities;
+    }
+
+    private Set<RoomEntity> getSomeRooms(int count, HotelEntity hotel) {
+        Set<RoomEntity> rooms = new HashSet<>();
+        for (int i = 0; i < count; i++){
+            RoomEntity room = new RoomEntity();
+            room.setName("Room" + i);
+            room.setPrice(BigDecimal.TEN);
+            room.setBedCount(2);
+            room.setHotel(hotel);
+
+            rooms.add(room);
+        }
+
+        return rooms;
     }
 
 }

@@ -34,7 +34,7 @@ public class HotelEntity {
     @Column(nullable = false)
     private String phoneNumber;
 
-    @OneToMany()
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id")
     private Set<RoomEntity> rooms;
 
