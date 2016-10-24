@@ -31,21 +31,7 @@ public class RoomEntity  {
     @JoinColumn(name = "hotel_id")
     private HotelEntity hotel;
 
-    @OneToMany()
-    @JoinColumn(name = "room_id")
-    private Set<ReservationEntity> reservationEntities;
-
-
-
     public RoomEntity() {
-    }
-
-    public Set<ReservationEntity> getReservationEntities() {
-        return reservationEntities;
-    }
-
-    public void setReservationEntities(Set<ReservationEntity> reservationEntities) {
-        this.reservationEntities = reservationEntities;
     }
 
     public Long getId() {
