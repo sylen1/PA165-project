@@ -2,6 +2,7 @@ package cz.muni.pa165.bookingmanager.persistence.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 /**
  * RoomEntity is representation of room in a hotel building. Room name is unique ONLY in one hotel.
@@ -30,7 +31,21 @@ public class RoomEntity  {
     @JoinColumn(name = "hotel_id")
     private HotelEntity hotel;
 
+    @OneToMany()
+    @JoinColumn(name = "room_id")
+    private Set<RoomEntity> rooms;
+
+
+
     public RoomEntity() {
+    }
+
+    public Set<RoomEntity> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Set<RoomEntity> rooms) {
+        this.rooms = rooms;
     }
 
     public Long getId() {
