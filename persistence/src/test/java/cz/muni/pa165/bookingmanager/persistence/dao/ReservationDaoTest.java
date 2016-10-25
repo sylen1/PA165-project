@@ -277,7 +277,7 @@ public class ReservationDaoTest {
 
         List<ReservationEntity> result = reservationDao.findByRoom(r2);
         assertEquals(1,result.size());
-        assertEquals(re1.getRoom(),result.get(0).getRoom());
+        assertEquals(re1,result.get(0));
         log.debug("Finding r9n by room OK");
     }
 
