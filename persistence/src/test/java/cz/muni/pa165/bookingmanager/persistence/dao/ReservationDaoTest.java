@@ -253,6 +253,54 @@ public class ReservationDaoTest {
         log.debug("Finding r9n with none made OK");
     }
 
+    @Test
+    public void findByRoomTest(){
+        log.debug("Finding r9n by room test");
+        RoomEntity r2 = new RoomEntity();
+        r2.setBedCount(3);
+        r2.setDescription("r2 desc");
+        r2.setName("A2");
+        r2.setHotel(h);
+        r2.setPrice(new BigDecimal("10"));
+        r2 = roomDao.save(r2);
+        Set<RoomEntity> roomset = h.getRooms();
+        roomset.add(r2);
+        h.setRooms(roomset);
+        h = hotelDao.save(h);
+        ReservationEntity re1 = makeReservation();
+        re1.setRoom(r2);
+
+        reservationDao.save(makeReservation());
+        re1 = reservationDao.save(re1);
+        reservationDao.save(makeReservation());
+        assertEquals(3,reservationDao.count());
+
+        List<ReservationEntity> result = reservationDao.findByRoom(r2);
+        assertEquals(1,result.size());
+        assertEquals(re1.getRoom(),result.get(0).getRoom());
+        log.debug("Finding r9n by room OK");
+    }
+
+    @Test
+    public void findByRoomNoneTest(){
+        log.debug("Finding r9n by room with none test");
+        RoomEntity r2 = new RoomEntity();
+        r2.setBedCount(3);
+        r2.setDescription("r2 desc");
+        r2.setName("A2");
+        r2.setHotel(h);
+        r2.setPrice(new BigDecimal("10"));
+        r2 = roomDao.save(r2);
+
+        reservationDao.save(makeReservation());
+        reservationDao.save(makeReservation());
+        reservationDao.save(makeReservation());
+        assertEquals(3,reservationDao.count());
+        List<ReservationEntity> result = reservationDao.findByRoom(r2);
+        assertEquals(0,result.size());
+        log.debug("Finding r9n by room w/ none OK");
+    }
+
     // Helper method
 
     private ReservationEntity makeReservation(){
