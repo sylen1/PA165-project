@@ -186,4 +186,30 @@ public class CustomerDaoTest {
         customerDao.delete(c);
         assertNull(customerDao.findOne(c.getId()));
     }
+
+    @Test()
+    public void findByName() {
+        CustomerEntity c1 = new CustomerEntity();
+        c1.setName("Customer number 1");
+        c1.setAddress("Address 1");
+        c1.setEmail("mail1@mail.mail");
+        c1.setPhoneNumber("123456");
+        c1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
+        c1 = customerDao.save(c1);
+
+        CustomerEntity c2 = new CustomerEntity();
+        c2.setName("Customer number 2");
+        c2.setAddress("Address 2");
+        c2.setEmail("mail2@mail.mail");
+        c2.setPhoneNumber("1234567");
+        c2.setBirthDate(new Date(Date.valueOf("1985-08-20").getTime()));
+        customerDao.save(c2);
+
+        assertEquals(2, customerDao.count());
+        List<CustomerEntity> found = customerDao.findByName(c1.getName());
+        assertEquals(1,found.size());
+        assertEquals(c1,found.get(0));
+    }
+
+
 }

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -117,6 +118,68 @@ public class ReservationDaoTest {
     }
 
     @Test
+    public void createNullDateTest(){
+        log.debug("Testing r9n creation with one or both dates null");
+        ReservationEntity r1 = makeReservation();
+        ReservationEntity r2 = makeReservation();
+        ReservationEntity r3 = makeReservation();
+        boolean[] oks = {false,false,false};
+        r1.setStartDate(null);
+        r2.setEndDate(null);
+        r3.setStartDate(null);
+        r3.setEndDate(null);
+        try{
+            r1 = reservationDao.save(r1);
+        }catch (JpaSystemException ex){
+            log.debug("Start date null test ok");
+            oks[0] = true;
+        }
+        try {
+            r2 = reservationDao.save(r2);
+        }catch (JpaSystemException ex){
+            log.debug("End date null test ok");
+            oks[1] = true;
+        }
+        try {
+            r3 = reservationDao.save(r3);
+        }catch (JpaSystemException ex){
+            log.debug("Both dates null test ok");
+            oks[2] = true;
+        }
+        if(oks[0] == false){
+            fail("Start date null test NOK");
+        }
+        if(oks[1] == false){
+            fail("End date null test NOK");
+        }
+        if(oks[2] == false){
+            fail("Both dates null test NOK");
+        }
+        log.debug("R9n creation with one or both dates null tests OK");
+    }
+
+    /*
+    Wanted to test null room and customer but
+    no exceptions seem to be thrown in these cases
+    */
+    /*@Test
+    public void createNullRoomTest(){
+        log.debug("Creating r9n w/ null room test");
+        ReservationEntity r1 = makeReservation();
+        boolean ok = false;
+        r1.setRoom(null);
+        try{
+            reservationDao.save(r1);
+        }catch (Exception ex){
+            log.debug("Creating r9n w/ null room OK:" + ex.getClass());
+            ok = true;
+        }
+        if (!ok) {
+            fail("Creating r9n w/null room NOK");
+        }
+    }*/
+
+    @Test
     public void deleteReservationTest(){
         log.debug("Testing r9n deletion by entity handler");
         ReservationEntity res = makeReservation();
@@ -203,6 +266,7 @@ public class ReservationDaoTest {
         assertEquals(updated.getEndDate(),found.getEndDate());
         log.debug("Updating r9n OK");
     }
+
     @Test
     public void findByCustomerTest(){
         log.debug("Testing finding r9ns by customer");
@@ -225,6 +289,7 @@ public class ReservationDaoTest {
         assertEquals(r1.getCustomer(),foundList.get(0).getCustomer());
         log.debug("Finding r9ns by customer OK");
     }
+
     @Test
     public void findByCustomerNoneTest(){
         log.debug("Testing finding r9ns by customer who has none");
@@ -244,6 +309,7 @@ public class ReservationDaoTest {
         assertEquals(0,foundList.size());
         log.debug("Finding r9ns by customer who has none OK");
     }
+
     @Test
     public void findNoneTest(){
         log.debug("Finding r9n with none made test");
