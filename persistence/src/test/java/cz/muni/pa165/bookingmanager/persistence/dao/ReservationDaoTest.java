@@ -137,6 +137,14 @@ public class ReservationDaoTest {
         reservationDao.save(r1);
     }
 
+    @Test(expected = DataAccessException.class)
+    public void createNullCustomerTest(){
+        log.debug("Creating r9n w/ null customer test");
+        ReservationEntity r1 = makeReservation();
+        r1.setCustomer(null);
+        reservationDao.save(r1);
+    }
+
     @Test
     public void deleteReservationTest(){
         log.debug("Testing r9n deletion by entity handler");
