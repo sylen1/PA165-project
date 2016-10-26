@@ -8,6 +8,7 @@ import java.sql.Date;
  * @author Matej Harcar, 422714 & Mojmír Odehnal, 374422
  */
 @Entity
+@Table(name = "RESERVATION")
 public class ReservationEntity {
 
     @Id
