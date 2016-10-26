@@ -16,11 +16,11 @@ public class ReservationEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="room_id")
+    @JoinColumn(name="room_id",nullable = false)
     private RoomEntity room;
     
     @ManyToOne
-    @JoinColumn(name="customer_id")
+    @JoinColumn(name="customer_id", nullable = false)
     private CustomerEntity customer;
     
     @Column(nullable=false)

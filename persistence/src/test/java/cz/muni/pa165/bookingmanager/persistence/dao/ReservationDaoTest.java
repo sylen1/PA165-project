@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -117,67 +118,24 @@ public class ReservationDaoTest {
         log.debug("R9n creation OK");
     }
 
-    @Test
+    @Test(expected = DataAccessException.class)
     public void createNullDateTest(){
         log.debug("Testing r9n creation with one or both dates null");
-        ReservationEntity r1 = makeReservation();
-        ReservationEntity r2 = makeReservation();
-        ReservationEntity r3 = makeReservation();
-        boolean[] oks = {false,false,false};
-        r1.setStartDate(null);
-        r2.setEndDate(null);
-        r3.setStartDate(null);
-        r3.setEndDate(null);
-        try{
-            r1 = reservationDao.save(r1);
-        }catch (JpaSystemException ex){
-            log.debug("Start date null test ok");
-            oks[0] = true;
-        }
-        try {
-            r2 = reservationDao.save(r2);
-        }catch (JpaSystemException ex){
-            log.debug("End date null test ok");
-            oks[1] = true;
-        }
-        try {
-            r3 = reservationDao.save(r3);
-        }catch (JpaSystemException ex){
-            log.debug("Both dates null test ok");
-            oks[2] = true;
-        }
-        if(oks[0] == false){
-            fail("Start date null test NOK");
-        }
-        if(oks[1] == false){
-            fail("End date null test NOK");
-        }
-        if(oks[2] == false){
-            fail("Both dates null test NOK");
-        }
-        log.debug("R9n creation with one or both dates null tests OK");
+        ReservationEntity reservation = makeReservation();
+        reservation.setStartDate(null);
+        reservation.setEndDate(null);
+
+        reservationDao.save(reservation);
     }
 
-    /*
-    Wanted to test null room and customer but
-    no exceptions seem to be thrown in these cases
-    */
-    /*@Test
+    @Test(expected = DataAccessException.class)
     public void createNullRoomTest(){
         log.debug("Creating r9n w/ null room test");
         ReservationEntity r1 = makeReservation();
-        boolean ok = false;
         r1.setRoom(null);
-        try{
-            reservationDao.save(r1);
-        }catch (Exception ex){
-            log.debug("Creating r9n w/ null room OK:" + ex.getClass());
-            ok = true;
-        }
-        if (!ok) {
-            fail("Creating r9n w/null room NOK");
-        }
-    }*/
+
+        reservationDao.save(r1);
+    }
 
     @Test
     public void deleteReservationTest(){
