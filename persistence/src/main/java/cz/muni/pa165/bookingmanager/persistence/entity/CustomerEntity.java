@@ -102,10 +102,10 @@ public class CustomerEntity {
             return false;
         }
         final CustomerEntity other = (CustomerEntity) obj;
-        if (!Objects.equals(this.email, other.email)) {
+        if (!Objects.equals(this.getEmail(), other.getEmail())) {
             return false;
         }
-        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
+        if (!Objects.equals(this.getPhoneNumber(), other.getPhoneNumber())) {
             return false;
         }
         return true;
