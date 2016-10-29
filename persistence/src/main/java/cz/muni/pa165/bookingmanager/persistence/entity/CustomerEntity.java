@@ -82,15 +82,15 @@ public class CustomerEntity {
         this.birthDate = birthDate;
     }
 
-    @Override // Auto-generated
+    @Override
     public int hashCode() {
         int hash = 3;
-        hash = 41 * hash + Objects.hashCode(this.email);
-        hash = 41 * hash + Objects.hashCode(this.phoneNumber);
+        hash = 41 * hash + Objects.hashCode(this.getEmail());
+        hash = 41 * hash + Objects.hashCode(this.getPhoneNumber());
         return hash;
     }
 
-    @Override // Auto-generated
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
