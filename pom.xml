@@ -22,8 +22,8 @@
     </build>
     <modules>
         <module>persistence</module>
-        <module>presentation</module>
-        <module>service</module>
+        <module>interface</module>
+        <module>application</module>
     </modules>
 
     <dependencies>

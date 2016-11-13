@@ -9,7 +9,7 @@
 
     <tx:annotation-driven/>
 
-    <context:component-scan base-package="cz.muni.pa165.bookingmanager.service" />
+    <context:component-scan base-package="cz.muni.pa165.bookingmanager" />
 
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
