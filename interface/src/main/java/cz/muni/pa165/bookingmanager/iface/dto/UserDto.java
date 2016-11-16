@@ -118,6 +118,8 @@ public class UserDto {
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", birthDate=" + birthDate +
+                ", passwordHash=" + Arrays.toString(passwordHash) +
+                ", passwordSalt=" + Arrays.toString(passwordSalt) +
                 '}';
     }
 }

@@ -5,9 +5,8 @@ package cz.muni.pa165.bookingmanager.iface.dto;
  */
 public enum ReservationState {
     NEW, // Just made, unpaid
-    UNPAID, // Guest is/was accomodated, has not paid yet, is within deadline for payment
+    CONFIRMED,
     PAID, // Paid before accomodation
-    OVERDUE, // Unpaid after payment expected
     CANCELLED,
     ENDED // Accomodation ended, payment received
 }

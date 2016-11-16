@@ -333,6 +333,20 @@ public class ReservationDaoTest {
         log.debug("Finding r9n by room w/ none OK");
     }
 
+    @Test
+    public void findByStartDateBeforeAndEndDateAfterTest(){
+        ReservationEntity r1 = makeReservation();
+        r1.setStartDate(Date.valueOf("2016-05-05"));
+        r1.setEndDate(Date.valueOf("2016-05-10"));
+        r1=reservationDao.save(r1);
+
+        List<ReservationEntity> reslist = reservationDao.findByStartDateBeforeAndEndDateAfter(Date.valueOf("2016-05-07"),Date.valueOf("2016-05-07"));
+        System.out.println("reslist = " + reslist);
+
+       reslist = reservationDao.findByStartDateBeforeAndEndDateAfter(Date.valueOf("2016-05-01"),Date.valueOf("2016-05-01"));
+        System.out.println("reslist="+reslist);
+    }
+
     // Helper method
 
     private ReservationEntity makeReservation(){
