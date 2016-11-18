@@ -1,6 +1,6 @@
 package cz.muni.pa165.bookingmanager.application.service.iface;
 
-import cz.muni.pa165.bookingmanager.application.Utils.RoomFilter;
+import cz.muni.pa165.bookingmanager.iface.dto.RoomFilter;
 import cz.muni.pa165.bookingmanager.iface.util.Page;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
