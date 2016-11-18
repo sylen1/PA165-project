@@ -18,6 +18,5 @@ public interface HotelDao extends JpaRepository<HotelEntity, Long> {
 
     List<HotelEntity> findByCity(String city, Pageable pageable);
     int countByCity(String city);
-    int countAll();
-
+    long count();
 }

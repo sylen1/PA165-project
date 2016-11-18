@@ -14,6 +14,8 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.Math.toIntExact;
+
 @Service
 public class HotelServiceImpl implements HotelService {
     @Inject
@@ -50,7 +52,7 @@ public class HotelServiceImpl implements HotelService {
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
 
         List<HotelEntity> entities = hotelDao.findAll(pageRequest).getContent();
-        int countAll = hotelDao.countAll();
+        int countAll = toIntExact(hotelDao.count());
 
         return new Page<>(entities, countAll, pageInfo);
     }

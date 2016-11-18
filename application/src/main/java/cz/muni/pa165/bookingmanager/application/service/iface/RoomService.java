@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * @author Gasior
  */
-public interface RoomService extends PageableService<ReservationService> {
+public interface RoomService extends PageableService<RoomEntity> {
     /**
      * Registers new room to the system
      * @param roomEntity room to be saved

@@ -1,18 +1,17 @@
 package cz.muni.pa165.bookingmanager.persistence.dao;
 
-import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -47,7 +46,17 @@ public class RoomDaoTest {
 
         assertEquals(1, roomDao.count());
     }
-
+    @Test
+    public void filteredTest() {
+        for(int i = 0; i < 5; i++) {
+            roomDao.save(nextRoom());
+        }
+        List<RoomEntity> roomEntities =  roomDao.findByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(0,1000, new BigDecimal(0), new BigDecimal(10000), new PageRequest(0, 5));
+        int i = roomDao.countByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(0,1000, new BigDecimal(0), new BigDecimal(10000));
+        assertTrue(i == 5);
+        assertTrue(roomDao.count() == 5);
+        assertTrue(0 < roomEntities.size());
+    }
     @Test
     public void deleteRoomTest(){
         RoomEntity nextRoom = nextRoom();
