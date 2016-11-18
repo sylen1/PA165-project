@@ -5,7 +5,6 @@ import java.util.Set;
 
 /**
  * Entity represents hotel, containing rooms which can be reserved by customer.
- * Identity depends only on hotel's name.
  *
  * @author Ludovit Labaj
  * */
@@ -113,12 +112,20 @@ public class HotelEntity {
 
         HotelEntity that = (HotelEntity) o;
 
-        return getName().equalsIgnoreCase(that.getName());
+        if (!getName().equals(that.getName())) return false;
+        if (!getCity().equals(that.getCity())) return false;
+        if (!getStreet().equals(that.getStreet())) return false;
+        return getStreetNumber().equals(that.getStreetNumber());
+
     }
 
     @Override
     public int hashCode() {
-        return getName().toLowerCase().hashCode();
+        int result = getName().hashCode();
+        result = 31 * result + getCity().hashCode();
+        result = 31 * result + getStreet().hashCode();
+        result = 31 * result + getStreetNumber().hashCode();
+        return result;
     }
 
     @Override
