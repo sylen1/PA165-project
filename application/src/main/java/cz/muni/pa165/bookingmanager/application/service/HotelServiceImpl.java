@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HotelServiceImpl implements HotelService {
@@ -38,5 +39,19 @@ public class HotelServiceImpl implements HotelService {
         int countByCity = hotelDao.countByCity(city);
 
         return new Page<>(byCity, countByCity, pageInfo);
+    }
+    @Override
+    public Optional<HotelEntity> findById(Long id) {
+        return Optional.ofNullable(hotelDao.findOne(id));
+    }
+
+    @Override
+    public Page<HotelEntity> findAll(PageInfo pageInfo) {
+        Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
+
+        List<HotelEntity> entities = hotelDao.findAll(pageRequest).getContent();
+        int countAll = hotelDao.countAll();
+
+        return new Page<>(entities, countAll, pageInfo);
     }
 }

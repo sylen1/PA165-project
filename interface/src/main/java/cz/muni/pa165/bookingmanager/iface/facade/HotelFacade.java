@@ -6,6 +6,7 @@ import cz.muni.pa165.bookingmanager.iface.util.Page;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface HotelFacade extends PageableFacade<HotelDto> {
 
@@ -25,5 +26,5 @@ public interface HotelFacade extends PageableFacade<HotelDto> {
 
     Page<HotelDto> findByCity(String city, PageInfo pageInfo);
 
-
+    Optional<HotelDto> findById(Long id);
 }

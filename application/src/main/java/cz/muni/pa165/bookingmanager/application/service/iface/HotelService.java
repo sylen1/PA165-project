@@ -4,6 +4,8 @@ import cz.muni.pa165.bookingmanager.iface.util.Page;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 
+import java.util.Optional;
+
 public interface HotelService extends PageableService<HotelEntity> {
     /**
      * Registers new hotel to the system
@@ -19,9 +21,11 @@ public interface HotelService extends PageableService<HotelEntity> {
      */
     HotelEntity updateHotelInformation(HotelEntity hotelEntity);
 
-    /***
+    /**
      * @see Page
      * @see PageInfo
      */
     Page<HotelEntity> findByCity(String city, PageInfo pageInfo);
+
+    Optional<HotelEntity> findById(Long id);
 }

@@ -10,6 +10,7 @@ import org.apache.commons.lang3.Validate;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class HotelFacadeImpl implements HotelFacade {
@@ -49,9 +50,14 @@ public class HotelFacadeImpl implements HotelFacade {
     }
 
     @Override
-    public Page<HotelDto> findAll(int pageSize, int pageCount) {
-        Page<HotelEntity> entityPage = hotelService.findAll(pageSize, pageCount);
+    public Optional<HotelDto> findById(Long id) {
+        return hotelService.findById(id)
+                .map(this::convert);
+    }
 
+    @Override
+    public Page<HotelDto> findAll(PageInfo pageInfo) {
+        Page<HotelEntity> entityPage = hotelService.findAll(pageInfo);
         List<HotelDto> dtos = entityPage.getEntries()
                 .stream()
                 .map(this::convert)
@@ -68,4 +74,5 @@ public class HotelFacadeImpl implements HotelFacade {
     private HotelDto convert(HotelEntity entity){
         return null;
     }
+
 }
