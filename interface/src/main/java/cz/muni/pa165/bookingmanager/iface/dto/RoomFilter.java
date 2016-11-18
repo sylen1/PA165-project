@@ -8,40 +8,47 @@ import java.util.Optional;
  */
 public class RoomFilter {
 
-    private Optional<Integer> bedContFrom;
-    private Optional<Integer> bedCountTo;
-    private Optional<BigDecimal> priceFrom;
-    private Optional<BigDecimal> priceTo;
+    private Integer bedContFrom;
+    private Integer bedCountTo;
+    private BigDecimal priceFrom;
+    private BigDecimal priceTo;
 
-    public Optional<Integer> getBedContFrom() {
-        return bedContFrom;
+    public RoomFilter() {
     }
 
-    public void setBedContFrom(Optional<Integer> bedContFrom) {
+    public Optional<Integer> getBedContFrom() {
+        return Optional.ofNullable(bedContFrom);
+    }
+
+    public RoomFilter setBedContFrom(Integer bedContFrom) {
         this.bedContFrom = bedContFrom;
+        return this;
     }
 
     public Optional<Integer> getBedCountTo() {
-        return bedCountTo;
+        return Optional.ofNullable(bedCountTo);
     }
 
-    public void setBedCountTo(Optional<Integer> bedCountTo) {
+    public RoomFilter setBedCountTo(Integer bedCountTo) {
         this.bedCountTo = bedCountTo;
+        return this;
     }
 
     public Optional<BigDecimal> getPriceFrom() {
-        return priceFrom;
+        return Optional.ofNullable(priceFrom);
     }
 
-    public void setPriceFrom(Optional<BigDecimal> priceFrom) {
+    public RoomFilter setPriceFrom(BigDecimal priceFrom) {
         this.priceFrom = priceFrom;
+        return this;
     }
 
     public Optional<BigDecimal> getPriceTo() {
-        return priceTo;
+        return Optional.ofNullable(priceTo);
     }
 
-    public void setPriceTo(Optional<BigDecimal> priceTo) {
+    public RoomFilter setPriceTo(BigDecimal priceTo) {
         this.priceTo = priceTo;
+        return this;
     }
 }
