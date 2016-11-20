@@ -6,31 +6,22 @@
 package cz.muni.pa165.bookingmanager.iface.util;
 
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationState;
-import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import java.util.Date;
 import java.util.Optional;
 
 /**
  * Simple POJO, that is used to specify restrictions for retrieving reservations
- * through findFiltered() method of ReservationFacade
+ * through findFiltered() method of ReservationFacade.
+ * Leaving some parameters set to null means, that those will not impose any
+ * restrictions on the result.
  * @author Mojmír Odehnal, 374422
  */
 public class ReservationFilter {
-    private PageInfo pageInfo;
     private ReservationState state;
     private Long roomId;
     private Long customerId;
     private Date startsBefore;
     private Date endsAfter;
-
-    public ReservationFilter(PageInfo pageInfo) {
-        this.pageInfo = pageInfo;
-    }
-
-    public PageInfo getPageInfo() {
-        return pageInfo;
-    }
-    
     
     public Optional<ReservationState> getState() {
         return Optional.ofNullable(state);
@@ -76,7 +67,5 @@ public class ReservationFilter {
         this.endsAfter = endsAfter;
         return this;
     }
-
-        
     
 }

@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Date;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * DAO for reservations
@@ -35,5 +38,23 @@ public interface ReservationDao extends JpaRepository<ReservationEntity, Long>{
      * @return List containing reservations satisfying above criterium
      */
     List<ReservationEntity> findByStartDateBeforeAndEndDateAfter(Date date1, Date date2);
-
+    
+    long count();
+    
+    // http://stackoverflow.com/a/39231964
+    @Query("SELECT r FROM ReservationEntity r WHERE (:roomId IS NULL OR r.room.id = :roomId)"
+        + " AND (:customerId IS NULL OR r.customer.id = :customerId)"
+        + " AND (:startsBefore IS NULL OR r.startDate <= :startsBefore)"
+        + " AND (:endsAfter IS NULL OR r.endDate >= :endsAfter) AND (:state IS NULL OR r.state = :state)")
+    List<ReservationEntity> findByOptionalCustomCriteria( @Param("roomId") Long roomId, 
+            @Param("customerId") Long customerId, @Param("startsBefore") Date startsBefore, 
+            @Param("endsAfter") Date endsAfter, @Param("state") String state, Pageable pageable );
+    
+    @Query("SELECT COUNT(r.id) FROM ReservationEntity r WHERE (:roomId IS NULL OR r.room.id = :roomId)"
+        + " AND (:customerId IS NULL OR r.customer.id = :customerId)"
+        + " AND (:startsBefore IS NULL OR r.startDate <= :startsBefore)"
+        + " AND (:endsAfter IS NULL OR r.endDate >= :endsAfter) AND (:state IS NULL OR r.state = :state)")
+    Long countByOptionalCustomCriteria( @Param("roomId") Long roomId, 
+            @Param("customerId") Long customerId, @Param("startsBefore") Date startsBefore, 
+            @Param("endsAfter") Date endsAfter, @Param("state") String state );
 }

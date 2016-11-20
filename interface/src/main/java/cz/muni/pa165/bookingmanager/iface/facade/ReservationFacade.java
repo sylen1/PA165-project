@@ -52,8 +52,9 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      * Returns one page reservations filtered by properties of given instance of
      * ReservationFilter. 
      * @param filter instance of ReservationFilter restricting the result
+     * @param pageInfo contains pagination parameters
      * @return Page instance containing part of the result
      */
-    public Page<ReservationDto> findFiltered(ReservationFilter filter);
+    public Page<ReservationDto> findFiltered(ReservationFilter filter, PageInfo pageInfo);
 
 }

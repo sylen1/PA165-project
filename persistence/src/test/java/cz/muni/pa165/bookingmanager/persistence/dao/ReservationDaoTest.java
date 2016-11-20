@@ -224,6 +224,7 @@ public class ReservationDaoTest {
         updated.setStartDate(r1.getStartDate());
         updated.setCustomer(r1.getCustomer());
         updated.setEndDate(new Date(r1.getEndDate().getTime()+(2*day)));
+        updated.setState("PAID");
 
         reservationDao.save(updated);
         assertEquals(1,reservationDao.count());
@@ -355,6 +356,7 @@ public class ReservationDaoTest {
         re.setRoom(r);
         re.setStartDate(new Date(Date.valueOf("2009-02-13").getTime()+day*3*counter));
         re.setEndDate(new Date(re.getStartDate().getTime()+(day*2)));
+        re.setState("NEW");
         counter++;
         return re;
     }

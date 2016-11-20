@@ -22,15 +22,15 @@ public class ReservationEntity {
     @ManyToOne
     @JoinColumn(name="customer_id", nullable = false)
     private CustomerEntity customer;
-//    
-//    @Column(nullable=false)
-//    private ReservationState state;
     
     @Column(nullable=false)
     private Date startDate;
     
     @Column(nullable=false)
     private Date endDate;
+    
+    @Column(nullable=false)
+    private String state;
  
     public ReservationEntity(){}
 
@@ -74,6 +74,14 @@ public class ReservationEntity {
         this.endDate = endDate;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,7 +92,8 @@ public class ReservationEntity {
         if (!getRoom().equals(that.getRoom())) return false;
         if (!getCustomer().equals(that.getCustomer())) return false;
         if (!getStartDate().equals(that.getStartDate())) return false;
-        return getEndDate().equals(that.getEndDate());
+        if (!getEndDate().equals(that.getEndDate())) return false;
+        return getState().equals(that.getState());
 
     }
 
@@ -94,6 +103,7 @@ public class ReservationEntity {
         result = 31 * result + getCustomer().hashCode();
         result = 31 * result + getStartDate().hashCode();
         result = 31 * result + getEndDate().hashCode();
+        result = 31 * result + getState().hashCode();
         return result;
     }
 
@@ -101,7 +111,7 @@ public class ReservationEntity {
     public String toString() {
         return "ReservationEntity{" + "id=" + id + ", room=" + room 
                 + ", customer=" + customer + ", startDate=" + startDate 
-                + ", endDate=" + endDate + '}';
+                + ", endDate=" + endDate + ", state=" + state + '}';
     }
     
     
