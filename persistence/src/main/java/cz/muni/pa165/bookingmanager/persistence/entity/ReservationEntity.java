@@ -22,6 +22,9 @@ public class ReservationEntity {
     @ManyToOne
     @JoinColumn(name="customer_id", nullable = false)
     private CustomerEntity customer;
+//    
+//    @Column(nullable=false)
+//    private ReservationState state;
     
     @Column(nullable=false)
     private Date startDate;
