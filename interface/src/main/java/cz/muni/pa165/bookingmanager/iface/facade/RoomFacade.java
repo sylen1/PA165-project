@@ -1,7 +1,7 @@
 package cz.muni.pa165.bookingmanager.iface.facade;
 
 import cz.muni.pa165.bookingmanager.iface.dto.RoomDto;
-import cz.muni.pa165.bookingmanager.iface.dto.RoomFilter;
+import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.iface.util.Page;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 

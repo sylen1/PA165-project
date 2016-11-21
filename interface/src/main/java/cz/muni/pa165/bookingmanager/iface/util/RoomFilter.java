@@ -1,4 +1,4 @@
-package cz.muni.pa165.bookingmanager.iface.dto;
+package cz.muni.pa165.bookingmanager.iface.util;
 
 import java.math.BigDecimal;
 import java.util.Optional;
