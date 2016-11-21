@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -27,7 +26,7 @@ import static org.junit.Assert.*;
  * Test class for reservation DAO
  * @author Matej Harcar, 422714
  */
-@ContextConfiguration("classpath:/application-context.xml")
+@ContextConfiguration("classpath:/persistence-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ReservationDaoTest {
 

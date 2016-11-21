@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  * @Author Ondrej Gasior
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/application-context.xml")
+@ContextConfiguration("classpath:/persistence-context.xml")
 public class HotelDaoTest {
     private static final Logger LOG = LoggerFactory.getLogger(HotelDaoTest.class);
 

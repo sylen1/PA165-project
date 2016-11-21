@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  * */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/application-context.xml")
+@ContextConfiguration("classpath:/persistence-context.xml")
 public class RoomDaoTest {
     private static final Logger LOG = LoggerFactory.getLogger(RoomDaoTest.class);
 
