@@ -9,13 +9,13 @@
         <root level="warn">
             <appenderref ref="console"/>
         </root>
-        <logger name="org.jboss.logging" level="error">
+        <logger name="org.dozer" level="warn">
             <appenderref ref="console"/>
         </logger>
-        <logger name="org.hibernate" level="warn">
+        <logger name="org.hibernate" level="error">
             <appenderref ref="console"/>
         </logger>
-        <logger name="org.springframework" level="info">
+        <logger name="org.springframework" level="warn">
             <appenderref ref="console"/>
         </logger>
     </loggers>
