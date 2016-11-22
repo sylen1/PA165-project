@@ -7,8 +7,8 @@ import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import javafx.util.Pair;
 import org.apache.commons.lang3.Validate;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.RecoverableDataAccessException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -26,6 +26,7 @@ import java.util.Optional;
  * @author Matej Harcar, 422714
  */
 public class UserServiceImpl implements UserService{
+    private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
 
     private short HASH_AND_SALT_SIZE = 64;
     // 64B = 512b = default block and output size for SHA512 > SHA256
@@ -39,84 +40,81 @@ public class UserServiceImpl implements UserService{
     @Override
     public Page<UserEntity> findAll(PageInfo pageInfo) {
         Pageable pagerq = new PageRequest(pageInfo.getPageNumber(),pageInfo.getPageSize());
-        List<UserEntity> entities = userDao.findAll();
-        return new Page<>(entities,entities.size(),pageInfo);
+        List<UserEntity> entities = userDao.findAll(pagerq).getContent();
+        return new Page<>(entities, entities.size(), pageInfo);
     }
 
     @Override
     public Optional<UserEntity> findByEmail(String email) {
-        return Optional.of(userDao.findByEmail(email));
+        return Optional.ofNullable(userDao.findByEmail(email));
     }
 
     @Override
     public boolean registerUser(UserEntity user, String passwd) {
-        Pair<byte[],byte[]> hashSalt = makeHashAndSalt(passwd);
+        Pair<byte[],byte[]> hashSalt;
+        try {
+            hashSalt = makeHashAndSalt(passwd);
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+            LOG.warn(e);
+            return false;
+        }
         user.setPasswordHash(hashSalt.getKey());
         user.setPasswordSalt(hashSalt.getValue());
-        try {
-            userDao.save(user);
-        }catch (Exception e){
-            throw new RecoverableDataAccessException("User Service: User registration failed",e);
-        }
+
+        userDao.save(user);
         return true;
     }
 
     @Override
     public boolean isAdmin(UserEntity user) {
         return userDao.findByEmail(user.getEmail()).isAdmin();
-        // emails are unique (see UserEntity)
     }
 
     @Override
-    public boolean authenticate(Optional<UserEntity> u, String passwd) {
-        if(!(u.isPresent()) || passwd == null) return false;
-        return checkPasswd(passwd,u.get().getPasswordHash(),u.get().getPasswordSalt());
-    }
-
-    @Override
-    public UserEntity updateUser(UserEntity user) throws RecoverableDataAccessException {
-        Validate.notNull(user.getId());
+    public boolean authenticate(UserEntity user, String passwd) {
+        Validate.notNull(user);
+        Validate.notNull(passwd);
+        boolean result = false;
         try {
-            return userDao.save(user);
-        }catch (Exception e){
-            throw new RecoverableDataAccessException("User Service: User update failed",e);
+            result = checkPassword(passwd, user.getPasswordHash(), user.getPasswordSalt());
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+            LOG.warn(e);
         }
+        return result;
     }
 
-    private Pair<byte[],byte[]> makeHashAndSalt(String passwd){
-        SecureRandom prng;
-        prng = new SecureRandom();
-        // Wanted getInstance("NativePRNGNonBlocking") since OS RNGs are good
-        // but as of JSE8 that is not supported on Windows
-        // so we're stuck with SHA1PRNG >:(
-        byte[] hash;
+    @Override
+    public UserEntity updateUser(UserEntity user) {
+        Validate.notNull(user.getId());
+        return userDao.save(user);
+    }
+
+    private Pair<byte[],byte[]> makeHashAndSalt(String passwd) throws InvalidKeySpecException, NoSuchAlgorithmException {
+        SecureRandom prng = new SecureRandom();
+
         byte[] salt = new byte[HASH_AND_SALT_SIZE];
         prng.nextBytes(salt);
-        hash = pbkdf2(passwd.toCharArray(),salt,PBKDF2_ITER,HASH_AND_SALT_SIZE);
-        return new Pair<>(hash,salt);
+
+        byte[] hash = pbkdf2(passwd.toCharArray(), salt, PBKDF2_ITER, HASH_AND_SALT_SIZE);
+        return new Pair<>(hash, salt);
     }
 
-    private byte[] pbkdf2(char[] pass, byte[] salt, int iter, int bytes){
+    private byte[] pbkdf2(char[] pass, byte[] salt, int iter, int bytes) throws NoSuchAlgorithmException, InvalidKeySpecException {
         PBEKeySpec spec = new PBEKeySpec(pass,salt,iter,bytes*8);
-        try {
-            return SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512").generateSecret(spec).getEncoded();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512").generateSecret(spec).getEncoded();
     }
 
-    private boolean checkPasswd(String passwd, byte[] expected, byte[] salt){
-        if(passwd == null || expected == null){
-            throw new IllegalArgumentException("UserService: password or expected hash is null");
-        }
-        byte[] test = pbkdf2(passwd.toCharArray(),salt,PBKDF2_ITER,HASH_AND_SALT_SIZE);
-        return slowEq(test,expected);
+    private boolean checkPassword(String passwd, byte[] expected, byte[] salt) throws InvalidKeySpecException, NoSuchAlgorithmException {
+        Validate.notNull(passwd);
+        Validate.notNull(expected);
+        byte[] test = pbkdf2(passwd.toCharArray(), salt, PBKDF2_ITER,HASH_AND_SALT_SIZE);
+        return slowEq(test, expected);
     }
 
     private boolean slowEq(byte[] a, byte[] b) {
         int diff;
         diff = a.length == b.length ? 0:65536;
-        for (int i=0;i<a.length&&i<b.length;++i){
+        for (int i = 0; i < a.length && i < b.length; i++){
             diff |= a[i] ^ b[i];
         }
         return diff==0;

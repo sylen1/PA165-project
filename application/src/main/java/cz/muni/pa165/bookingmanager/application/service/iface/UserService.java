@@ -50,13 +50,13 @@ public interface UserService extends PageableService<UserEntity> {
      * @param passwd Password to check
      * @return True on success, false on failure
      */
-    public boolean authenticate(Optional<UserEntity> u, String passwd);
+    public boolean authenticate(UserEntity user, String passwd);
 
     /**
      * Updates user info
      * @param user New user info to be saved
      * @return UserDto instance with updated user info
      */
-    public UserEntity updateUser(UserEntity user) throws RecoverableDataAccessException;
+    public UserEntity updateUser(UserEntity user);
 
 }

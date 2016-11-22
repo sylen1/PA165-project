@@ -22,39 +22,42 @@ import java.util.stream.Collectors;
 public class UserFacadeImpl implements UserFacade{
 
     @Inject
-    private UserService usersvc;
+    private UserService userService;
 
     @Inject
     private Mapper mapper;
 
     @Override
     public Optional<UserDto> findByEmail(String email) {
-        Optional<UserEntity> entityOptional = usersvc.findByEmail(email);
-        return Optional.of(this.userEntityToDto(entityOptional.get()));
+        return userService.findByEmail(email).map(this::userEntityToDto);
     }
 
     @Override
     public boolean authenticate(UserLoginDto u) {
-        return usersvc.authenticate
-                (usersvc.findByEmail(u.getEmail()),u.getPasswd());
+        boolean result = false;
+        Optional<UserEntity> byEmail = userService.findByEmail(u.getEmail());
+        if (byEmail.isPresent()){
+            result = userService.authenticate(byEmail.get(), u.getPasswd());
+        }
+        return result;
     }
 
     @Override
     public boolean registerUser(UserDto user, String passwd) {
         UserEntity entity = this.userDtoToEntity(user);
-        if(!(usersvc.registerUser(entity,passwd))) return false;
+        if(!(userService.registerUser(entity,passwd))) return false;
         user.setId(entity.getId());
         return true;
     }
 
     @Override
     public boolean isAdmin(UserDto u) {
-        return usersvc.isAdmin(mapper.map(u,UserEntity.class));
+        return userService.isAdmin(mapper.map(u,UserEntity.class));
     }
 
     @Override
     public Page<UserDto> findAll(PageInfo pageInfo) {
-        Page<UserEntity> entityPage = usersvc.findAll(pageInfo);
+        Page<UserEntity> entityPage = userService.findAll(pageInfo);
         List<UserDto> dtoList = entityPage.getEntries()
                 .stream().map(this::userEntityToDto)
                 .collect(Collectors.toList());
@@ -66,7 +69,7 @@ public class UserFacadeImpl implements UserFacade{
     public UserDto updateUser(UserDto user) {
         Validate.notNull(user.getId());
         UserEntity entity = this.userDtoToEntity(user);
-        UserEntity updated = usersvc.updateUser(entity);
+        UserEntity updated = userService.updateUser(entity);
         return this.userEntityToDto(updated);
     }
 
