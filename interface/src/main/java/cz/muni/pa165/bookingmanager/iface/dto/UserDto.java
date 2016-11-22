@@ -21,6 +21,8 @@ public class UserDto {
 
     private byte[] passwordSalt;
 
+    private boolean admin;
+
     public UserDto(){}
 
     public Long getId() {
@@ -85,6 +87,14 @@ public class UserDto {
 
     public void setPasswordSalt(byte[] passwordSalt) {
         this.passwordSalt = passwordSalt;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     @Override

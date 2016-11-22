@@ -44,8 +44,8 @@ public class ReservationFacadeImpl implements ReservationFacade {
         Validate.notNull(reservationDto.getId());
         
         ReservationEntity entity = convert(reservationDto);
-        ReservationEntity updated = reservationService.createReservation(entity);
-        
+        ReservationEntity updated = reservationService.updateReservation(entity);
+
         return convert(updated);
     }
 

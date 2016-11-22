@@ -23,7 +23,7 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
     /**
      * Updates information about reservation according to information present in
      * given ReservationDto instance. Id parameter present on the reservationDto
-     * specifies existing reservation record, which is ment to be updated.
+     * specifies existing reservation record, which is meant to be updated.
      * @param reservationDto reservation info to be updated
      * @return saved reservation info
      */

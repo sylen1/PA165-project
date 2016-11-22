@@ -10,8 +10,8 @@ import javax.persistence.*;
  * @author Matej Harcar, 422714
  */
 @Entity
-@Table(name = "CUSTOMER")
-public class CustomerEntity {
+@Table(name = "USERS")
+public class UserEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +31,17 @@ public class CustomerEntity {
     
     @Column(nullable=false)
     private Date birthDate;
-    
-    public CustomerEntity(){}
+
+    @Column(nullable = false)
+    private boolean admin;
+
+    @Column(nullable = false)
+    private byte[] passwordHash;
+
+    @Column(nullable = false)
+    private byte[] passwordSalt;
+
+    public UserEntity(){}
 
     public Long getId() {
         return id;
@@ -82,6 +91,30 @@ public class CustomerEntity {
         this.birthDate = birthDate;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public byte[] getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(byte[] passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public byte[] getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(byte[] passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -98,10 +131,10 @@ public class CustomerEntity {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof CustomerEntity)) {
+        if (!(obj instanceof UserEntity)) {
             return false;
         }
-        final CustomerEntity other = (CustomerEntity) obj;
+        final UserEntity other = (UserEntity) obj;
         if (!Objects.equals(this.getEmail(), other.getEmail())) {
             return false;
         }
@@ -113,7 +146,7 @@ public class CustomerEntity {
 
     @Override
     public String toString() {
-        return "CustomerEntity{" + "id=" + id 
+        return "UserEntity{" + "id=" + id
                 + ", name=" + name + ", address=" + address 
                 + ", email=" + email + ", phoneNumber=" + phoneNumber 
                 + ", birthDate=" + birthDate + '}';

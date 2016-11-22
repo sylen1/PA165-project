@@ -1,6 +1,6 @@
 package cz.muni.pa165.bookingmanager.persistence.dao;
 
-import cz.muni.pa165.bookingmanager.persistence.entity.CustomerEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
 public class ReservationDaoTest {
 
     private RoomEntity r = new RoomEntity();
-    private CustomerEntity c = new CustomerEntity();
+    private UserEntity c = new UserEntity();
     private HotelEntity h  = new HotelEntity();
     private int counter=0;
     long day = 3600*24*1000;
@@ -42,7 +42,7 @@ public class ReservationDaoTest {
     @Inject
     private RoomDao roomDao;
     @Inject
-    private CustomerDao customerDao;
+    private UserDao userDao;
     @Inject
     private HotelDao hotelDao;
 
@@ -52,11 +52,11 @@ public class ReservationDaoTest {
         // clear everything
         reservationDao.deleteAll();
         roomDao.deleteAll();
-        customerDao.deleteAll();
+        userDao.deleteAll();
         hotelDao.deleteAll();
         assertEquals(0,reservationDao.count());
         assertEquals(0,roomDao.count());
-        assertEquals(0,customerDao.count());
+        assertEquals(0, userDao.count());
         assertEquals(0,hotelDao.count());
 
         // init example hotel
@@ -83,8 +83,11 @@ public class ReservationDaoTest {
         c.setName("Qwer Tyui");
         c.setAddress("Asdf 53");
         c.setBirthDate(new Date(0L));
+        c.setAdmin(false);
+        c.setPasswordHash(new byte[]{0x3A, (byte) 0xF9, (byte) 0xA1});
+        c.setPasswordSalt(new byte[]{0x5C, (byte) 0x91, (byte) 0x84});
         c.setPhoneNumber("+2147483647");
-        c = customerDao.save(c);
+        c = userDao.save(c);
         // add room to hotel
         roomset.add(r);
         assertEquals(1,hotelDao.count());
@@ -96,7 +99,7 @@ public class ReservationDaoTest {
     @After
     public void clear(){
         reservationDao.deleteAll();
-        customerDao.deleteAll();
+        userDao.deleteAll();
         hotelDao.deleteAll();
         roomDao.deleteAll();
         counter = 0;
@@ -105,7 +108,6 @@ public class ReservationDaoTest {
     @Test
     public void createReservationTest(){
         log.debug("Testing r9n creation");
-        // too lazy to type reservation
         ReservationEntity res = makeReservation();
         assertNull(res.getId());
 
@@ -237,13 +239,15 @@ public class ReservationDaoTest {
     public void findByCustomerTest(){
         log.debug("Testing finding r9ns by customer");
         reservationDao.save(makeReservation());
-        CustomerEntity c2 = new CustomerEntity();
+        UserEntity c2 = new UserEntity();
         c2.setEmail("c2@m.d");
         c2.setPhoneNumber("+262143");
         c2.setAddress("Opium 23");
         c2.setBirthDate(new Date(183230805000L));
         c2.setName("OpieOP");
-        customerDao.save(c2);
+        c2.setPasswordHash(new byte[]{0x3D, (byte) 0xF3, (byte) 0xA8});
+        c2.setPasswordSalt(new byte[]{0x5E, (byte) 0x99, (byte) 0x87});
+        userDao.save(c2);
         ReservationEntity r1 = makeReservation();
         r1.setCustomer(c2);
         reservationDao.save(r1);
@@ -259,13 +263,15 @@ public class ReservationDaoTest {
     @Test
     public void findByCustomerNoneTest(){
         log.debug("Testing finding r9ns by customer who has none");
-        CustomerEntity c2 = new CustomerEntity();
+        UserEntity c2 = new UserEntity();
         c2.setEmail("c2@m.d");
         c2.setPhoneNumber("+262143");
         c2.setAddress("Opium 23");
         c2.setBirthDate(new Date(183230805000L));
         c2.setName("OpieOP");
-        customerDao.save(c2);
+        c2.setPasswordHash(new byte[]{0x5B, (byte) 0xC4, (byte) 0xD5});
+        c2.setPasswordSalt(new byte[]{0x7A, (byte) 0xE3, (byte) 0x96});
+        userDao.save(c2);
         reservationDao.save(makeReservation());
         reservationDao.save(makeReservation());
         reservationDao.save(makeReservation());

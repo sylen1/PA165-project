@@ -1,6 +1,6 @@
 package cz.muni.pa165.bookingmanager.persistence.dao;
 
-import cz.muni.pa165.bookingmanager.persistence.entity.CustomerEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,7 +22,7 @@ public interface ReservationDao extends JpaRepository<ReservationEntity, Long>{
      * @param c customer whose reservations are to be found
      * @return List containing all reservations made by given customer
      */
-    List<ReservationEntity> findByCustomer(CustomerEntity c);
+    List<ReservationEntity> findByCustomer(UserEntity c);
 
     /**
      * Finds all reservations on a given room

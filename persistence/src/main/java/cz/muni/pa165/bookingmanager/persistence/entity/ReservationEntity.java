@@ -21,7 +21,7 @@ public class ReservationEntity {
     
     @ManyToOne
     @JoinColumn(name="customer_id", nullable = false)
-    private CustomerEntity customer;
+    private UserEntity customer;
     
     @Column(nullable=false)
     private Date startDate;
@@ -50,11 +50,11 @@ public class ReservationEntity {
         this.room = room;
     }
 
-    public CustomerEntity getCustomer() {
+    public UserEntity getCustomer() {
         return customer;
     }
 
-    public void setCustomer(CustomerEntity customer) {
+    public void setCustomer(UserEntity customer) {
         this.customer = customer;
     }
 
