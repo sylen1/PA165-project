@@ -107,7 +107,7 @@ public class ReservationServiceTest {
         when(reservationDao.save(r9n)).thenReturn(returnR9nWithSetID(r9n));
         ReservationEntity r9nx = rs.createReservation(r9n);
         assertEquals(r9nx.getId(),new Long(1L));
-        assertEquals(r9nx,r9n);
+        assertEquals(r9n, r9nx);
     }
 
     @Test
@@ -115,21 +115,21 @@ public class ReservationServiceTest {
         when(reservationDao.save(r9n)).thenReturn(returnR9nWithSetEndDate(r9n));
         r9n.setEndDate(Date.valueOf("2016-09-02"));
         ReservationEntity r9nx = reservationDao.save(r9n);
-        assertEquals(r9nx,r9n);
+        assertEquals(r9n, r9nx);
     }
 
     @Test
     public void findByIdNoneTest(){
         Optional<ReservationEntity> x = Optional.ofNullable(null);
         when(reservationDao.findOne(2L)).thenReturn(null);
-        assertEquals(rs.findById(2L),x);
+        assertEquals(x, rs.findById(2L));
     }
 
     @Test
     public void findByIdExistsTest(){
         Optional<ReservationEntity> x = Optional.of(r9n);
         when(reservationDao.findOne(1L)).thenReturn(r9n);
-        assertEquals(rs.findById(1L),x);
+        assertEquals(x, rs.findById(1L));
     }
 
     @Test
@@ -185,7 +185,7 @@ public class ReservationServiceTest {
         PageInfo info = new PageInfo(1,10);
         PageResult<ReservationEntity> y = rs.findFiltered(f,info);
         assertNotNull(y);
-        assertEquals(y.getEntrySize(),0);
+        assertEquals(0, y.getEntrySize());
     }
 
     private ReservationEntity returnR9nWithSetID(ReservationEntity r9n) {
