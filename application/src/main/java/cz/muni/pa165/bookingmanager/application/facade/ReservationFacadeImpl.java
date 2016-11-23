@@ -27,7 +27,7 @@ public class ReservationFacadeImpl implements ReservationFacade {
     private ReservationService reservationService;
     
     @Inject
-    private Mapper dozer;
+    private Mapper mapper;
     
     @Override
     @Transactional
@@ -82,10 +82,10 @@ public class ReservationFacadeImpl implements ReservationFacade {
     
     
     private ReservationEntity convert(ReservationDto dto) {
-        return dozer.map(dto, ReservationEntity.class);
+        return mapper.map(dto, ReservationEntity.class);
     }
     
     private ReservationDto convert(ReservationEntity entity) {
-        return dozer.map(entity, ReservationDto.class);
+        return mapper.map(entity, ReservationDto.class);
     }
 }

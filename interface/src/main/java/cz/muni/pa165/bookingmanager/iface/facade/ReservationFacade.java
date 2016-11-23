@@ -18,7 +18,7 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      * @param reservationDto reservation info to be saved
      * @return saved reservation info
      */
-    public ReservationDto createReservation(ReservationDto reservationDto);
+    ReservationDto createReservation(ReservationDto reservationDto);
     
     /**
      * Updates information about reservation according to information present in
@@ -27,7 +27,7 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      * @param reservationDto reservation info to be updated
      * @return saved reservation info
      */
-    public ReservationDto updateReservation(ReservationDto reservationDto);
+    ReservationDto updateReservation(ReservationDto reservationDto);
     
     /**
      * Returns one page of all recorded reservations. Size of page and which
@@ -37,7 +37,7 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      * @return Instance of Page containing part of the result
      */
     @Override
-    public Page<ReservationDto> findAll(PageInfo pageInfo);
+    Page<ReservationDto> findAll(PageInfo pageInfo);
     
     /**
      * If reservation with given ID exists in the data source, this method
@@ -46,7 +46,7 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      * @param id id of reservation to be searched for
      * @return Instance of Optional, either empty or with instance of ReservationDto.
      */
-    public Optional<ReservationDto> findById(Long id);
+    Optional<ReservationDto> findById(Long id);
     
     /**
      * Returns one page reservations filtered by properties of given instance of
@@ -55,6 +55,6 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      * @param pageInfo contains pagination parameters
      * @return Page instance containing part of the result
      */
-    public Page<ReservationDto> findFiltered(ReservationFilter filter, PageInfo pageInfo);
+    Page<ReservationDto> findFiltered(ReservationFilter filter, PageInfo pageInfo);
 
 }

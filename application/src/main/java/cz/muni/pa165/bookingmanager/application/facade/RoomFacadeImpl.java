@@ -20,44 +20,40 @@ public class RoomFacadeImpl implements RoomFacade {
 
     @Transactional(readOnly = true)
     public Page<RoomDto> findAll(PageInfo pageInfo) {
-        return ConvertAll(service.findAll(pageInfo));
+        return convertAll(service.findAll(pageInfo));
     }
 
     @Transactional
     public RoomDto registerRoom(RoomDto roomDto) {
-        return ConvertOne(service.registerRoom(ConvertOneBack(roomDto)));
+        return convertOne(service.registerRoom(convertOneBack(roomDto)));
     }
 
     @Transactional
     public RoomDto updateRoom(RoomDto roomDto) {
-        return ConvertOne(service.updateRoom(ConvertOneBack(roomDto)));
+        return convertOne(service.updateRoom(convertOneBack(roomDto)));
     }
 
     @Transactional(readOnly = true)
     public Optional<RoomDto> findByName(String name) {
-        return ConvertOneOptional(service.findByName(name));
+        return service.findByName(name).map(this::convertOne);
     }
 
     @Transactional(readOnly = true)
     public Optional<RoomDto> findById(Long id) {
-       return ConvertOneOptional(service.findById(id));
+       return service.findById(id).map(this::convertOne);
     }
 
     public Page<RoomDto> filterRooms(RoomFilter filter, PageInfo pageInfo) {
-        return ConvertAll(service.filterRooms(filter, pageInfo));
+        return convertAll(service.filterRooms(filter, pageInfo));
     }
 
-    private Page<RoomDto> ConvertAll(Page<RoomEntity> all) {
+    private Page<RoomDto> convertAll(Page<RoomEntity> all) {
         return null; //TODO
     }
-    private RoomEntity ConvertOneBack(RoomDto roomDto) {
+    private RoomEntity convertOneBack(RoomDto roomDto) {
         return null; // TODO
     }
-    private RoomDto ConvertOne(RoomEntity roomEntity) {
-        return null; // TODO
-    }
-
-    private Optional<RoomDto> ConvertOneOptional(Optional<RoomEntity> byName) {
+    private RoomDto convertOne(RoomEntity roomEntity) {
         return null; // TODO
     }
 
