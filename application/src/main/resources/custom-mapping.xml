@@ -8,10 +8,6 @@
         <class-a>org.springframework.data.domain.Page</class-a>
         <class-b>cz.muni.pa165.bookingmanager.iface.util.PageResult</class-b>
         <field>
-            <a get-method="getContent">content</a>
-            <b>entries</b>
-        </field>
-        <field>
             <a>totalElements</a>
             <b>totalEntries</b>
         </field>
