@@ -4,6 +4,7 @@ import cz.muni.pa165.bookingmanager.application.service.ReservationServiceImpl;
 import cz.muni.pa165.bookingmanager.application.service.iface.ReservationService;
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationState;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
 import cz.muni.pa165.bookingmanager.persistence.dao.HotelDao;
 import cz.muni.pa165.bookingmanager.persistence.dao.ReservationDao;
@@ -30,6 +31,7 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ContextConfiguration(locations = { "/application-context.xml" } )
@@ -165,8 +167,9 @@ public class ReservationServiceTest {
         when(reservationDao.findByOptionalCustomCriteria
                 (f.getRoomId().get(),f.getCustomerId().get(),f.getStartsBefore().get(),f.getEndsAfter().get()
                         ,String.valueOf(f.getState().get()),prq)).thenReturn(elist);
-        List<ReservationEntity> x = rs.findFiltered(f,info).getEntries();
-        assertEquals(elist,x);
+        PageResult<ReservationEntity> x = rs.findFiltered(f,info);
+        assertNotNull(x);
+        assertEquals(elist.size(),x.getEntrySize());
     }
 
     @Test
@@ -180,8 +183,9 @@ public class ReservationServiceTest {
         // one item in difference, when using an AND of required attribute values, is enough
         Pageable prq = new PageRequest(1,10);
         PageInfo info = new PageInfo(1,10);
-        List<ReservationEntity> y = rs.findFiltered(f,info).getEntries();
-        assertEquals(y.size(),0);
+        PageResult<ReservationEntity> y = rs.findFiltered(f,info);
+        assertNotNull(y);
+        assertEquals(y.getEntrySize(),0);
     }
 
     private ReservationEntity returnR9nWithSetID(ReservationEntity r9n) {
