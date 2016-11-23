@@ -1,18 +1,23 @@
 package cz.muni.pa165.bookingmanager.application.service;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.HotelService;
+import cz.muni.pa165.bookingmanager.iface.dto.HotelDto;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.dao.HotelDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import org.apache.commons.lang3.Validate;
+import org.dozer.Mapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.persistence.ManyToOne;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.toIntExact;
 
@@ -20,6 +25,9 @@ import static java.lang.Math.toIntExact;
 public class HotelServiceImpl implements HotelService {
     @Inject
     private HotelDao hotelDao;
+
+    @Inject
+    private Mapper mapper;
 
     @Override
     public HotelEntity registerHotel(HotelEntity hotelEntity) {
@@ -36,12 +44,8 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public PageResult<HotelEntity> findByCity(String city, PageInfo pageInfo) {
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
-
-        List<HotelEntity> byCity = hotelDao.findByCity(city, pageRequest);
-        int countByCity = hotelDao.countByCity(city);
-
-//        return new PageResult<>(byCity, countByCity, pageInfo);
-        return null;
+        Page<HotelEntity> page = hotelDao.findByCity(city, pageRequest);
+        return mapPage(page);
     }
     @Override
     public Optional<HotelEntity> findById(Long id) {
@@ -51,11 +55,15 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public PageResult<HotelEntity> findAll(PageInfo pageInfo) {
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
+        Page<HotelEntity> page = hotelDao.findAll(pageRequest);
+        return mapPage(page);
+    }
 
-        List<HotelEntity> entities = hotelDao.findAll(pageRequest).getContent();
-        int countAll = toIntExact(hotelDao.count());
+    private PageResult<HotelEntity> mapPage(Page<HotelEntity> page){
+        PageResult<HotelEntity> pageResult = new PageResult<>();
+        mapper.map(page, pageResult);
+        pageResult.setEntries(page.getContent());
 
-//        return new PageResult<>(entities, countAll, pageInfo);
-        return null;
+        return pageResult;
     }
 }
