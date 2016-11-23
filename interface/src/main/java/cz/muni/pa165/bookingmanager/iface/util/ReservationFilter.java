@@ -6,7 +6,7 @@
 package cz.muni.pa165.bookingmanager.iface.util;
 
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationState;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Optional;
 
 /**
