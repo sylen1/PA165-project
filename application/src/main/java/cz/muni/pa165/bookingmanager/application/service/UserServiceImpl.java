@@ -5,8 +5,8 @@ import cz.muni.pa165.bookingmanager.iface.util.Page;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
-import javafx.util.Pair;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.PageRequest;
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService{
         prng.nextBytes(salt);
 
         byte[] hash = pbkdf2(passwd.toCharArray(), salt, PBKDF2_ITER, HASH_AND_SALT_SIZE);
-        return new Pair<>(hash, salt);
+        return Pair.of(hash, salt);
     }
 
     private byte[] pbkdf2(char[] pass, byte[] salt, int iter, int bytes) throws NoSuchAlgorithmException, InvalidKeySpecException {
