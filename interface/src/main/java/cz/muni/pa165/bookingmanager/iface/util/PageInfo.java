@@ -20,4 +20,23 @@ public class PageInfo {
     public PageInfo nextPageInfo(){
         return new PageInfo(pageNumber + 1, pageSize);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PageInfo)) return false;
+
+        PageInfo pageInfo = (PageInfo) o;
+
+        if (getPageNumber() != pageInfo.getPageNumber()) return false;
+        return getPageSize() == pageInfo.getPageSize();
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getPageNumber();
+        result = 31 * result + getPageSize();
+        return result;
+    }
 }
