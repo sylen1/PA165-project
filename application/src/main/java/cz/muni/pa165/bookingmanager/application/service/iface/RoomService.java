@@ -1,7 +1,7 @@
 package cz.muni.pa165.bookingmanager.application.service.iface;
 
 import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
-import cz.muni.pa165.bookingmanager.iface.util.Page;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 
@@ -40,8 +40,8 @@ public interface RoomService extends PageableService<RoomEntity> {
     Optional<RoomEntity> findById(Long id);
 
     /**
-     * @see Page
+     * @see PageResult
      * @see PageInfo
      */
-    Page<RoomEntity> filterRooms(RoomFilter filter, PageInfo pageInfo);
+    PageResult<RoomEntity> filterRooms(RoomFilter filter, PageInfo pageInfo);
 }

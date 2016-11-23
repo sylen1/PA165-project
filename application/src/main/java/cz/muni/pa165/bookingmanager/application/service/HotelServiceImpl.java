@@ -1,7 +1,7 @@
 package cz.muni.pa165.bookingmanager.application.service;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.HotelService;
-import cz.muni.pa165.bookingmanager.iface.util.Page;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.dao.HotelDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
@@ -34,13 +34,14 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public Page<HotelEntity> findByCity(String city, PageInfo pageInfo) {
+    public PageResult<HotelEntity> findByCity(String city, PageInfo pageInfo) {
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
 
         List<HotelEntity> byCity = hotelDao.findByCity(city, pageRequest);
         int countByCity = hotelDao.countByCity(city);
 
-        return new Page<>(byCity, countByCity, pageInfo);
+//        return new PageResult<>(byCity, countByCity, pageInfo);
+        return null;
     }
     @Override
     public Optional<HotelEntity> findById(Long id) {
@@ -48,12 +49,13 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public Page<HotelEntity> findAll(PageInfo pageInfo) {
+    public PageResult<HotelEntity> findAll(PageInfo pageInfo) {
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
 
         List<HotelEntity> entities = hotelDao.findAll(pageRequest).getContent();
         int countAll = toIntExact(hotelDao.count());
 
-        return new Page<>(entities, countAll, pageInfo);
+//        return new PageResult<>(entities, countAll, pageInfo);
+        return null;
     }
 }

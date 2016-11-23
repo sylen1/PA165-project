@@ -1,11 +1,10 @@
 package cz.muni.pa165.bookingmanager.application.service;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.ReservationService;
-import cz.muni.pa165.bookingmanager.iface.util.Page;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
 import cz.muni.pa165.bookingmanager.persistence.dao.ReservationDao;
-import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 import static java.lang.Math.toIntExact;
 import java.util.List;
@@ -34,13 +33,14 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Page<ReservationEntity> findAll(PageInfo pageInfo) {
+    public PageResult<ReservationEntity> findAll(PageInfo pageInfo) {
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
 
         List<ReservationEntity> entities = reservationDao.findAll(pageRequest).getContent();
         int countAll = toIntExact(reservationDao.count());
 
-        return new Page<>(entities, countAll, pageInfo);
+//        return new PageResult<>(entities, countAll, pageInfo);
+        return null;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Page<ReservationEntity> findFiltered(ReservationFilter filter, PageInfo pageInfo) {
+    public PageResult<ReservationEntity> findFiltered(ReservationFilter filter, PageInfo pageInfo) {
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
         
         Long roomId = filter.getRoomId().orElse(null);
@@ -65,6 +65,7 @@ public class ReservationServiceImpl implements ReservationService {
         int count = toIntExact(reservationDao.countByOptionalCustomCriteria(
                 roomId, customerId, startsBefore, endsAfter, state));
 
-        return new Page<>(entities, count, pageInfo);
+//        return new PageResult<>(entities, count, pageInfo);
+        return null;
     }
 }

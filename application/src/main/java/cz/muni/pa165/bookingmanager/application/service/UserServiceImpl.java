@@ -1,7 +1,7 @@
 package cz.muni.pa165.bookingmanager.application.service;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
-import cz.muni.pa165.bookingmanager.iface.util.Page;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
@@ -38,10 +38,11 @@ public class UserServiceImpl implements UserService{
     private UserDao userDao;
 
     @Override
-    public Page<UserEntity> findAll(PageInfo pageInfo) {
+    public PageResult<UserEntity> findAll(PageInfo pageInfo) {
         Pageable pagerq = new PageRequest(pageInfo.getPageNumber(),pageInfo.getPageSize());
         List<UserEntity> entities = userDao.findAll(pagerq).getContent();
-        return new Page<>(entities, entities.size(), pageInfo);
+//        return new PageResult<>(entities, entities.size(), pageInfo);
+        return null;
     }
 
     @Override

@@ -1,10 +1,10 @@
 package cz.muni.pa165.bookingmanager.iface.facade;
 
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationDto;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
-import cz.muni.pa165.bookingmanager.iface.util.Page;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
-import java.util.Date;
+
 import java.util.Optional;
 
 /**
@@ -34,10 +34,10 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      * page of the result should be returned is specified in given PageInfo
      * instance.
      * @param pageInfo contains pagination parameters
-     * @return Instance of Page containing part of the result
+     * @return Instance of PageResult containing part of the result
      */
     @Override
-    Page<ReservationDto> findAll(PageInfo pageInfo);
+    PageResult<ReservationDto> findAll(PageInfo pageInfo);
     
     /**
      * If reservation with given ID exists in the data source, this method
@@ -53,8 +53,8 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      * ReservationFilter. 
      * @param filter instance of ReservationFilter restricting the result
      * @param pageInfo contains pagination parameters
-     * @return Page instance containing part of the result
+     * @return PageResult instance containing part of the result
      */
-    Page<ReservationDto> findFiltered(ReservationFilter filter, PageInfo pageInfo);
+    PageResult<ReservationDto> findFiltered(ReservationFilter filter, PageInfo pageInfo);
 
 }

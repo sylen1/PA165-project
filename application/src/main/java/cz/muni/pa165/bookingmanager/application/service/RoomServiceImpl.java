@@ -1,8 +1,8 @@
 package cz.muni.pa165.bookingmanager.application.service;
 
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.application.service.iface.RoomService;
-import cz.muni.pa165.bookingmanager.iface.util.Page;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.dao.RoomDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
@@ -25,7 +25,7 @@ public class RoomServiceImpl implements RoomService {
     private RoomDao roomDao;
 
     @Override
-    public Page<RoomEntity> findAll(PageInfo pageInfo) {
+    public PageResult<RoomEntity> findAll(PageInfo pageInfo) {
 
         if(pageInfo == null) {
             throw  new IllegalArgumentException("pageInfo cannot be null");
@@ -35,7 +35,8 @@ public class RoomServiceImpl implements RoomService {
         List<RoomEntity> entities = roomDao.findAll(pageRequest).getContent();
         int countAll = toIntExact(roomDao.count());
 
-        return new Page<>(entities, countAll, pageInfo);
+//        return new PageResult<>(entities, countAll, pageInfo);
+        return null;
     }
 
     @Override
@@ -63,7 +64,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Page<RoomEntity> filterRooms(RoomFilter filter, PageInfo pageInfo) {
+    public PageResult<RoomEntity> filterRooms(RoomFilter filter, PageInfo pageInfo) {
 
         if(filter == null || pageInfo == null) {
             throw new IllegalArgumentException("Parameters cannot be null!");
@@ -94,6 +95,7 @@ public class RoomServiceImpl implements RoomService {
             priceTo = filter.getPriceTo().get();
         }
 
-        return new Page<>(roomDao.findByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(bedFrom, bedTo, priceFrom, priceTo, pageRequest), roomDao.countByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(bedFrom, bedTo, priceFrom, priceTo), pageInfo);
+//        return new PageResult<>(roomDao.findByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(bedFrom, bedTo, priceFrom, priceTo, pageRequest), roomDao.countByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(bedFrom, bedTo, priceFrom, priceTo), pageInfo);
+        return null;
     }
 }

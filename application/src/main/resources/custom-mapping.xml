@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping>
+        <class-a>org.springframework.data.domain.Page</class-a>
+        <class-b>cz.muni.pa165.bookingmanager.iface.util.PageResult</class-b>
+        <field>
+            <a get-method="getContent">content</a>
+            <b>entries</b>
+        </field>
+        <field>
+            <a>totalElements</a>
+            <b>totalEntries</b>
+        </field>
+        <field>
+            <a>totalPages</a>
+            <b>pageCount</b>
+        </field>
+        <field>
+            <a get-method="getNumber">number</a>
+            <b>pageNumber</b>
+        </field>
+        <field>
+            <a get-method="getSize">size</a>
+            <b>pageSize</b>
+        </field>
+    </mapping>
+
+</mappings>

@@ -4,7 +4,7 @@ import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
 import cz.muni.pa165.bookingmanager.iface.dto.UserDto;
 import cz.muni.pa165.bookingmanager.iface.dto.UserLoginDto;
 import cz.muni.pa165.bookingmanager.iface.facade.UserFacade;
-import cz.muni.pa165.bookingmanager.iface.util.Page;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import org.apache.commons.lang3.Validate;
@@ -62,13 +62,14 @@ public class UserFacadeImpl implements UserFacade{
 
     @Override
     @Transactional(readOnly = true)
-    public Page<UserDto> findAll(PageInfo pageInfo) {
-        Page<UserEntity> entityPage = userService.findAll(pageInfo);
+    public PageResult<UserDto> findAll(PageInfo pageInfo) {
+        PageResult<UserEntity> entityPage = userService.findAll(pageInfo);
         List<UserDto> dtoList = entityPage.getEntries()
                 .stream().map(this::userEntityToDto)
                 .collect(Collectors.toList());
-        return new Page<>(dtoList,entityPage.getPageCount()
-                ,entityPage.getPageInfo());
+//        return new PageResult<>(dtoList,entityPage.getPageCount()
+//                ,entityPage.getPageInfo());
+        return null;
     }
 
     @Override

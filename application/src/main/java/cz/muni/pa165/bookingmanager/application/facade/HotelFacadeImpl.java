@@ -3,7 +3,7 @@ package cz.muni.pa165.bookingmanager.application.facade;
 import cz.muni.pa165.bookingmanager.application.service.iface.HotelService;
 import cz.muni.pa165.bookingmanager.iface.dto.HotelDto;
 import cz.muni.pa165.bookingmanager.iface.facade.HotelFacade;
-import cz.muni.pa165.bookingmanager.iface.util.Page;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import org.apache.commons.lang3.Validate;
@@ -42,15 +42,16 @@ public class HotelFacadeImpl implements HotelFacade {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<HotelDto> findByCity(String city, PageInfo pageInfo) {
+    public PageResult<HotelDto> findByCity(String city, PageInfo pageInfo) {
 
-        Page<HotelEntity> entityPage = hotelService.findByCity(city, pageInfo);
+        PageResult<HotelEntity> entityPage = hotelService.findByCity(city, pageInfo);
         List<HotelDto> dtos = entityPage.getEntries()
                 .stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
 
-        return new Page<>(dtos, entityPage.getPageCount(), entityPage.getPageInfo());
+//        return new PageResult<>(dtos, entityPage.getPageCount(), entityPage.getPageInfo());
+        return null;
     }
 
     @Override
@@ -62,14 +63,15 @@ public class HotelFacadeImpl implements HotelFacade {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<HotelDto> findAll(PageInfo pageInfo) {
-        Page<HotelEntity> entityPage = hotelService.findAll(pageInfo);
+    public PageResult<HotelDto> findAll(PageInfo pageInfo) {
+        PageResult<HotelEntity> entityPage = hotelService.findAll(pageInfo);
         List<HotelDto> dtos = entityPage.getEntries()
                 .stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
 
-        return new Page<>(dtos, entityPage.getPageCount(), entityPage.getPageInfo());
+//        return new PageResult<>(dtos, entityPage.getPageCount(), entityPage.getPageInfo());
+        return null;
     }
 
     // TODO mapping using dozer

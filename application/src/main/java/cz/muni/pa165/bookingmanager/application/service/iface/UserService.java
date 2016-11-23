@@ -1,10 +1,9 @@
 package cz.muni.pa165.bookingmanager.application.service.iface;
 
 
-import cz.muni.pa165.bookingmanager.iface.util.Page;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
-import org.springframework.dao.RecoverableDataAccessException;
 
 import java.util.Optional;
 
@@ -17,10 +16,10 @@ public interface UserService extends PageableService<UserEntity> {
     /**
      * Finds all users and gives a page of results
      * @param pageInfo info to help define the result
-     * @return Page containing UserDto instances
+     * @return PageResult containing UserDto instances
      */
     @Override
-    public Page<UserEntity> findAll(PageInfo pageInfo);
+    public PageResult<UserEntity> findAll(PageInfo pageInfo);
 
     /**
      * Attempts to find a user by email address

@@ -1,6 +1,6 @@
 package cz.muni.pa165.bookingmanager.application.service.iface;
 
-import cz.muni.pa165.bookingmanager.iface.util.Page;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
@@ -29,10 +29,10 @@ public interface ReservationService extends PageableService<ReservationEntity> {
      * page of the result should be returned is specified in given PageInfo
      * instance.
      * @param pageInfo contains pagination parameters
-     * @return Instance of Page containing part of the result
+     * @return Instance of PageResult containing part of the result
      */
     @Override
-    public Page<ReservationEntity> findAll(PageInfo pageInfo);
+    public PageResult<ReservationEntity> findAll(PageInfo pageInfo);
     
     /**
      * If reservation with given ID exists in the data source, this method
@@ -47,7 +47,7 @@ public interface ReservationService extends PageableService<ReservationEntity> {
      * Returns one page reservations filtered by properties of given instance of
      * ReservationFilter. 
      * @param filter instance of ReservationFilter restricting the result
-     * @return Page instance containing part of the result
+     * @return PageResult instance containing part of the result
      */
-    public Page<ReservationEntity> findFiltered(ReservationFilter filter, PageInfo pageInfo);
+    public PageResult<ReservationEntity> findFiltered(ReservationFilter filter, PageInfo pageInfo);
 }

@@ -2,9 +2,9 @@ package cz.muni.pa165.bookingmanager.application.facade;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.ReservationService;
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationDto;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
 import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
-import cz.muni.pa165.bookingmanager.iface.util.Page;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 import java.util.List;
@@ -53,14 +53,15 @@ public class ReservationFacadeImpl implements ReservationFacade {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ReservationDto> findAll(PageInfo pageInfo) {
-        Page<ReservationEntity> pageOfEntities = reservationService.findAll(pageInfo);
+    public PageResult<ReservationDto> findAll(PageInfo pageInfo) {
+        PageResult<ReservationEntity> pageOfEntities = reservationService.findAll(pageInfo);
         List<ReservationDto> dtos = pageOfEntities.getEntries()
                 .stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
         
-        return new Page<>(dtos, pageOfEntities.getPageCount(), pageOfEntities.getPageInfo());
+//        return new PageResult<>(dtos, pageOfEntities.getPageCount(), pageOfEntities.getPageInfo());
+        return null;
     }
 
     @Override
@@ -70,14 +71,15 @@ public class ReservationFacadeImpl implements ReservationFacade {
     }
 
     @Override
-    public Page<ReservationDto> findFiltered(ReservationFilter filter, PageInfo pageInfo) {
-        Page<ReservationEntity> pageOfEntities = reservationService.findFiltered(filter, pageInfo);
+    public PageResult<ReservationDto> findFiltered(ReservationFilter filter, PageInfo pageInfo) {
+        PageResult<ReservationEntity> pageOfEntities = reservationService.findFiltered(filter, pageInfo);
         List<ReservationDto> dtos = pageOfEntities.getEntries()
                 .stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
         
-        return new Page<>(dtos, pageOfEntities.getPageCount(), pageOfEntities.getPageInfo());
+//        return new PageResult<>(dtos, pageOfEntities.getPageCount(), pageOfEntities.getPageInfo());
+        return null;
     }
     
     

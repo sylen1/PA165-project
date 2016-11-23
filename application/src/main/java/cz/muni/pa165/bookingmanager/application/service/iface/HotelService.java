@@ -1,6 +1,6 @@
 package cz.muni.pa165.bookingmanager.application.service.iface;
 
-import cz.muni.pa165.bookingmanager.iface.util.Page;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 
@@ -22,10 +22,10 @@ public interface HotelService extends PageableService<HotelEntity> {
     HotelEntity updateHotelInformation(HotelEntity hotelEntity);
 
     /**
-     * @see Page
+     * @see PageResult
      * @see PageInfo
      */
-    Page<HotelEntity> findByCity(String city, PageInfo pageInfo);
+    PageResult<HotelEntity> findByCity(String city, PageInfo pageInfo);
 
     Optional<HotelEntity> findById(Long id);
 }

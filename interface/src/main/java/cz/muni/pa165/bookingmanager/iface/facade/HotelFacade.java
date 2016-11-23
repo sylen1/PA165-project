@@ -1,11 +1,9 @@
 package cz.muni.pa165.bookingmanager.iface.facade;
 
 import cz.muni.pa165.bookingmanager.iface.dto.HotelDto;
-import cz.muni.pa165.bookingmanager.iface.dto.RoomDto;
-import cz.muni.pa165.bookingmanager.iface.util.Page;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface HotelFacade extends PageableFacade<HotelDto> {
@@ -24,7 +22,7 @@ public interface HotelFacade extends PageableFacade<HotelDto> {
      */
     HotelDto updateHotelInformation(HotelDto hotelDto);
 
-    Page<HotelDto> findByCity(String city, PageInfo pageInfo);
+    PageResult<HotelDto> findByCity(String city, PageInfo pageInfo);
 
     Optional<HotelDto> findById(Long id);
 }

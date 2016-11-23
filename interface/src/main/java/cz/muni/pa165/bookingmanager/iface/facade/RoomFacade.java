@@ -1,8 +1,8 @@
 package cz.muni.pa165.bookingmanager.iface.facade;
 
 import cz.muni.pa165.bookingmanager.iface.dto.RoomDto;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
-import cz.muni.pa165.bookingmanager.iface.util.Page;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 
 import java.util.Optional;
@@ -13,7 +13,7 @@ public interface RoomFacade {
      * @param pageInfo page info
      * @return rooms
      */
-    public Page<RoomDto> findAll(PageInfo pageInfo);
+    public PageResult<RoomDto> findAll(PageInfo pageInfo);
 
     /**
      * Registers new room
@@ -49,7 +49,7 @@ public interface RoomFacade {
      * @param pageInfo page info
      * @return filtered rooms
      */
-    public Page<RoomDto> filterRooms(RoomFilter filter, PageInfo pageInfo) ;
+    public PageResult<RoomDto> filterRooms(RoomFilter filter, PageInfo pageInfo) ;
 
 
 }
