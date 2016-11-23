@@ -9,6 +9,7 @@ import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import org.apache.commons.lang3.Validate;
 import org.dozer.Mapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -28,11 +29,13 @@ public class UserFacadeImpl implements UserFacade{
     private Mapper mapper;
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<UserDto> findByEmail(String email) {
         return userService.findByEmail(email).map(this::userEntityToDto);
     }
 
     @Override
+    @Transactional
     public boolean authenticate(UserLoginDto u) {
         boolean result = false;
         Optional<UserEntity> byEmail = userService.findByEmail(u.getEmail());
@@ -43,6 +46,7 @@ public class UserFacadeImpl implements UserFacade{
     }
 
     @Override
+    @Transactional
     public boolean registerUser(UserDto user, String passwd) {
         UserEntity entity = this.userDtoToEntity(user);
         if(!(userService.registerUser(entity,passwd))) return false;
@@ -51,11 +55,13 @@ public class UserFacadeImpl implements UserFacade{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean isAdmin(UserDto u) {
         return userService.isAdmin(mapper.map(u,UserEntity.class));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<UserDto> findAll(PageInfo pageInfo) {
         Page<UserEntity> entityPage = userService.findAll(pageInfo);
         List<UserDto> dtoList = entityPage.getEntries()
@@ -66,6 +72,7 @@ public class UserFacadeImpl implements UserFacade{
     }
 
     @Override
+    @Transactional
     public UserDto updateUser(UserDto user) {
         Validate.notNull(user.getId());
         UserEntity entity = this.userDtoToEntity(user);

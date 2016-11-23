@@ -8,6 +8,7 @@ import cz.muni.pa165.bookingmanager.iface.facade.RoomFacade;
 import cz.muni.pa165.bookingmanager.iface.util.Page;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.Optional;
@@ -17,22 +18,27 @@ public class RoomFacadeImpl implements RoomFacade {
     @Inject
     private RoomService service;
 
+    @Transactional(readOnly = true)
     public Page<RoomDto> findAll(PageInfo pageInfo) {
         return ConvertAll(service.findAll(pageInfo));
     }
 
+    @Transactional
     public RoomDto registerRoom(RoomDto roomDto) {
         return ConvertOne(service.registerRoom(ConvertOneBack(roomDto)));
     }
 
+    @Transactional
     public RoomDto updateRoom(RoomDto roomDto) {
         return ConvertOne(service.updateRoom(ConvertOneBack(roomDto)));
     }
 
+    @Transactional(readOnly = true)
     public Optional<RoomDto> findByName(String name) {
         return ConvertOneOptional(service.findByName(name));
     }
 
+    @Transactional(readOnly = true)
     public Optional<RoomDto> findById(Long id) {
        return ConvertOneOptional(service.findById(id));
     }

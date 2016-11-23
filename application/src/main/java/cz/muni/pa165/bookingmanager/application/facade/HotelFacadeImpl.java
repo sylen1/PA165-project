@@ -7,6 +7,7 @@ import cz.muni.pa165.bookingmanager.iface.util.Page;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import org.apache.commons.lang3.Validate;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -18,6 +19,7 @@ public class HotelFacadeImpl implements HotelFacade {
     private HotelService hotelService;
 
     @Override
+    @Transactional
     public HotelDto registerHotel(HotelDto hotelDto) {
         Validate.isTrue(hotelDto.getId() == null);
 
@@ -28,6 +30,7 @@ public class HotelFacadeImpl implements HotelFacade {
     }
 
     @Override
+    @Transactional
     public HotelDto updateHotelInformation(HotelDto hotelDto) {
         Validate.notNull(hotelDto.getId());
 
@@ -38,6 +41,7 @@ public class HotelFacadeImpl implements HotelFacade {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<HotelDto> findByCity(String city, PageInfo pageInfo) {
 
         Page<HotelEntity> entityPage = hotelService.findByCity(city, pageInfo);
@@ -50,12 +54,14 @@ public class HotelFacadeImpl implements HotelFacade {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<HotelDto> findById(Long id) {
         return hotelService.findById(id)
                 .map(this::convert);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<HotelDto> findAll(PageInfo pageInfo) {
         Page<HotelEntity> entityPage = hotelService.findAll(pageInfo);
         List<HotelDto> dtos = entityPage.getEntries()

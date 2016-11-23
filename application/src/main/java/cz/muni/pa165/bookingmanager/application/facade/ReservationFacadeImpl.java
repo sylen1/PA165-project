@@ -30,6 +30,7 @@ public class ReservationFacadeImpl implements ReservationFacade {
     private Mapper dozer;
     
     @Override
+    @Transactional
     public ReservationDto createReservation(ReservationDto reservationDto) {
         Validate.isTrue(reservationDto.getId() == null);
 
@@ -40,6 +41,7 @@ public class ReservationFacadeImpl implements ReservationFacade {
     }
 
     @Override
+    @Transactional
     public ReservationDto updateReservation(ReservationDto reservationDto) {
         Validate.notNull(reservationDto.getId());
         
@@ -50,6 +52,7 @@ public class ReservationFacadeImpl implements ReservationFacade {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ReservationDto> findAll(PageInfo pageInfo) {
         Page<ReservationEntity> pageOfEntities = reservationService.findAll(pageInfo);
         List<ReservationDto> dtos = pageOfEntities.getEntries()
@@ -61,6 +64,7 @@ public class ReservationFacadeImpl implements ReservationFacade {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<ReservationDto> findById(Long id) {
         return reservationService.findById(id).map(this::convert);
     }
