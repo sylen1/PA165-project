@@ -14,29 +14,39 @@ import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
+import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.Spy;
+import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ContextConfiguration(locations = { "/application-context.xml" } )
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class ReservationServiceTest {
+
+    @Inject
+    private ApplicationContext ctx;
+
+    @Spy
+    private Mapper mapper;
 
     @Mock
     private UserDao userDao;
@@ -61,7 +71,10 @@ public class ReservationServiceTest {
 
     @Before
     public void init(){
+        mapper = ctx.getBean(Mapper.class);
+
         MockitoAnnotations.initMocks(this);
+
         user = new UserEntity();
         user.setAdmin(false);
         user.setBirthDate(Date.valueOf("1975-03-21"));
@@ -164,9 +177,10 @@ public class ReservationServiceTest {
         PageInfo info = new PageInfo(1,10);
         List<ReservationEntity> elist = new ArrayList<>();
         elist.add(r9n);
+        PageImpl p = new PageImpl(elist,new PageRequest(info.getPageNumber(),info.getPageSize()),2);
         when(reservationDao.findByOptionalCustomCriteria
                 (f.getRoomId().get(),f.getCustomerId().get(),f.getStartsBefore().get(),f.getEndsAfter().get()
-                        ,String.valueOf(f.getState().get()),prq)).thenReturn(elist);
+                        ,String.valueOf(f.getState().get()),prq)).thenReturn(p);
         PageResult<ReservationEntity> x = rs.findFiltered(f,info);
         assertNotNull(x);
         assertEquals(elist.size(),x.getEntrySize());

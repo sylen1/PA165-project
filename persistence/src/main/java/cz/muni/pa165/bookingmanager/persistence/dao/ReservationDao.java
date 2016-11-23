@@ -3,6 +3,7 @@ package cz.muni.pa165.bookingmanager.persistence.dao;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Date;
@@ -13,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 
 /**
  * DAO for reservations
- * @author Matej Harcar, 422714
+ * @author Matej Harcar, 422714 & Mojmír Odehnal, 374422
  */
 public interface ReservationDao extends JpaRepository<ReservationEntity, Long>{
 
@@ -40,21 +41,20 @@ public interface ReservationDao extends JpaRepository<ReservationEntity, Long>{
     List<ReservationEntity> findByStartDateBeforeAndEndDateAfter(Date date1, Date date2);
     
     long count();
-    
-    // http://stackoverflow.com/a/39231964
+
     @Query("SELECT r FROM ReservationEntity r WHERE (:roomId IS NULL OR r.room.id = :roomId)"
         + " AND (:customerId IS NULL OR r.customer.id = :customerId)"
         + " AND (:startsBefore IS NULL OR r.startDate <= :startsBefore)"
         + " AND (:endsAfter IS NULL OR r.endDate >= :endsAfter) AND (:state IS NULL OR r.state = :state)")
-    List<ReservationEntity> findByOptionalCustomCriteria( @Param("roomId") Long roomId, 
-            @Param("customerId") Long customerId, @Param("startsBefore") Date startsBefore, 
-            @Param("endsAfter") Date endsAfter, @Param("state") String state, Pageable pageable );
+    Page<ReservationEntity> findByOptionalCustomCriteria(@Param("roomId") Long roomId,
+             @Param("customerId") Long customerId, @Param("startsBefore") Date startsBefore,
+             @Param("endsAfter") Date endsAfter, @Param("state") String state, Pageable pageable );
     
     @Query("SELECT COUNT(r.id) FROM ReservationEntity r WHERE (:roomId IS NULL OR r.room.id = :roomId)"
         + " AND (:customerId IS NULL OR r.customer.id = :customerId)"
         + " AND (:startsBefore IS NULL OR r.startDate <= :startsBefore)"
         + " AND (:endsAfter IS NULL OR r.endDate >= :endsAfter) AND (:state IS NULL OR r.state = :state)")
     Long countByOptionalCustomCriteria( @Param("roomId") Long roomId, 
-            @Param("customerId") Long customerId, @Param("startsBefore") Date startsBefore, 
+            @Param("customerId") Long customerId, @Param("startsBefore") Date startsBefore,
             @Param("endsAfter") Date endsAfter, @Param("state") String state );
 }

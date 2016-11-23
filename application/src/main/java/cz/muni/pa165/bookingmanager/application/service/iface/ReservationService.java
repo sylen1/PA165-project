@@ -6,6 +6,10 @@ import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 import java.util.Optional;
 
+/**
+ * Interface for service layer for manipulation with reservations
+ * @author Mojmír Odehnal, 374422
+ */
 public interface ReservationService extends PageableService<ReservationEntity> {
     /**
      * Creates reservation for room, customer and span of dates. All this info

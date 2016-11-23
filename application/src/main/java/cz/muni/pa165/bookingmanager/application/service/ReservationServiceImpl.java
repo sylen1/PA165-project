@@ -6,20 +6,32 @@ import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
 import cz.muni.pa165.bookingmanager.persistence.dao.ReservationDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
-import static java.lang.Math.toIntExact;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import org.apache.commons.lang3.Validate;
+import org.dozer.Mapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of ReservationService interface
+ * @author Mojmír Odehnal, 374422
+ */
 @Service
 public class ReservationServiceImpl implements ReservationService {
     @Inject
     private ReservationDao reservationDao;
-    
+
+    @Inject
+    private Mapper mapper;
+
     @Override
     public ReservationEntity createReservation(ReservationEntity reservation) {
         Validate.isTrue(reservation.getId() == null);
@@ -36,11 +48,9 @@ public class ReservationServiceImpl implements ReservationService {
     public PageResult<ReservationEntity> findAll(PageInfo pageInfo) {
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
 
-        List<ReservationEntity> entities = reservationDao.findAll(pageRequest).getContent();
-        int countAll = toIntExact(reservationDao.count());
+        Page page = reservationDao.findAll(pageRequest);
 
-//        return new PageResult<>(entities, countAll, pageInfo);
-        return null;
+        return mapPageToPageResult(page);
     }
 
     @Override
@@ -60,12 +70,18 @@ public class ReservationServiceImpl implements ReservationService {
                 .map(d -> new java.sql.Date(d.getTime())).orElse(null);
         String state = filter.getState().map(s -> s.name()).orElse(null);
         
-        List<ReservationEntity> entities = reservationDao.findByOptionalCustomCriteria(
+        Page<ReservationEntity> page = reservationDao.findByOptionalCustomCriteria(
                 roomId, customerId, startsBefore, endsAfter, state, pageRequest);
-        int count = toIntExact(reservationDao.countByOptionalCustomCriteria(
-                roomId, customerId, startsBefore, endsAfter, state));
 
-//        return new PageResult<>(entities, count, pageInfo);
-        return null;
+        return mapPageToPageResult(page);
+    }
+
+    private PageResult<ReservationEntity> mapPageToPageResult(Page<ReservationEntity> page){
+        PageResult<ReservationEntity> pageResult = new PageResult<>();
+
+        mapper.map(page, pageResult);
+        pageResult.setEntries(page.getContent());
+
+        return pageResult;
     }
 }

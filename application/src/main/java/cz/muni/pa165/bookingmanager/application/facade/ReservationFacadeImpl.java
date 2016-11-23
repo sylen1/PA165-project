@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Implemetation of ReservationFacade interface
+ * Implementation of ReservationFacade interface
  * @author Mojmír Odehnal, 374422
  */
 @Transactional
@@ -34,10 +34,10 @@ public class ReservationFacadeImpl implements ReservationFacade {
     public ReservationDto createReservation(ReservationDto reservationDto) {
         Validate.isTrue(reservationDto.getId() == null);
 
-        ReservationEntity entity = convert(reservationDto);        
+        ReservationEntity entity = mapper.map(reservationDto, ReservationEntity.class);
         ReservationEntity saved = reservationService.createReservation(entity);
         
-        return convert(saved);
+        return mapper.map(saved, ReservationDto.class);
     }
 
     @Override
@@ -45,49 +45,41 @@ public class ReservationFacadeImpl implements ReservationFacade {
     public ReservationDto updateReservation(ReservationDto reservationDto) {
         Validate.notNull(reservationDto.getId());
         
-        ReservationEntity entity = convert(reservationDto);
+        ReservationEntity entity = mapper.map(reservationDto, ReservationEntity.class);
         ReservationEntity updated = reservationService.updateReservation(entity);
 
-        return convert(updated);
+        return mapper.map(updated, ReservationDto.class);
     }
 
     @Override
     @Transactional(readOnly = true)
     public PageResult<ReservationDto> findAll(PageInfo pageInfo) {
-        PageResult<ReservationEntity> pageOfEntities = reservationService.findAll(pageInfo);
-        List<ReservationDto> dtos = pageOfEntities.getEntries()
-                .stream()
-                .map(this::convert)
-                .collect(Collectors.toList());
-        
-//        return new PageResult<>(dtos, pageOfEntities.getPageCount(), pageOfEntities.getPageInfo());
-        return null;
+        PageResult<ReservationEntity> page = reservationService.findAll(pageInfo);
+        return mapPageResultToDtos(page);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<ReservationDto> findById(Long id) {
-        return reservationService.findById(id).map(this::convert);
+        return reservationService.findById(id).map(x -> mapper.map(x, ReservationDto.class));
     }
 
     @Override
     public PageResult<ReservationDto> findFiltered(ReservationFilter filter, PageInfo pageInfo) {
         PageResult<ReservationEntity> pageOfEntities = reservationService.findFiltered(filter, pageInfo);
-        List<ReservationDto> dtos = pageOfEntities.getEntries()
+        return mapPageResultToDtos(pageOfEntities);
+    }
+
+    private PageResult<ReservationDto> mapPageResultToDtos(PageResult<ReservationEntity> entityPage){
+        List<ReservationDto> dtos = entityPage.getEntries()
                 .stream()
-                .map(this::convert)
+                .map(x -> mapper.map(x, ReservationDto.class))
                 .collect(Collectors.toList());
-        
-//        return new PageResult<>(dtos, pageOfEntities.getPageCount(), pageOfEntities.getPageInfo());
-        return null;
-    }
-    
-    
-    private ReservationEntity convert(ReservationDto dto) {
-        return mapper.map(dto, ReservationEntity.class);
-    }
-    
-    private ReservationDto convert(ReservationEntity entity) {
-        return mapper.map(entity, ReservationDto.class);
+
+        PageResult<ReservationDto> result = new PageResult<>();
+        mapper.map(entityPage, result);
+        result.setEntries(dtos);
+
+        return result;
     }
 }
