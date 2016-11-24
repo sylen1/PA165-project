@@ -66,4 +66,35 @@ public class RoomDto {
     public void setHotelId(long hotelId) {
         this.hotelId = hotelId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RoomDto roomDto = (RoomDto) o;
+
+        if (getHotelId() != roomDto.getHotelId()) return false;
+        return getName() != null ? getName().equals(roomDto.getName()) : roomDto.getName() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (int) (getHotelId() ^ (getHotelId() >>> 32));
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", bedCount=" + bedCount +
+                ", description='" + description + '\'' +
+                ", hotelId=" + hotelId +
+                '}';
+    }
 }

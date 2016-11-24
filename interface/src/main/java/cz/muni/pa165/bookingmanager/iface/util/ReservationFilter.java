@@ -67,5 +67,42 @@ public class ReservationFilter {
         this.endsAfter = endsAfter;
         return this;
     }
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ReservationFilter that = (ReservationFilter) o;
+
+        if (getState() != that.getState()) return false;
+        if (getRoomId() != null ? !getRoomId().equals(that.getRoomId()) : that.getRoomId() != null) return false;
+        if (getCustomerId() != null ? !getCustomerId().equals(that.getCustomerId()) : that.getCustomerId() != null)
+            return false;
+        if (getStartsBefore() != null ? !getStartsBefore().equals(that.getStartsBefore()) : that.getStartsBefore() != null)
+            return false;
+        return getEndsAfter() != null ? getEndsAfter().equals(that.getEndsAfter()) : that.getEndsAfter() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getState() != null ? getState().hashCode() : 0;
+        result = 31 * result + (getRoomId() != null ? getRoomId().hashCode() : 0);
+        result = 31 * result + (getCustomerId() != null ? getCustomerId().hashCode() : 0);
+        result = 31 * result + (getStartsBefore() != null ? getStartsBefore().hashCode() : 0);
+        result = 31 * result + (getEndsAfter() != null ? getEndsAfter().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ReservationFilter{" +
+                "state=" + state +
+                ", roomId=" + roomId +
+                ", customerId=" + customerId +
+                ", startsBefore=" + startsBefore +
+                ", endsAfter=" + endsAfter +
+                '}';
+    }
 }

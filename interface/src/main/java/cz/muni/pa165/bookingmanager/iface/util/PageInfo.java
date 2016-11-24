@@ -39,4 +39,12 @@ public class PageInfo {
         result = 31 * result + getPageSize();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "PageInfo{" +
+                "pageNumber=" + pageNumber +
+                ", pageSize=" + pageSize +
+                '}';
+    }
 }

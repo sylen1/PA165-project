@@ -51,4 +51,40 @@ public class RoomFilter {
         this.priceTo = priceTo;
         return this;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RoomFilter that = (RoomFilter) o;
+
+        if (getBedContFrom() != null ? !getBedContFrom().equals(that.getBedContFrom()) : that.getBedContFrom() != null)
+            return false;
+        if (getBedCountTo() != null ? !getBedCountTo().equals(that.getBedCountTo()) : that.getBedCountTo() != null)
+            return false;
+        if (getPriceFrom() != null ? !getPriceFrom().equals(that.getPriceFrom()) : that.getPriceFrom() != null)
+            return false;
+        return getPriceTo() != null ? getPriceTo().equals(that.getPriceTo()) : that.getPriceTo() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getBedContFrom() != null ? getBedContFrom().hashCode() : 0;
+        result = 31 * result + (getBedCountTo() != null ? getBedCountTo().hashCode() : 0);
+        result = 31 * result + (getPriceFrom() != null ? getPriceFrom().hashCode() : 0);
+        result = 31 * result + (getPriceTo() != null ? getPriceTo().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomFilter{" +
+                "bedContFrom=" + bedContFrom +
+                ", bedCountTo=" + bedCountTo +
+                ", priceFrom=" + priceFrom +
+                ", priceTo=" + priceTo +
+                '}';
+    }
 }

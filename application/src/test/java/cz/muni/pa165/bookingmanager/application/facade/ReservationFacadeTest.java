@@ -5,7 +5,14 @@ import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
+import cz.muni.pa165.bookingmanager.persistence.dao.HotelDao;
 import cz.muni.pa165.bookingmanager.persistence.dao.ReservationDao;
+import cz.muni.pa165.bookingmanager.persistence.dao.RoomDao;
+import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
+import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
+import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +41,14 @@ public class ReservationFacadeTest {
 
     @Inject
     private ReservationDao reservationDao;
+    @Inject
+    private UserDao userDao;
+    @Inject
+    private RoomDao roomDao;
+    @Inject
+    private HotelDao hotelDao;
+    @Inject
+    private Mapper mapper;
 
     private UserDto user;
     private HotelDto hotel;
@@ -52,8 +67,10 @@ public class ReservationFacadeTest {
         user.setAddress("Asdf 5, 32 768 Qwertyville");
         user.setPhoneNumber("3874619786317896");
         user.setName("Hjbdc Kkv");
+        user.setBirthDate(Date.valueOf("1998-05-09"));
         user.setPasswordSalt(new byte[]{0x3f, 0x5e, 0x1a});
         user.setPasswordHash(new byte[]{0x66, 0x78, (byte) 0x9c});
+        userDao.save(mapper.map(user, UserEntity.class));
 
         hotel = new HotelDto();
         hotel.setEmail("hotel@mail.com");
@@ -63,6 +80,7 @@ public class ReservationFacadeTest {
         hotel.setStreet("Barstreet");
         hotel.setName("Foobar Hotel");
         hotel.setId(1L);
+        hotelDao.save(mapper.map(hotel, HotelEntity.class));
 
         room = new RoomDto();
         room.setBedCount(4);
@@ -70,6 +88,7 @@ public class ReservationFacadeTest {
         room.setId(1L);
         room.setPrice(new BigDecimal("10.24"));
         room.setName("A32");
+        roomDao.save(mapper.map(room, RoomEntity.class));
 
     }
 

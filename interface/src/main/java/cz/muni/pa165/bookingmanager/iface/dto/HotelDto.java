@@ -75,6 +75,30 @@ public class HotelDto {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        HotelDto hotelDto = (HotelDto) o;
+
+        if (getName() != null ? !getName().equals(hotelDto.getName()) : hotelDto.getName() != null) return false;
+        if (getCity() != null ? !getCity().equals(hotelDto.getCity()) : hotelDto.getCity() != null) return false;
+        if (getStreet() != null ? !getStreet().equals(hotelDto.getStreet()) : hotelDto.getStreet() != null)
+            return false;
+        return getStreetNumber() != null ? getStreetNumber().equals(hotelDto.getStreetNumber()) : hotelDto.getStreetNumber() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
+        result = 31 * result + (getStreet() != null ? getStreet().hashCode() : 0);
+        result = 31 * result + (getStreetNumber() != null ? getStreetNumber().hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "HotelDto{" +
                 "id=" + id +

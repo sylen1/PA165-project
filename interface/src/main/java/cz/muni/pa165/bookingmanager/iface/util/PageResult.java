@@ -71,4 +71,40 @@ public class PageResult<T> {
     public PageInfo nextPageInfo(){
         return hasNext() ? new PageInfo(pageNumber + 1, pageSize) : null;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PageResult<?> that = (PageResult<?>) o;
+
+        if (getTotalEntries() != that.getTotalEntries()) return false;
+        if (getPageCount() != that.getPageCount()) return false;
+        if (getPageNumber() != that.getPageNumber()) return false;
+        if (getPageSize() != that.getPageSize()) return false;
+        return getEntries() != null ? getEntries().equals(that.getEntries()) : that.getEntries() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getEntries() != null ? getEntries().hashCode() : 0;
+        result = 31 * result + getTotalEntries();
+        result = 31 * result + getPageCount();
+        result = 31 * result + getPageNumber();
+        result = 31 * result + getPageSize();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "PageResult{" +
+                "entries=" + entries +
+                ", totalEntries=" + totalEntries +
+                ", pageCount=" + pageCount +
+                ", pageNumber=" + pageNumber +
+                ", pageSize=" + pageSize +
+                '}';
+    }
 }
