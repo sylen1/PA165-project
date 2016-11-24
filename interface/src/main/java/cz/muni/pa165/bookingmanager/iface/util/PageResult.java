@@ -14,9 +14,6 @@ public class PageResult<T> {
         entries = new LinkedList<>();
     }
 
-    /**
-     * @return unmodifiable list of entries
-     */
     public List<T> getEntries() {
         return entries;
     }
