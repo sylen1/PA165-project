@@ -1,4 +1,4 @@
-package cz.muni.pa165.bookingmanager.applictaion.service;
+package cz.muni.pa165.bookingmanager.application.service;
 
 import cz.muni.pa165.bookingmanager.application.service.ReservationServiceImpl;
 import cz.muni.pa165.bookingmanager.application.service.iface.ReservationService;

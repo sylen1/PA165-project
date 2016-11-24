@@ -1,4 +1,4 @@
-package cz.muni.pa165.bookingmanager.applictaion.service;
+package cz.muni.pa165.bookingmanager.application.service;
 
 import cz.muni.pa165.bookingmanager.application.service.ReservationServiceImpl;
 import cz.muni.pa165.bookingmanager.application.service.UserServiceImpl;
@@ -57,7 +57,6 @@ public class UserServiceTest {
     @Mock
     private UserDao userDaoMock;
 
-
     private PageInfo pageInfo = new PageInfo(0, 20);
 
     private byte[] dummyhash1 = new byte[]{0x32, (byte) 0xFC,0x5A};
@@ -71,16 +70,7 @@ public class UserServiceTest {
         MockitoAnnotations.initMocks(this);
         userService = new UserServiceImpl(userDaoMock, ctx.getBean(Mapper.class));
     }
-    /*
-    @Test
-    public void hello() {
-        userService.findAll(pageInfo);
-        userService.authenticate(user, passwd);
-        userService.registerUser(user, passwd);
-        userService.updateUser(user);
-        userService.findByEmail(email);
-        userService.isAdmin(user);
-    }*/
+
     @Test
     public void findAllTest() {
         UserEntity u1 = new UserEntity();
@@ -138,15 +128,12 @@ public class UserServiceTest {
         u1.setPasswordSalt(dummysalt1);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
 
-        //UserDao userDaoMock = mock(UserDao.class);
         when(userDaoMock.findByEmail("mail1@mail.mail")).thenReturn(u1);
 
-        //ReflectionTestUtils.setField(userService, "userDao", userDaoMock);
         Optional<UserEntity> cResult = userService.findByEmail("mail1@mail.mail");
 
         assertEquals(Optional.of(u1), cResult);
     }
-
 
     @Test
     public void registerUserTest() {
