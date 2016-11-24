@@ -23,11 +23,14 @@ import static java.lang.Math.toIntExact;
 
 @Service
 public class HotelServiceImpl implements HotelService {
-    @Inject
     private HotelDao hotelDao;
+    private Mapper mapper;
 
     @Inject
-    private Mapper mapper;
+    public HotelServiceImpl(HotelDao hotelDao, Mapper mapper) {
+        this.hotelDao = hotelDao;
+        this.mapper = mapper;
+    }
 
     @Override
     public HotelEntity registerHotel(HotelEntity hotelEntity) {
