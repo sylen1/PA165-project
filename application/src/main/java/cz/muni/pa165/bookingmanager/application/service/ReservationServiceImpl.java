@@ -1,24 +1,20 @@
 package cz.muni.pa165.bookingmanager.application.service;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.ReservationService;
-import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
 import cz.muni.pa165.bookingmanager.persistence.dao.ReservationDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import javax.inject.Inject;
 import org.apache.commons.lang3.Validate;
 import org.dozer.Mapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
+import java.util.Optional;
 
 /**
  * Implementation of ReservationService interface
@@ -26,11 +22,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ReservationServiceImpl implements ReservationService {
-    @Inject
     private ReservationDao reservationDao;
+    private Mapper mapper;
 
     @Inject
-    private Mapper mapper;
+    public ReservationServiceImpl(ReservationDao reservationDao, Mapper mapper) {
+        this.reservationDao = reservationDao;
+        this.mapper = mapper;
+    }
 
     @Override
     public ReservationEntity createReservation(ReservationEntity reservation) {
@@ -61,7 +60,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public PageResult<ReservationEntity> findFiltered(ReservationFilter filter, PageInfo pageInfo) {
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
-        
+
         Long roomId = filter.getRoomId().orElse(null);
         Long customerId = filter.getCustomerId().orElse(null);
         java.sql.Date startsBefore = filter.getStartsBefore()
@@ -69,7 +68,7 @@ public class ReservationServiceImpl implements ReservationService {
         java.sql.Date endsAfter = filter.getEndsAfter()
                 .map(d -> new java.sql.Date(d.getTime())).orElse(null);
         String state = filter.getState().map(s -> s.name()).orElse(null);
-        
+
         Page<ReservationEntity> page = reservationDao.findByOptionalCustomCriteria(
                 roomId, customerId, startsBefore, endsAfter, state, pageRequest);
 

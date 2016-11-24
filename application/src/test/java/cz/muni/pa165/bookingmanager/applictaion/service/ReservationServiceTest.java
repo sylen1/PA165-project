@@ -18,10 +18,8 @@ import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -45,9 +43,6 @@ public class ReservationServiceTest {
     @Inject
     private ApplicationContext ctx;
 
-    @Spy
-    private Mapper mapper;
-
     @Mock
     private UserDao userDao;
 
@@ -65,15 +60,12 @@ public class ReservationServiceTest {
     private RoomEntity room;
     private ReservationEntity r9n;
 
-    @InjectMocks
-    private ReservationService rs = new ReservationServiceImpl();
-
+    private ReservationService rs;
 
     @Before
     public void init(){
-        mapper = ctx.getBean(Mapper.class);
-
         MockitoAnnotations.initMocks(this);
+        rs = new ReservationServiceImpl(reservationDao, ctx.getBean(Mapper.class));
 
         user = new UserEntity();
         user.setAdmin(false);
@@ -177,7 +169,7 @@ public class ReservationServiceTest {
         PageInfo info = new PageInfo(1,10);
         List<ReservationEntity> elist = new ArrayList<>();
         elist.add(r9n);
-        PageImpl p = new PageImpl(elist,new PageRequest(info.getPageNumber(),info.getPageSize()),2);
+        PageImpl p = new PageImpl<>(elist,new PageRequest(info.getPageNumber(),info.getPageSize()),2);
         when(reservationDao.findByOptionalCustomCriteria
                 (f.getRoomId().get(),f.getCustomerId().get(),f.getStartsBefore().get(),f.getEndsAfter().get()
                         ,String.valueOf(f.getState().get()),prq)).thenReturn(p);
@@ -195,8 +187,17 @@ public class ReservationServiceTest {
         f.setRoomId(room.getId());
         f.setState(ReservationState.CANCELLED);
         // one item in difference, when using an AND of required attribute values, is enough
-        Pageable prq = new PageRequest(1,10);
-        PageInfo info = new PageInfo(1,10);
+        Pageable prq = new PageRequest(0,10);
+        PageInfo info = new PageInfo(0,10);
+
+        when(reservationDao.findByOptionalCustomCriteria(f.getRoomId().get(),
+                f.getCustomerId().get(),
+                f.getStartsBefore().get(),
+                f.getEndsAfter().get(),
+                f.getState().get().toString(),
+                prq)).
+                thenReturn(new PageImpl<>(new LinkedList<>(), prq, 1L));
+
         PageResult<ReservationEntity> y = rs.findFiltered(f,info);
         assertNotNull(y);
         assertEquals(0, y.getEntrySize());

@@ -1,5 +1,6 @@
 package cz.muni.pa165.bookingmanager.applictaion.service;
 
+import cz.muni.pa165.bookingmanager.application.service.ReservationServiceImpl;
 import cz.muni.pa165.bookingmanager.application.service.UserServiceImpl;
 import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
@@ -18,6 +19,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 
+import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +32,7 @@ import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +40,7 @@ import org.springframework.data.domain.PageImpl;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import javax.inject.Inject;
 
 /**
  * Tests for implementation of ReservationService
@@ -45,8 +49,10 @@ import javax.crypto.spec.PBEKeySpec;
 @ContextConfiguration(locations = { "/application-context.xml" } )
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserServiceTest {
-    @InjectMocks
-    private UserService userService = new UserServiceImpl();
+    @Inject
+    private ApplicationContext ctx;
+
+    private UserService userService;
 
     @Mock
     private UserDao userDaoMock;
@@ -63,6 +69,7 @@ public class UserServiceTest {
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
+        userService = new UserServiceImpl(userDaoMock, ctx.getBean(Mapper.class));
     }
     /*
     @Test
@@ -112,6 +119,7 @@ public class UserServiceTest {
 
         PageResult<UserEntity> resultPage = userService.findAll(pageInfo);
 
+        assertNotNull(resultPage);
         assertEquals(testPage.getEntries(), resultPage.getEntries());
         assertEquals(testPage.getPageCount(), resultPage.getPageCount());
         assertEquals(testPage.getPageNumber(), resultPage.getPageNumber());

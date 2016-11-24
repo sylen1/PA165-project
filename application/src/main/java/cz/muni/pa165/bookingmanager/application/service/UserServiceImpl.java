@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.dozer.Mapper;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -34,8 +35,14 @@ public class UserServiceImpl implements UserService{
     // 100'000 rounds used in 2011 by LastPass;
     // we're (presumably) a smaller target but it's no longer 2011
 
-    @Inject
     private UserDao userDao;
+    private Mapper mapper;
+
+    @Inject
+    public UserServiceImpl(UserDao userDao, Mapper mapper) {
+        this.userDao = userDao;
+        this.mapper = mapper;
+    }
 
     @Override
     public PageResult<UserEntity> findAll(PageInfo pageInfo) {
