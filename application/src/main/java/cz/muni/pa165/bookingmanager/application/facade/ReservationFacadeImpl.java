@@ -23,12 +23,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class ReservationFacadeImpl implements ReservationFacade {
-    @Inject
     private ReservationService reservationService;
-    
-    @Inject
     private Mapper mapper;
-    
+
+    @Inject
+    public ReservationFacadeImpl(ReservationService reservationService, Mapper mapper) {
+        this.reservationService = reservationService;
+        this.mapper = mapper;
+    }
+
     @Override
     @Transactional
     public ReservationDto createReservation(ReservationDto reservationDto) {

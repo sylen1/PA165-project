@@ -1,5 +1,7 @@
 package cz.muni.pa165.bookingmanager.application.facade;
 
+import cz.muni.pa165.bookingmanager.application.service.ReservationServiceImpl;
+import cz.muni.pa165.bookingmanager.application.service.iface.ReservationService;
 import cz.muni.pa165.bookingmanager.iface.dto.*;
 import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
@@ -16,6 +18,9 @@ import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -35,20 +40,13 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = { "/application-context.xml" } )
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ReservationFacadeTest {
-
     @Inject
+    private ApplicationContext ctx;
+
     private ReservationFacade rf;
 
-    @Inject
-    private ReservationDao reservationDao;
-    @Inject
-    private UserDao userDao;
-    @Inject
-    private RoomDao roomDao;
-    @Inject
-    private HotelDao hotelDao;
-    @Inject
-    private Mapper mapper;
+    @Mock
+    private ReservationService rs;
 
     private UserDto user;
     private HotelDto hotel;
@@ -57,8 +55,8 @@ public class ReservationFacadeTest {
 
     @Before
     public void init(){
-        reservationDao.deleteAll();
-        assertEquals(0,reservationDao.count());
+        MockitoAnnotations.initMocks(this);
+        rf = new ReservationFacadeImpl(rs, ctx.getBean(Mapper.class));
 
         user = new UserDto();
         user.setAdmin(false);
@@ -70,7 +68,6 @@ public class ReservationFacadeTest {
         user.setBirthDate(Date.valueOf("1998-05-09"));
         user.setPasswordSalt(new byte[]{0x3f, 0x5e, 0x1a});
         user.setPasswordHash(new byte[]{0x66, 0x78, (byte) 0x9c});
-        userDao.save(mapper.map(user, UserEntity.class));
 
         hotel = new HotelDto();
         hotel.setEmail("hotel@mail.com");
@@ -80,7 +77,6 @@ public class ReservationFacadeTest {
         hotel.setStreet("Barstreet");
         hotel.setName("Foobar Hotel");
         hotel.setId(1L);
-        hotelDao.save(mapper.map(hotel, HotelEntity.class));
 
         room = new RoomDto();
         room.setBedCount(4);
@@ -88,7 +84,6 @@ public class ReservationFacadeTest {
         room.setId(1L);
         room.setPrice(new BigDecimal("10.24"));
         room.setName("A32");
-        roomDao.save(mapper.map(room, RoomEntity.class));
 
     }
 
@@ -178,7 +173,7 @@ public class ReservationFacadeTest {
         List<ReservationDto> rl = new ArrayList<>();
         rl.add(r1);rl.add(r2);
 
-        PageInfo i = new PageInfo(1, 10);
+        PageInfo i = new PageInfo(0, 10);
         PageResult<ReservationDto> a = new PageResult<>();
         a.setPageCount(1);
         a.setPageNumber(i.getPageNumber());
@@ -210,7 +205,7 @@ public class ReservationFacadeTest {
         List<ReservationDto> rl = new ArrayList<>();
         rl.add(r1);
 
-        PageInfo i = new PageInfo(1, 10);
+        PageInfo i = new PageInfo(0, 10);
         PageResult<ReservationDto> a = new PageResult<>();
         a.setPageCount(1);
         a.setPageNumber(i.getPageNumber());

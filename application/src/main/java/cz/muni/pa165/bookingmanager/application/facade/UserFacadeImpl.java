@@ -21,12 +21,14 @@ import java.util.stream.Collectors;
  * @author Matej Harcar, 422714
  */
 public class UserFacadeImpl implements UserFacade{
-
-    @Inject
     private UserService userService;
+    private Mapper mapper;
 
     @Inject
-    private Mapper mapper;
+    public UserFacadeImpl(UserService userService, Mapper mapper) {
+        this.userService = userService;
+        this.mapper = mapper;
+    }
 
     @Override
     @Transactional(readOnly = true)
