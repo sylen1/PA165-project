@@ -22,7 +22,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 /**
- * Tests for implementation of ReservationFacade
+ * Tests for implementation of UserFacade
  * @author Mojmír Odehnal, 374422
  */
 @ContextConfiguration(locations = { "/application-context.xml" } )

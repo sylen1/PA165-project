@@ -43,7 +43,7 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.inject.Inject;
 
 /**
- * Tests for implementation of ReservationService
+ * Tests for implementation of UserService
  * @author Mojmír Odehnal, 374422
  */
 @ContextConfiguration(locations = { "/application-context.xml" } )
