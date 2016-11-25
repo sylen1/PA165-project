@@ -84,6 +84,7 @@ public class RoomEntity  {
         this.hotel = hotel;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,15 +92,15 @@ public class RoomEntity  {
 
         RoomEntity that = (RoomEntity) o;
 
-        if (!getName().equals(that.getName())) return false;
-        return true;
+        if (!name.equals(that.name)) return false;
+        return hotel.equals(that.hotel);
 
     }
 
     @Override
     public int hashCode() {
-        int result = getName().hashCode();
-        result = 31 * result + getHotel().hashCode();
+        int result = name.hashCode();
+        result = 31 * result + hotel.hashCode();
         return result;
     }
 

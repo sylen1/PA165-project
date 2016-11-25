@@ -101,14 +101,7 @@ public class RoomFacadeTest {
 
         roomFacade = new RoomFacadeImpl(roomService, context.getBean(Mapper.class));
     }
-    @Test
-    public void simpleMappingTest() {
-        RoomEntity roomEntity =  mapper.map(createRoom("rum 1"), RoomEntity.class);
-        RoomDto roomDto = createRoom("rum 1");
 
-        assertEquals(roomDto, mapper.map(roomEntity, RoomDto.class));
-
-    }
     @Test
     public void findAllTest() {
         PageResult<RoomDto> actual = roomFacade.findAll(new PageInfo(0, 10));
