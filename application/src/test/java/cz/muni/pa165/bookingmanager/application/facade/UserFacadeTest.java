@@ -8,6 +8,8 @@ import cz.muni.pa165.bookingmanager.iface.facade.UserFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -128,13 +130,14 @@ public class UserFacadeTest {
 
         UserEntity u1entity = mapper.map(u1, UserEntity.class);
 
-        when(userServiceMock.registerUser(u1entity, "password")).then(new Answer<Boolean>() {
-            public Boolean answer(InvocationOnMock invocation) throws Throwable {
+        when(userServiceMock.registerUser(u1entity, "password")).then(new Answer<Pair<UserEntity,String>>() {
+            public Pair<UserEntity,String> answer(InvocationOnMock invocation) throws Throwable {
                 UserEntity u = (UserEntity) invocation.getArguments()[0];
                 u.setId(1L);
                 u.setPasswordHash(dummyhash1);
                 u.setPasswordSalt(dummysalt1);
-                return true;
+                String x = Integer.toHexString(u.hashCode());
+                return new ImmutablePair<UserEntity, String>(u,x);
             }
         });
 
