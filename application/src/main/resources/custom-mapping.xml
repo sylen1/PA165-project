@@ -25,13 +25,5 @@
         </field>
     </mapping>
 
-    <mapping>
-        <class-a>cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity</class-a>
-        <class-b>cz.muni.pa165.bookingmanager.iface.dto.RoomDto</class-b>
-        <field>
-            <a get-method="getHotel">hotel.id</a>
-            <b>hotelId</b>
-        </field>
-    </mapping>
 
 </mappings>

@@ -75,7 +75,7 @@ public class ReservationDaoTest {
         r.setName("A1");
         r.setPrice(new BigDecimal("11.53"));
         r.setDescription("Example room");
-        r.setHotel(h);
+        r.setHotelId(1L);
         r = roomDao.save(r);
 
         // init example customer
@@ -298,7 +298,7 @@ public class ReservationDaoTest {
         r2.setBedCount(3);
         r2.setDescription("r2 desc");
         r2.setName("A2");
-        r2.setHotel(h);
+        r2.setHotelId(1L);
         r2.setPrice(new BigDecimal("10"));
         r2 = roomDao.save(r2);
         Set<RoomEntity> roomset = h.getRooms();
@@ -326,7 +326,7 @@ public class ReservationDaoTest {
         r2.setBedCount(3);
         r2.setDescription("r2 desc");
         r2.setName("A2");
-        r2.setHotel(h);
+        r2.setHotelId(1L);
         r2.setPrice(new BigDecimal("10"));
         r2 = roomDao.save(r2);
 

@@ -173,7 +173,7 @@ public class HotelDaoTest {
             room.setName("Room" + i);
             room.setPrice(BigDecimal.TEN);
             room.setBedCount(2);
-            room.setHotel(hotel);
+            room.setHotelId(1L);
 
             rooms.add(room);
         }

@@ -2,7 +2,6 @@ package cz.muni.pa165.bookingmanager.persistence.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Set;
 
 /**
  * RoomEntity is representation of room in a hotel building. Room name is unique ONLY in one hotel.
@@ -28,12 +27,20 @@ public class RoomEntity  {
     @Column
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "hotel_id")
-    private HotelEntity hotel;
+    @Column(nullable=false)
+    private Long hotelId;
+
 
     public RoomEntity() {
-        hotel = new HotelEntity();
+
+    }
+
+    public Long getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(Long hotelId) {
+        this.hotelId = hotelId;
     }
 
     public Long getId() {
@@ -76,31 +83,23 @@ public class RoomEntity  {
         this.description = description;
     }
 
-    public HotelEntity getHotel() {
-        return hotel;
-    }
-
-    public void setHotel(HotelEntity hotel) {
-        this.hotel = hotel;
-    }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RoomEntity)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         RoomEntity that = (RoomEntity) o;
 
         if (!name.equals(that.name)) return false;
-        return hotel.getId().equals(that.hotel.getId());
+        return hotelId.equals(that.hotelId);
 
     }
 
     @Override
     public int hashCode() {
         int result = name.hashCode();
-        result = 31 * result + hotel.hashCode();
+        result = 31 * result + hotelId.hashCode();
         return result;
     }
 
@@ -112,7 +111,7 @@ public class RoomEntity  {
                 ", price=" + price +
                 ", bedCount=" + bedCount +
                 ", description='" + description + '\'' +
-                ", hotel=" + hotel +
+                ", hotelId=" + hotelId +
                 '}';
     }
 }

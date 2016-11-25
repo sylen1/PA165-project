@@ -122,7 +122,7 @@ public class RoomDaoTest {
         updatedRoom.setId(originalRoom.getId());
         updatedRoom.setName(originalRoom.getName());
         updatedRoom.setPrice(originalRoom.getPrice());
-        updatedRoom.setHotel(originalRoom.getHotel());
+        updatedRoom.setHotelId(originalRoom.getHotelId());
         updatedRoom.setBedCount(originalRoom.getBedCount());
         updatedRoom.setDescription(originalRoom.getDescription() + "UPDATED");
 
@@ -146,7 +146,7 @@ public class RoomDaoTest {
         room.setName("name" + roomCounter);
         room.setBedCount(2);
         room.setDescription("Room description " + roomCounter);
-        room.setHotel(null);
+        room.setHotelId(1L);
         room.setPrice(BigDecimal.TEN.add(BigDecimal.valueOf(roomCounter)));
 
         roomCounter++;

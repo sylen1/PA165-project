@@ -189,7 +189,7 @@ public class RoomServiceTest {
             roomEntity.setPrice(new BigDecimal(roomEntity.getDescription().length() * 100));
             HotelEntity hotelEntity = new HotelEntity();
             hotelEntity.setId(1L);
-            roomEntity.setHotel(hotelEntity);
+            roomEntity.setHotelId(1L);
             return roomEntity;
         }
 }

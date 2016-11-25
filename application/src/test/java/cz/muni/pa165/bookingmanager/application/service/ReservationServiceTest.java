@@ -1,6 +1,5 @@
 package cz.muni.pa165.bookingmanager.application.service;
 
-import cz.muni.pa165.bookingmanager.application.service.ReservationServiceImpl;
 import cz.muni.pa165.bookingmanager.application.service.iface.ReservationService;
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationState;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
@@ -95,7 +94,7 @@ public class ReservationServiceTest {
         room.setName("Room 101");
         room.setPrice(new BigDecimal("15.36"));
         room.setId(1L);
-        room.setHotel(hotel);
+        room.setHotelId(1L);
         roomset.add(room);
         hotel.setRooms(roomset);
 
