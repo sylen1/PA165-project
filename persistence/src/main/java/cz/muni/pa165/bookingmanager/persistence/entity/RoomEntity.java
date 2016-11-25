@@ -83,23 +83,22 @@ public class RoomEntity  {
         this.description = description;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof RoomEntity)) return false;
 
         RoomEntity that = (RoomEntity) o;
 
-        if (!name.equals(that.name)) return false;
-        return hotelId.equals(that.hotelId);
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        return getHotelId() != null ? getHotelId().equals(that.getHotelId()) : that.getHotelId() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + hotelId.hashCode();
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getHotelId() != null ? getHotelId().hashCode() : 0);
         return result;
     }
 
