@@ -33,16 +33,10 @@ public class HotelDaoTest {
 
     @Before
     public void clean() {
+        roomDao.deleteAll();
         hotelDao.deleteAll();
         assertEquals(0, hotelDao.count());
     }
-
-    @After
-    public void prepare() {
-        hotelDao.deleteAll();
-        assertEquals(0, hotelDao.count());
-    }
-
 
     @Test
     public void createHotelTest() {
@@ -61,7 +55,7 @@ public class HotelDaoTest {
     @Test
     public void createHotelWithRoomsTest(){
         HotelEntity hotel = getSomeHotels(1).get(0);
-        hotelDao.save(hotel);
+        hotel = hotelDao.save(hotel);
 
         Set<RoomEntity> rooms = getSomeRooms(5, hotel);
         roomDao.save(rooms);
@@ -173,7 +167,7 @@ public class HotelDaoTest {
             room.setName("Room" + i);
             room.setPrice(BigDecimal.TEN);
             room.setBedCount(2);
-            room.setHotelId(1L);
+            room.setHotelId(hotel.getId());
 
             rooms.add(room);
         }

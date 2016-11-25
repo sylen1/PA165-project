@@ -1,5 +1,6 @@
 package cz.muni.pa165.bookingmanager.persistence.dao;
 
+import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,14 +28,30 @@ public class RoomDaoTest {
     private static final Logger LOG = LoggerFactory.getLogger(RoomDaoTest.class);
 
     private int roomCounter;
+    private HotelEntity hotel;
 
     @Inject
     private RoomDao roomDao;
+
+    @Inject
+    private HotelDao hotelDao;
 
     @Before
     public void clearDb(){
         roomDao.deleteAll();
         assertEquals(0, roomDao.count());
+        hotelDao.deleteAll();
+        assertEquals(0, hotelDao.count());
+
+        hotel = new HotelEntity();
+        hotel.setName("hotel name");
+        hotel.setCity("Brno");
+        hotel.setPhoneNumber("12345678");
+        hotel.setEmail("hotel@email.com");
+        hotel.setStreet("dunno");
+        hotel.setStreetNumber("a12");
+        hotel = hotelDao.save(hotel);
+        assertEquals(1, hotelDao.count());
     }
 
     @Test
@@ -146,7 +163,7 @@ public class RoomDaoTest {
         room.setName("name" + roomCounter);
         room.setBedCount(2);
         room.setDescription("Room description " + roomCounter);
-        room.setHotelId(1L);
+        room.setHotelId(hotel.getId());
         room.setPrice(BigDecimal.TEN.add(BigDecimal.valueOf(roomCounter)));
 
         roomCounter++;

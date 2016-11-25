@@ -27,7 +27,7 @@ public class RoomEntity  {
     @Column
     private String description;
 
-    @Column(nullable=false)
+    @Column(name = "hotel_id", nullable = false, updatable = false)
     private Long hotelId;
 
 

@@ -54,10 +54,10 @@ public class ReservationDaoTest {
         roomDao.deleteAll();
         userDao.deleteAll();
         hotelDao.deleteAll();
-        assertEquals(0,reservationDao.count());
-        assertEquals(0,roomDao.count());
+        assertEquals(0, reservationDao.count());
+        assertEquals(0, roomDao.count());
         assertEquals(0, userDao.count());
-        assertEquals(0,hotelDao.count());
+        assertEquals(0, hotelDao.count());
 
         // init example hotel
         h.setName("ZX");
@@ -75,7 +75,7 @@ public class ReservationDaoTest {
         r.setName("A1");
         r.setPrice(new BigDecimal("11.53"));
         r.setDescription("Example room");
-        r.setHotelId(1L);
+        r.setHotelId(h.getId());
         r = roomDao.save(r);
 
         // init example customer
@@ -100,8 +100,8 @@ public class ReservationDaoTest {
     public void clear(){
         reservationDao.deleteAll();
         userDao.deleteAll();
-        hotelDao.deleteAll();
         roomDao.deleteAll();
+        hotelDao.deleteAll();
         counter = 0;
     }
 
@@ -298,7 +298,7 @@ public class ReservationDaoTest {
         r2.setBedCount(3);
         r2.setDescription("r2 desc");
         r2.setName("A2");
-        r2.setHotelId(1L);
+        r2.setHotelId(h.getId());
         r2.setPrice(new BigDecimal("10"));
         r2 = roomDao.save(r2);
         Set<RoomEntity> roomset = h.getRooms();
@@ -326,7 +326,7 @@ public class ReservationDaoTest {
         r2.setBedCount(3);
         r2.setDescription("r2 desc");
         r2.setName("A2");
-        r2.setHotelId(1L);
+        r2.setHotelId(h.getId());
         r2.setPrice(new BigDecimal("10"));
         r2 = roomDao.save(r2);
 
