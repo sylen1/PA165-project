@@ -82,17 +82,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         return mapPageToPageResult(page);
     }
-
-
-//    Rozmyslal som nad netrivialnou business logikou, a napadlo ma statistiky hotela - majtel hotela si bude moct pozriet
-//    ktore izby sa najviac vyuzivaju, kolko tam priemerne ludia stravia casu, kolko $$ zarobil za posledny tyzden/mesiac/rok atd
-//            Příjmy za období
-//        Kolik místností z kolika (resp. procenta) je průměrně zarezervováno
-//        Jak dlouhá je průměrná rezervace
-
-    /**
-     * The date interval is inclusive
-     */
+    
     public HotelStatistics gatherHotelStatistics(Long hotelId, Date intervalStart, Date intervalEnd) {
         if(intervalEnd.before(intervalStart)) {
             throw new IllegalArgumentException("intervalEnd can not be before intervalStart");
