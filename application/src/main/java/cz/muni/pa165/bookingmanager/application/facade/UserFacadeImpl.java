@@ -54,7 +54,6 @@ public class UserFacadeImpl implements UserFacade{
     public Pair<UserDto,String> registerUser(UserDto user, String passwd) {
         UserEntity entity = this.userDtoToEntity(user);
         Pair<UserEntity,String> x = userService.registerUser(entity,passwd);
-        if(x == null) return null;
         user.setId(entity.getId());
         user.setPasswordHash(entity.getPasswordHash());
         user.setPasswordSalt(entity.getPasswordSalt());

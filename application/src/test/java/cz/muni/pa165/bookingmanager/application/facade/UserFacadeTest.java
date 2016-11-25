@@ -138,7 +138,8 @@ public class UserFacadeTest {
             }
         });
 
-        assertTrue(userFacade.registerUser(u1, "password") != null);
+
+        assertNotNull(userFacade.registerUser(u1, "password"));
 
         assertNotNull(u1.getId());
         assertNotNull(u1.getPasswordHash());

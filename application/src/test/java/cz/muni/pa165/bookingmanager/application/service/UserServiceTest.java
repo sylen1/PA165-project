@@ -248,7 +248,7 @@ public class UserServiceTest {
         admin.setAddress("Address 1");
         admin.setEmail("mail1@mail.mail");
         admin.setPhoneNumber("123456");
-        admin.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
+        admin.setDatabaseAccountState(DatabaseAccountState.ADMIN);
         admin.setPasswordHash(dummyhash1);
         admin.setPasswordSalt(dummysalt1);
         admin.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
