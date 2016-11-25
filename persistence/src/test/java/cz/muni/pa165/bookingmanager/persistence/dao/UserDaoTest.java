@@ -1,5 +1,6 @@
 package cz.muni.pa165.bookingmanager.persistence.dao;
 
+import cz.muni.pa165.bookingmanager.persistence.entity.DatabaseAccountState;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import java.sql.Date;
 import java.util.List;
@@ -43,7 +44,7 @@ public class UserDaoTest {
         c1.setAddress("Address 1");
         c1.setEmail("mail1@mail.mail");
         c1.setPhoneNumber("123456");
-        c1.setAdmin(false);
+        c1.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c1.setPasswordHash(dummyhash1);
         c1.setPasswordSalt(dummysalt1);
         c1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
@@ -53,7 +54,7 @@ public class UserDaoTest {
         c2.setName("Customer number 2");
         c2.setAddress("Address 2");
         c2.setEmail("mail2@mail.mail");
-        c2.setAdmin(false);
+        c2.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c2.setPasswordHash(dummyhash2);
         c2.setPasswordSalt(dummysalt2);
         c2.setPhoneNumber("654321");
@@ -71,7 +72,7 @@ public class UserDaoTest {
         c1check.setPhoneNumber("123456");
         c1.setPasswordHash(dummyhash1);
         c1.setPasswordSalt(dummysalt1);
-        c1check.setAdmin(false);
+        c1check.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c1check.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
         
         UserEntity c2check = new UserEntity();
@@ -81,7 +82,7 @@ public class UserDaoTest {
         c2check.setPhoneNumber("654321");
         c2.setPasswordHash(dummyhash2);
         c2.setPasswordSalt(dummysalt2);
-        c2check.setAdmin(false);
+        c2check.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c2check.setBirthDate(new Date(Date.valueOf("1985-08-20").getTime()));
 
         assertTrue(storedCustomers.contains(c1check));
@@ -100,7 +101,7 @@ public class UserDaoTest {
         c.setPhoneNumber("123456");
         c.setPasswordHash(dummyhash2);
         c.setPasswordSalt(dummysalt2);
-        c.setAdmin(false);
+        c.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
         userDao.save(c);
     }
@@ -114,7 +115,7 @@ public class UserDaoTest {
         c.setPhoneNumber("123456");
         c.setPasswordHash(dummyhash2);
         c.setPasswordSalt(dummysalt2);
-        c.setAdmin(false);
+        c.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
         userDao.save(c);
     }
@@ -130,7 +131,7 @@ public class UserDaoTest {
         c1.setPhoneNumber("123456");
         c1.setPasswordHash(dummyhash1);
         c1.setPasswordSalt(dummysalt1);
-        c1.setAdmin(false);
+        c1.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
         userDao.save(c1);
         
@@ -141,7 +142,7 @@ public class UserDaoTest {
         c2.setPhoneNumber("654321");
         c2.setPasswordHash(dummyhash2);
         c2.setPasswordSalt(dummysalt2);
-        c2.setAdmin(false);
+        c2.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c2.setBirthDate(new Date(Date.valueOf("1985-08-20").getTime()));
         userDao.save(c2);
     }
@@ -155,7 +156,7 @@ public class UserDaoTest {
         c1.setPasswordHash(dummyhash1);
         c1.setPasswordSalt(dummysalt1);
         c1.setPhoneNumber("123456");
-        c1.setAdmin(false);
+        c1.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
         userDao.save(c1);
         
@@ -166,7 +167,7 @@ public class UserDaoTest {
         c2.setPasswordHash(dummyhash2);
         c2.setPasswordSalt(dummysalt2);
         c2.setPhoneNumber("123456");
-        c2.setAdmin(false);
+        c2.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c2.setBirthDate(new Date(Date.valueOf("1985-08-20").getTime()));
         userDao.save(c2);
     }
@@ -181,7 +182,7 @@ public class UserDaoTest {
         original.setPhoneNumber("123456");
         original.setPasswordHash(dummyhash2);
         original.setPasswordSalt(dummysalt2);
-        original.setAdmin(false);
+        original.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         original.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
         
         assertNull(original.getId());
@@ -218,7 +219,7 @@ public class UserDaoTest {
         c.setPhoneNumber("123456");
         c.setPasswordHash(dummyhash2);
         c.setPasswordSalt(dummysalt2);
-        c.setAdmin(false);
+        c.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
         
         userDao.save(c);
@@ -237,7 +238,7 @@ public class UserDaoTest {
         c1.setPhoneNumber("123456");
         c1.setPasswordHash(dummyhash1);
         c1.setPasswordSalt(dummysalt1);
-        c1.setAdmin(false);
+        c1.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
         c1 = userDao.save(c1);
 
@@ -248,7 +249,7 @@ public class UserDaoTest {
         c2.setPasswordHash(dummyhash2);
         c2.setPasswordSalt(dummysalt2);
         c2.setPhoneNumber("1234567");
-        c2.setAdmin(false);
+        c2.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         c2.setBirthDate(new Date(Date.valueOf("1985-08-20").getTime()));
         userDao.save(c2);
 

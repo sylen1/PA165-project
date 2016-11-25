@@ -9,10 +9,7 @@ import cz.muni.pa165.bookingmanager.persistence.dao.HotelDao;
 import cz.muni.pa165.bookingmanager.persistence.dao.ReservationDao;
 import cz.muni.pa165.bookingmanager.persistence.dao.RoomDao;
 import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
-import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
-import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
-import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
-import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.*;
 import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +64,7 @@ public class ReservationServiceTest {
         rs = new ReservationServiceImpl(reservationDao, ctx.getBean(Mapper.class));
 
         user = new UserEntity();
-        user.setAdmin(false);
+        user.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         user.setBirthDate(Date.valueOf("1975-03-21"));
         user.setPasswordSalt(new byte[]{0x3f, 0x2a, 0x09});
         user.setAddress("Address A, City C, postcode P, country C");

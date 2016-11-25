@@ -21,7 +21,7 @@ public class UserDto {
 
     private byte[] passwordSalt;
 
-    private boolean admin;
+    private AccountState accountState;
 
     public UserDto(){}
 
@@ -89,12 +89,12 @@ public class UserDto {
         this.passwordSalt = passwordSalt;
     }
 
-    public boolean isAdmin() {
-        return admin;
+    public AccountState getAccountState() {
+        return accountState;
     }
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setAccountState(AccountState accountState) {
+        this.accountState = accountState;
     }
 
     @Override

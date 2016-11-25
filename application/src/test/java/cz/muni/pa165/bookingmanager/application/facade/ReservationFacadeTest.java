@@ -53,7 +53,7 @@ public class ReservationFacadeTest {
         rf = new ReservationFacadeImpl(rs, mapper);
 
         user = new UserDto();
-        user.setAdmin(false);
+        user.setAccountState(AccountState.CUSTOMER);
         user.setId(1L);
         user.setEmail("user@mail.com");
         user.setAddress("Asdf 5, 32 768 Qwertyville");

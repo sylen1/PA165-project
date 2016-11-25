@@ -8,6 +8,8 @@ import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.dozer.Mapper;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,13 +51,15 @@ public class UserFacadeImpl implements UserFacade{
 
     @Override
     @Transactional
-    public boolean registerUser(UserDto user, String passwd) {
+    public Pair<UserDto,String> registerUser(UserDto user, String passwd) {
         UserEntity entity = this.userDtoToEntity(user);
-        if(!(userService.registerUser(entity,passwd))) return false;
+        Pair<UserEntity,String> x = userService.registerUser(entity,passwd);
+        if(x == null) return null;
         user.setId(entity.getId());
         user.setPasswordHash(entity.getPasswordHash());
         user.setPasswordSalt(entity.getPasswordSalt());
-        return true;
+        Pair<UserDto,String> rv = new ImmutablePair<>(user,x.getRight());
+        return rv;
     }
 
     @Override
@@ -84,6 +88,18 @@ public class UserFacadeImpl implements UserFacade{
         UserEntity entity = this.userDtoToEntity(user);
         UserEntity updated = userService.updateUser(entity);
         return this.userEntityToDto(updated);
+    }
+
+    @Override
+    public boolean confirmUserRegistration(String email, String token) {
+        Optional<UserEntity> a = userService.findByEmail(email);
+        if(!a.isPresent()) return false;
+        String cmp = Integer.toHexString(a.get().hashCode()).toLowerCase();
+        for(int i=0;i<16384;i++){
+            cmp = Integer.toHexString(cmp.hashCode()).toLowerCase();
+        }
+        cmp = cmp.toLowerCase();
+        return cmp.equals(token);
     }
 
     private UserEntity userDtoToEntity(UserDto dto){

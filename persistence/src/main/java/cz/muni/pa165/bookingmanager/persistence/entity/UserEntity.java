@@ -33,7 +33,7 @@ public class UserEntity {
     private Date birthDate;
 
     @Column(nullable = false)
-    private boolean admin;
+    private DatabaseAccountState databaseAccountState;
 
     @Column(nullable = false)
     private byte[] passwordHash;
@@ -91,12 +91,12 @@ public class UserEntity {
         this.birthDate = birthDate;
     }
 
-    public boolean isAdmin() {
-        return admin;
+    public DatabaseAccountState getDatabaseAccountState() {
+        return databaseAccountState;
     }
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setDatabaseAccountState(DatabaseAccountState databaseAccountState) {
+        this.databaseAccountState = databaseAccountState;
     }
 
     public byte[] getPasswordHash() {

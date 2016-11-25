@@ -6,6 +6,7 @@ import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
+import cz.muni.pa165.bookingmanager.persistence.entity.DatabaseAccountState;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -78,7 +79,7 @@ public class UserServiceTest {
         u1.setAddress("Address 1");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         u1.setPasswordHash(dummyhash1);
         u1.setPasswordSalt(dummysalt1);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
@@ -87,7 +88,7 @@ public class UserServiceTest {
         u2.setName("Customer number 2");
         u2.setAddress("Address 2");
         u2.setEmail("mail2@mail.mail");
-        u2.setAdmin(false);
+        u2.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         u2.setPasswordHash(dummyhash2);
         u2.setPasswordSalt(dummysalt2);
         u2.setPhoneNumber("654321");
@@ -122,7 +123,7 @@ public class UserServiceTest {
         u1.setAddress("Address 1");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         u1.setPasswordHash(dummyhash1);
         u1.setPasswordSalt(dummysalt1);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
@@ -141,7 +142,7 @@ public class UserServiceTest {
         u1.setAddress("Address 1");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
 
         //UserDao userDaoMock = mock(UserDao.class);
@@ -154,7 +155,7 @@ public class UserServiceTest {
         });
 
         //ReflectionTestUtils.setField(userService, "userDao", userDaoMock);
-        assertTrue(userService.registerUser(u1, "password"));
+        assertTrue(userService.registerUser(u1, "password")!=null);
 
         assertNotNull(u1.getId());
         assertNotNull(u1.getPasswordHash());
@@ -174,7 +175,7 @@ public class UserServiceTest {
         u1.setAddress("Address 1");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         u1.setPasswordHash(hash);
         u1.setPasswordSalt(salt);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
@@ -191,7 +192,7 @@ public class UserServiceTest {
         uOrig.setAddress("Address 1");
         uOrig.setEmail("mail1@mail.mail");
         uOrig.setPhoneNumber("123456");
-        uOrig.setAdmin(false);
+        uOrig.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         uOrig.setPasswordHash(dummyhash1);
         uOrig.setPasswordSalt(dummysalt1);
         uOrig.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
@@ -202,7 +203,7 @@ public class UserServiceTest {
         u1.setAddress("Address 2");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         u1.setPasswordHash(dummyhash1);
         u1.setPasswordSalt(dummysalt1);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
@@ -219,7 +220,7 @@ public class UserServiceTest {
         u1.setAddress("Address 1");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         u1.setPasswordHash(dummyhash1);
         u1.setPasswordSalt(dummysalt1);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
@@ -237,7 +238,7 @@ public class UserServiceTest {
         user.setAddress("Address 1");
         user.setEmail("mail1@mail.mail");
         user.setPhoneNumber("123456");
-        user.setAdmin(false);
+        user.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         user.setPasswordHash(dummyhash1);
         user.setPasswordSalt(dummysalt1);
         user.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
@@ -247,7 +248,7 @@ public class UserServiceTest {
         admin.setAddress("Address 1");
         admin.setEmail("mail1@mail.mail");
         admin.setPhoneNumber("123456");
-        admin.setAdmin(true);
+        admin.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
         admin.setPasswordHash(dummyhash1);
         admin.setPasswordSalt(dummysalt1);
         admin.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));

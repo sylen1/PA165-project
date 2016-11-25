@@ -1,6 +1,7 @@
 package cz.muni.pa165.bookingmanager.application.facade;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
+import cz.muni.pa165.bookingmanager.iface.dto.AccountState;
 import cz.muni.pa165.bookingmanager.iface.dto.UserDto;
 import cz.muni.pa165.bookingmanager.iface.dto.UserLoginDto;
 import cz.muni.pa165.bookingmanager.iface.facade.UserFacade;
@@ -79,7 +80,7 @@ public class UserFacadeTest {
         u1.setAddress("Address 1");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setAccountState(AccountState.CUSTOMER);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
 
         UserDto u2 = new UserDto();
@@ -87,7 +88,7 @@ public class UserFacadeTest {
         u2.setName("Customer number 2");
         u2.setAddress("Address 2");
         u2.setEmail("mail2@mail.mail");
-        u2.setAdmin(false);
+        u2.setAccountState(AccountState.CUSTOMER);
         u2.setPhoneNumber("654321");
         u2.setBirthDate(new Date(Date.valueOf("1985-08-20").getTime()));
 
@@ -122,7 +123,7 @@ public class UserFacadeTest {
         u1.setAddress("Address 1");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setAccountState(AccountState.CUSTOMER);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
 
         UserEntity u1entity = mapper.map(u1, UserEntity.class);
@@ -137,7 +138,7 @@ public class UserFacadeTest {
             }
         });
 
-        assertTrue(userFacade.registerUser(u1, "password"));
+        assertTrue(userFacade.registerUser(u1, "password") != null);
 
         assertNotNull(u1.getId());
         assertNotNull(u1.getPasswordHash());
@@ -151,7 +152,7 @@ public class UserFacadeTest {
         u1.setAddress("Address 1");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setAccountState(AccountState.CUSTOMER);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
 
         UserEntity u1entity = mapper.map(u1, UserEntity.class);
@@ -170,7 +171,7 @@ public class UserFacadeTest {
         u1.setAddress("Address 1");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setAccountState(AccountState.CUSTOMER);
         u1.setPasswordHash(dummyhash1);
         u1.setPasswordSalt(dummysalt1);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
@@ -199,7 +200,7 @@ public class UserFacadeTest {
         u1.setAddress("Address 1");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setAccountState(AccountState.CUSTOMER);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
 
         UserEntity u1entity = mapper.map(u1, UserEntity.class);
@@ -218,7 +219,7 @@ public class UserFacadeTest {
         u1.setAddress("Address 1");
         u1.setEmail("mail1@mail.mail");
         u1.setPhoneNumber("123456");
-        u1.setAdmin(false);
+        u1.setAccountState(AccountState.CUSTOMER);
         u1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
 
         userFacade.updateUser(u1);
@@ -232,7 +233,7 @@ public class UserFacadeTest {
         user.setAddress("Address 1");
         user.setEmail("mail1@mail.mail");
         user.setPhoneNumber("123456");
-        user.setAdmin(false);
+        user.setAccountState(AccountState.CUSTOMER);
         user.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
 
         UserDto admin = new UserDto();
@@ -240,7 +241,7 @@ public class UserFacadeTest {
         admin.setAddress("Address 2");
         admin.setEmail("admin@mail.mail");
         admin.setPhoneNumber("654321");
-        admin.setAdmin(true);
+        admin.setAccountState(AccountState.ADMIN);
         admin.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
 
         UserEntity userEntity = mapper.map(user, UserEntity.class);

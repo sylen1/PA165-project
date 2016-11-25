@@ -4,6 +4,7 @@ package cz.muni.pa165.bookingmanager.application.service.iface;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public interface UserService extends PageableService<UserEntity> {
      * @param passwd plain-text password chosen by user
      * @return True on success, false on failure(eg. email already registered)
      */
-    public boolean registerUser(UserEntity user, String passwd);
+    public Pair<UserEntity,String> registerUser(UserEntity user, String passwd);
 
     /**
      * Checks whether given user is an admin

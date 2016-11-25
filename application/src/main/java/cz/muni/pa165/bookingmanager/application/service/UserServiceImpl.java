@@ -1,20 +1,20 @@
 package cz.muni.pa165.bookingmanager.application.service;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
-import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
-import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.DatabaseAccountState;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dozer.Mapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.dozer.Mapper;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -22,7 +22,6 @@ import javax.inject.Inject;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -63,24 +62,30 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean registerUser(UserEntity user, String passwd) {
+    public Pair<UserEntity, String> registerUser(UserEntity user, String passwd) {
         Pair<byte[],byte[]> hashSalt;
         try {
             hashSalt = makeHashAndSalt(passwd);
         } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
             LOG.warn(e);
-            return false;
+            return null;
         }
         user.setPasswordHash(hashSalt.getKey());
         user.setPasswordSalt(hashSalt.getValue());
 
-        userDao.save(user);
-        return true;
+        user = userDao.save(user);
+        String rv2 = Integer.toHexString(user.hashCode()).toLowerCase();
+        for(int i = 0; i<16384;i++){
+            rv2 = Integer.toHexString(rv2.hashCode()).toLowerCase();
+        }
+        rv2 = rv2.toLowerCase();
+        Pair<UserEntity,String> rv = new ImmutablePair<>(user,rv2);
+        return rv;
     }
 
     @Override
     public boolean isAdmin(UserEntity user) {
-        return userDao.findByEmail(user.getEmail()).isAdmin();
+        return userDao.findByEmail(user.getEmail()).getDatabaseAccountState().equals(DatabaseAccountState.ADMIN);
     }
 
     @Override
