@@ -16,11 +16,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class HotelFacadeImpl implements HotelFacade {
-    @Inject
     private HotelService hotelService;
+    private Mapper mapper;
 
     @Inject
-    private Mapper mapper;
+    public HotelFacadeImpl(HotelService hotelService, Mapper mapper) {
+        this.hotelService = hotelService;
+        this.mapper = mapper;
+    }
 
     @Override
     @Transactional
