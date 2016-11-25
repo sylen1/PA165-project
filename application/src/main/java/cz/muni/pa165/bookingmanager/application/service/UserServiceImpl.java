@@ -4,6 +4,7 @@ import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
+import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
@@ -50,7 +51,9 @@ public class UserServiceImpl implements UserService{
     public PageResult<UserEntity> findAll(PageInfo pageInfo) {
         Pageable pagerq = new PageRequest(pageInfo.getPageNumber(),pageInfo.getPageSize());
         Page<UserEntity> findResult = userDao.findAll(pagerq);
-        PageResult rv = mapper.map(findResult,PageResult.class);
+        PageResult<UserEntity> rv = new PageResult<>();
+        mapper.map(findResult,rv);
+        rv.setEntries(findResult.getContent());
         return rv;
     }
 

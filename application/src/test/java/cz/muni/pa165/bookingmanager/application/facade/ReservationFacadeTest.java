@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -42,8 +43,6 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(locations = { "/application-context.xml" } )
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ReservationFacadeTest {
-    @Inject
-    private ApplicationContext ctx;
 
     private ReservationFacade rf;
 
@@ -53,12 +52,14 @@ public class ReservationFacadeTest {
     private UserDto user;
     private HotelDto hotel;
     private RoomDto room;
+
+
+    @Inject
     private Mapper mapper;
 
     @Before
     public void init(){
         MockitoAnnotations.initMocks(this);
-        mapper = ctx.getBean(Mapper.class);
         rf = new ReservationFacadeImpl(rs, mapper);
 
         user = new UserDto();
@@ -87,7 +88,7 @@ public class ReservationFacadeTest {
         room.setId(1L);
         room.setPrice(new BigDecimal("10.24"));
         room.setName("A32");
-        room.setHotelId(hotel.getId());
+        room.setHotel(hotel);
 
     }
 
@@ -97,8 +98,8 @@ public class ReservationFacadeTest {
         r1.setCustomer(user);
         r1.setRoom(room);
         r1.setState(ReservationState.NEW);
-        r1.setStartDate(Date.valueOf("2016-07-25"));
-        r1.setEndDate(Date.valueOf("2016-08-15"));
+        r1.setStartDate(new java.util.Date(java.sql.Date.valueOf("2016-07-25").getTime()));
+        r1.setEndDate(new java.util.Date(java.sql.Date.valueOf("2016-08-15").getTime()));
         ReservationEntity r1e = mapper.map(r1,ReservationEntity.class);
         when(rs.createReservation(r1e)).thenReturn(giveR9nId(r1e));
         r1 = rf.createReservation(r1);
@@ -110,17 +111,6 @@ public class ReservationFacadeTest {
         assertEquals(Date.valueOf("2016-08-15"),r1.getEndDate());
     }
 
-    private ReservationEntity giveR9nId(ReservationEntity re) {
-        ReservationEntity rv = new ReservationEntity();
-        rv.setCustomer(re.getCustomer());
-        rv.setEndDate(re.getEndDate());
-        rv.setRoom(re.getRoom());
-        rv.setState(re.getState());
-        rv.setStartDate(re.getStartDate());
-        rv.setId(1L);
-        return rv;
-    }
-
     @Test
     public void updateReservationTest(){
         ReservationDto r1 = new ReservationDto();
@@ -129,14 +119,19 @@ public class ReservationFacadeTest {
         r1.setState(ReservationState.NEW);
         r1.setStartDate(Date.valueOf("2016-07-25"));
         r1.setEndDate(Date.valueOf("2016-08-15"));
+        ReservationEntity r1e = mapper.map(r1,ReservationEntity.class);
+        when(rs.createReservation(r1e)).thenReturn(giveR9nId(r1e));
         r1 = rf.createReservation(r1);
+        r1e.setId(r1.getId());
 
         Long id = r1.getId();
         r1.setEndDate(Date.valueOf("2016-08-13"));
+        when(rs.updateReservation(r1e)).thenReturn(changeR9n(r1e));
         r1 = rf.updateReservation(r1);
         assertEquals(id,r1.getId());
         assertEquals(Date.valueOf("2016-08-13"),r1.getEndDate());
     }
+
 
     @Test
     public void findByIdTest(){
@@ -146,27 +141,16 @@ public class ReservationFacadeTest {
         r1.setState(ReservationState.NEW);
         r1.setStartDate(Date.valueOf("2016-07-25"));
         r1.setEndDate(Date.valueOf("2016-08-15"));
+        ReservationEntity r1e = mapper.map(r1,ReservationEntity.class);
+        when(rs.createReservation(r1e)).thenReturn(giveR9nId(r1e));
         r1 = rf.createReservation(r1);
+        r1e.setId(r1.getId());
+        when(rs.findById(r1e.getId())).thenReturn(Optional.of(r1e));
         Long id = r1.getId();
 
         Optional<ReservationDto> x = rf.findById(id);
         assertTrue(x.isPresent());
         assertEquals(r1,x.get());
-    }
-
-    @Test
-    public void findByIdNoneTest(){
-        ReservationDto r1 = new ReservationDto();
-        r1.setCustomer(user);
-        r1.setRoom(room);
-        r1.setState(ReservationState.NEW);
-        r1.setStartDate(Date.valueOf("2016-07-25"));
-        r1.setEndDate(Date.valueOf("2016-08-15"));
-        r1 = rf.createReservation(r1);
-        Long id = r1.getId();
-        id += 128;
-        Optional<ReservationDto> x = rf.findById(id);
-        assertFalse(x.isPresent());
     }
 
     @Test
@@ -185,8 +169,14 @@ public class ReservationFacadeTest {
         r2.setStartDate(Date.valueOf("2016-06-05"));
         r2.setEndDate(Date.valueOf("2016-06-10"));
 
+        ReservationEntity r1e = mapper.map(r1,ReservationEntity.class);
+        when(rs.createReservation(r1e)).thenReturn(giveR9nId(r1e));
+        ReservationEntity r2e = mapper.map(r2,ReservationEntity.class);
+        when(rs.createReservation(r2e)).thenReturn(giveR9nId(r2e));
         r1 = rf.createReservation(r1);
         r2 = rf.createReservation(r2);
+        r1e.setId(r1.getId());
+        r2e.setId(r2.getId());
         List<ReservationDto> rl = new ArrayList<>();
         rl.add(r1);rl.add(r2);
 
@@ -198,6 +188,16 @@ public class ReservationFacadeTest {
         a.setTotalEntries(2);
         a.setEntries(rl);
 
+        List<ReservationEntity> rel = new ArrayList<>();
+        rel.add(r1e);rel.add(r2e);
+        PageResult<ReservationEntity> ep = new PageResult<>();
+        ep.setEntries(rel);
+        ep.setPageCount(1);
+        ep.setPageNumber(i.getPageNumber());
+        ep.setPageSize(i.getPageSize());
+        ep.setTotalEntries(2);
+
+        when(rs.findAll(i)).thenReturn(ep);
         PageResult<ReservationDto> x = rf.findAll(i);
         assertEquals(a,x);
     }
@@ -210,7 +210,10 @@ public class ReservationFacadeTest {
         r1.setState(ReservationState.NEW);
         r1.setStartDate(Date.valueOf("2016-07-25"));
         r1.setEndDate(Date.valueOf("2016-08-15"));
+        ReservationEntity r1e = mapper.map(r1,ReservationEntity.class);
+        when(rs.createReservation(r1e)).thenReturn(giveR9nId(r1e));
         r1 = rf.createReservation(r1);
+        r1e.setId(r1.getId());
         ReservationFilter f = new ReservationFilter();
         f.setState(ReservationState.NEW);
         f.setCustomerId(user.getId());
@@ -229,40 +232,27 @@ public class ReservationFacadeTest {
         a.setTotalEntries(1);
         a.setEntries(rl);
 
+        List<ReservationEntity> rle = new ArrayList<>();
+        rle.add(r1e);
+        PageResult<ReservationEntity> ep = new PageResult<>();
+        ep.setEntries(rle);
+        ep.setPageCount(1);
+        ep.setPageNumber(i.getPageNumber());
+        ep.setPageSize(i.getPageSize());
+        ep.setTotalEntries(1);
+
+        when(rs.findFiltered(f,i)).thenReturn(ep);
         PageResult<ReservationDto> x = rf.findFiltered(f,i);
         assertEquals(a,x);
     }
 
-    @Test
-    public void findFilteredNoneTest(){
-        ReservationDto r1 = new ReservationDto();
-        r1.setCustomer(user);
-        r1.setRoom(room);
-        r1.setState(ReservationState.NEW);
-        r1.setStartDate(Date.valueOf("2016-07-25"));
-        r1.setEndDate(Date.valueOf("2016-08-15"));
-        r1 = rf.createReservation(r1);
-        ReservationFilter f = new ReservationFilter();
-        f.setState(ReservationState.PAID);
-        f.setCustomerId(user.getId());
-        f.setRoomId(room.getId());
-        f.setStartsBefore(Date.valueOf("2016-07-26"));
-        f.setEndsAfter(Date.valueOf("2016-08-13"));
-
-        List<ReservationDto> rl = new ArrayList<>();
-        rl.add(r1);
-
-        PageInfo i = new PageInfo(1, 10);
-        PageResult<ReservationDto> a = new PageResult<>();
-        a.setPageCount(1);
-        a.setPageNumber(i.getPageNumber());
-        a.setPageSize(i.getPageSize());
-        a.setTotalEntries(1);
-        a.setEntries(rl);
-
-        PageResult<ReservationDto> x = rf.findFiltered(f,i);
-        assertNotEquals(a,x);
+    private ReservationEntity giveR9nId(ReservationEntity re) {
+        re.setId(1L);
+        return re;
     }
 
-
+    private ReservationEntity changeR9n(ReservationEntity r1e) {
+        r1e.setEndDate(Date.valueOf("2016-08-13"));
+        return r1e;
+    }
 }

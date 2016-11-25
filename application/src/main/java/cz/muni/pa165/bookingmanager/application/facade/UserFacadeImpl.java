@@ -53,6 +53,8 @@ public class UserFacadeImpl implements UserFacade{
         UserEntity entity = this.userDtoToEntity(user);
         if(!(userService.registerUser(entity,passwd))) return false;
         user.setId(entity.getId());
+        user.setPasswordHash(entity.getPasswordHash());
+        user.setPasswordSalt(entity.getPasswordSalt());
         return true;
     }
 
@@ -69,9 +71,10 @@ public class UserFacadeImpl implements UserFacade{
         List<UserDto> dtoList = entityPage.getEntries()
                 .stream().map(this::userEntityToDto)
                 .collect(Collectors.toList());
-//        return new PageResult<>(dtoList,entityPage.getPageCount()
-//                ,entityPage.getPageInfo());
-        return null;
+        PageResult<UserDto> rv = new PageResult<>();
+        mapper.map(entityPage,rv);
+        rv.setEntries(dtoList);
+        return rv;
     }
 
     @Override

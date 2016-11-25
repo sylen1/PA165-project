@@ -98,7 +98,7 @@ public class UserFacadeTest {
         PageResult<UserDto> expectedPage = new PageResult<>();
         expectedPage.setEntries(testUsersDtos);
         expectedPage.setPageCount(1);
-        expectedPage.setPageNumber(1);
+        expectedPage.setPageNumber(0);
         expectedPage.setTotalEntries(2);
 
         PageInfo pageInfo = new PageInfo(0, 20);

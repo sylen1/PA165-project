@@ -99,7 +99,7 @@ public class UserServiceTest {
         PageResult<UserEntity> testPage = new PageResult<>();
         testPage.setEntries(testUsers);
         testPage.setPageCount(1);
-        testPage.setPageNumber(1);
+        testPage.setPageNumber(0);
         testPage.setTotalEntries(2);
 
         PageRequest pagerq = new PageRequest(pageInfo.getPageNumber(),pageInfo.getPageSize());
