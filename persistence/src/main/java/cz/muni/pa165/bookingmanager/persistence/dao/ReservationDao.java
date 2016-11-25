@@ -57,4 +57,14 @@ public interface ReservationDao extends JpaRepository<ReservationEntity, Long>{
     Long countByOptionalCustomCriteria( @Param("roomId") Long roomId, 
             @Param("customerId") Long customerId, @Param("startsBefore") Date startsBefore,
             @Param("endsAfter") Date endsAfter, @Param("state") String state );
+
+    @Query("SELECT re FROM ReservationEntity re"
+            + " WHERE re.room.id IN (SELECT ro.id FROM HotelEntity h JOIN h.rooms ro WHERE h.id = :hotelId)"
+            + "   AND ("
+            + "     (re.startDate <= :intFrom AND re.endDate >= :intTo)" // is valid through the whole interval
+            + "     OR (re.startDate >= :intFrom AND re.startDate <= :intTo)" // or starts in it (and ends either in or out)
+            + "     OR (re.endDate >= :intFrom AND re.endDate <= :intTo)"  // or ends in it (and starts either in or out)
+            + "   )")
+    List<ReservationEntity> findByHotelIdValidInInterval(@Param("hotelId") Long hotelId,
+            @Param("intFrom") Date validInIntervalFrom, @Param("intTo") Date validInIntervalTo);
 }

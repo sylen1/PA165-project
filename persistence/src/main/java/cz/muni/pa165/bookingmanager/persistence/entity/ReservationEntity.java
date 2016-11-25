@@ -2,6 +2,7 @@ package cz.muni.pa165.bookingmanager.persistence.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  * Entity class for a hotel room reservation
@@ -89,21 +90,21 @@ public class ReservationEntity {
 
         ReservationEntity that = (ReservationEntity) o;
 
-        if (!getRoom().equals(that.getRoom())) return false;
-        if (!getCustomer().equals(that.getCustomer())) return false;
-        if (!getStartDate().equals(that.getStartDate())) return false;
-        if (!getEndDate().equals(that.getEndDate())) return false;
-        return getState().equals(that.getState());
+        if (!Objects.equals(getRoom(), that.getRoom())) return false;
+        if (!Objects.equals(getCustomer(), that.getCustomer())) return false;
+        if (!Objects.equals(getStartDate(),that.getStartDate())) return false;
+        if (!Objects.equals(getEndDate(), that.getEndDate())) return false;
+        return Objects.equals(getState(), that.getState());
 
     }
 
     @Override
     public int hashCode() {
-        int result = getRoom().hashCode();
-        result = 31 * result + getCustomer().hashCode();
-        result = 31 * result + getStartDate().hashCode();
-        result = 31 * result + getEndDate().hashCode();
-        result = 31 * result + getState().hashCode();
+        int result = Objects.hashCode(getRoom());
+        result = 31 * result + Objects.hashCode(getCustomer());
+        result = 31 * result + Objects.hashCode(getStartDate());
+        result = 31 * result + Objects.hashCode(getEndDate());
+        result = 31 * result + Objects.hashCode(getState());
         return result;
     }
 

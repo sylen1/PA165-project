@@ -2,10 +2,14 @@ package cz.muni.pa165.bookingmanager.application.service;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.HotelService;
 import cz.muni.pa165.bookingmanager.iface.dto.HotelDto;
+import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.dao.HotelDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.Validate;
 import org.dozer.Mapper;
 import org.springframework.data.domain.Page;
@@ -15,7 +19,11 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.persistence.ManyToOne;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

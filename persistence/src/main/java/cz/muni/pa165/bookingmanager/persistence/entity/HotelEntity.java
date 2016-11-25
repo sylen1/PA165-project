@@ -1,6 +1,7 @@
 package cz.muni.pa165.bookingmanager.persistence.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -112,19 +113,19 @@ public class HotelEntity {
 
         HotelEntity that = (HotelEntity) o;
 
-        if (!getName().equals(that.getName())) return false;
-        if (!getCity().equals(that.getCity())) return false;
-        if (!getStreet().equals(that.getStreet())) return false;
-        return getStreetNumber().equals(that.getStreetNumber());
+        if (!Objects.equals(getName(), that.getName())) return false;
+        if (!Objects.equals(getCity(), that.getCity())) return false;
+        if (!Objects.equals(getStreet(), that.getStreet())) return false;
+        return Objects.equals(getStreetNumber(), that.getStreetNumber());
 
     }
 
     @Override
     public int hashCode() {
-        int result = getName().hashCode();
-        result = 31 * result + getCity().hashCode();
-        result = 31 * result + getStreet().hashCode();
-        result = 31 * result + getStreetNumber().hashCode();
+        int result = Objects.hashCode(getName());
+        result = 31 * result + Objects.hashCode(getCity());
+        result = 31 * result + Objects.hashCode(getStreet());
+        result = 31 * result + Objects.hashCode(getStreetNumber());
         return result;
     }
 

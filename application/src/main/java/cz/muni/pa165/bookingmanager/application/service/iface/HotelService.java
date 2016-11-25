@@ -1,9 +1,12 @@
 package cz.muni.pa165.bookingmanager.application.service.iface;
 
+import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface HotelService extends PageableService<HotelEntity> {

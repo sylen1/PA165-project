@@ -1,9 +1,12 @@
 package cz.muni.pa165.bookingmanager.application.service.iface;
 
+import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
+
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -54,4 +57,15 @@ public interface ReservationService extends PageableService<ReservationEntity> {
      * @return PageResult instance containing part of the result
      */
     public PageResult<ReservationEntity> findFiltered(ReservationFilter filter, PageInfo pageInfo);
+
+    /**
+     * Assembles instance of HotelStatistics with statistics gathered from database.
+     * Takes into account only completed Reservations, so only those with state PAID or ENDED.
+     *
+     * @param hotelId id of concerned hotel
+     * @param intervalStart inclusive end date of interval for the statistics gathering
+     * @param intervalEnd inclusive end date of interval for the statistics gathering
+     * @return instance of HotelStatistics full of statistics
+     */
+    HotelStatistics gatherHotelStatistics(Long hotelId, Date intervalStart, Date intervalEnd);
 }
