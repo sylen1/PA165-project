@@ -22,7 +22,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -40,7 +42,6 @@ public class RoomServiceTest {
     @PostConstruct
     public void init()
     {
-        roooms = new HashMap<>();
         RoomDao roomDao = mock(RoomDao.class);
 
         when(roomDao.findOne(1L))
@@ -64,6 +65,14 @@ public class RoomServiceTest {
         when(roomDao.findByName(createRoom("not there").getName()))
                 .thenReturn(null);
 
+        RoomEntity update = createRoom("update 1");
+
+        update.setId(69L);
+        update.setName("UpdatedName");
+
+        when(roomDao.save(update)).thenReturn(update);
+
+
 
         List<RoomEntity> roomList = new LinkedList<>();
         roomList.add(createRoom("filtered 1"));
@@ -84,6 +93,16 @@ public class RoomServiceTest {
     }
 
     @Test
+    public void updateRoomTest() {
+        RoomEntity update = createRoom("update 1");
+
+        update.setId(69L);
+        update.setName("UpdatedName");
+
+        assertEquals(update, roomService.updateRoom(update));
+    }
+
+    @Test
     public void findByIdTest()
     {
         Optional<RoomEntity> byId = roomService.findById(1L);
@@ -101,16 +120,16 @@ public class RoomServiceTest {
     @Test
     public void findByNameTest()
     {
-        Optional<RoomEntity> byId = roomService.findByName(createRoom("find room 1").getName());
-        assertTrue(byId.isPresent());
-        assertEquals(createRoom("find room 1"), byId.get());
+        Optional<RoomEntity> byName = roomService.findByName(createRoom("find room 1").getName());
+        assertTrue(byName.isPresent());
+        assertEquals(createRoom("find room 1"), byName.get());
 
-        byId = roomService.findByName(createRoom("find room 2").getName());
-        assertTrue(byId.isPresent());
-        assertEquals(createRoom("find room 2"), byId.get());
+        byName = roomService.findByName(createRoom("find room 2").getName());
+        assertTrue(byName.isPresent());
+        assertEquals(createRoom("find room 2"), byName.get());
 
-        byId = roomService.findByName(createRoom("not there").getName());
-        assertFalse(byId.isPresent());
+        byName = roomService.findByName(createRoom("not there").getName());
+        assertFalse(byName.isPresent());
     }
 
     @Test
@@ -161,15 +180,12 @@ public class RoomServiceTest {
     }
 
     private RoomEntity createRoom(String key){
-        if(!roooms.containsKey(key)){
+
             RoomEntity roomEntity = new RoomEntity();
             roomEntity.setName("A222_" + key);
             roomEntity.setBedCount(key.length());
             roomEntity.setDescription("Description of: " + roomEntity.getName());
-            roomEntity.setPrice(new BigDecimal(roomEntity.getDescription().length()*100));
-            roooms.put(key, roomEntity);
+            roomEntity.setPrice(new BigDecimal(roomEntity.getDescription().length() * 100));
+            return roomEntity;
         }
-        return roooms.get(key);
-    }
-    private Map<String, RoomEntity> roooms;
 }

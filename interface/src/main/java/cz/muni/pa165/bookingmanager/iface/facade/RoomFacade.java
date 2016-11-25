@@ -7,7 +7,7 @@ import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 
 import java.util.Optional;
 
-public interface RoomFacade {
+public interface RoomFacade extends PageableFacade<RoomDto> {
     /**
      * Lists all rooms
      * @param pageInfo page info

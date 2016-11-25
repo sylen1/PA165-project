@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @author Gasior
+ */
 public class RoomFacadeImpl implements RoomFacade {
 
     private RoomService roomService;
@@ -27,11 +30,13 @@ public class RoomFacadeImpl implements RoomFacade {
         this.mapper = mapper;
     }
 
+    @Override
     @Transactional(readOnly = true)
     public PageResult<RoomDto> findAll(PageInfo pageInfo) {
         return convertAll(roomService.findAll(pageInfo));
     }
 
+    @Override
     @Transactional
     public RoomDto registerRoom(RoomDto roomDto) {
 
@@ -41,6 +46,7 @@ public class RoomFacadeImpl implements RoomFacade {
         return mapper.map(saved, RoomDto.class);
     }
 
+    @Override
     @Transactional
     public RoomDto updateRoom(RoomDto roomDto) {
 
@@ -50,19 +56,35 @@ public class RoomFacadeImpl implements RoomFacade {
         return mapper.map(updated, RoomDto.class);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public Optional<RoomDto> findByName(String name) {
-        return roomService.findByName(name)
-                .map(x -> mapper.map(x, RoomDto.class));
+        Optional<RoomEntity> roomEntity = roomService.findByName(name);
+        if (roomEntity.isPresent()) {
+            return roomEntity.map(x -> mapper.map(x, RoomDto.class));
+        }
+        else {
+            RoomDto nullable = null;
+            return Optional.ofNullable(nullable);
+        }
     }
 
+    @Override
     @Transactional(readOnly = true)
     public Optional<RoomDto> findById(Long id)
     {
-       return roomService.findById(id)
-               .map(x -> mapper.map(x, RoomDto.class));
+        Optional<RoomEntity> roomEntity = roomService.findById(id);
+       if (roomEntity.isPresent()) {
+            return roomEntity.map(x -> mapper.map(x, RoomDto.class));
+       }
+       else {
+           RoomDto nullable = null;
+           return Optional.ofNullable(nullable);
+       }
     }
 
+    @Override
+    @Transactional(readOnly = true)
     public PageResult<RoomDto> filterRooms(RoomFilter filter, PageInfo pageInfo) {
         return convertAll(roomService.filterRooms(filter, pageInfo));
     }

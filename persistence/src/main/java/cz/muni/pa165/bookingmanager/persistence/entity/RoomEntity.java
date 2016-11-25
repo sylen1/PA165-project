@@ -33,6 +33,7 @@ public class RoomEntity  {
     private HotelEntity hotel;
 
     public RoomEntity() {
+        hotel = new HotelEntity();
     }
 
     public Long getId() {
@@ -91,7 +92,7 @@ public class RoomEntity  {
         RoomEntity that = (RoomEntity) o;
 
         if (!getName().equals(that.getName())) return false;
-        return getHotel().equals(that.getHotel());
+        return true;
 
     }
 
