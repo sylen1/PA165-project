@@ -16,7 +16,7 @@ public class RoomEntity  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false, unique = true)
+    @Column(nullable=false)
     private String name; //LIKE A320
 
     @Column(nullable=false)
@@ -93,7 +93,7 @@ public class RoomEntity  {
         RoomEntity that = (RoomEntity) o;
 
         if (!name.equals(that.name)) return false;
-        return hotel.equals(that.hotel);
+        return hotel.getId().equals(that.hotel.getId());
 
     }
 
