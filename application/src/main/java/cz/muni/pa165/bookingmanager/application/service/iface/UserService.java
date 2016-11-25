@@ -20,14 +20,14 @@ public interface UserService extends PageableService<UserEntity> {
      * @return PageResult containing UserDto instances
      */
     @Override
-    public PageResult<UserEntity> findAll(PageInfo pageInfo);
+    PageResult<UserEntity> findAll(PageInfo pageInfo);
 
     /**
      * Attempts to find a user by email address
      * @param email email to search for
      * @return Optional instance, with UserDto if found, empty otherwise
      */
-    public Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> findByEmail(String email);
 
     /**
      * Attempts to register a new user
@@ -35,14 +35,14 @@ public interface UserService extends PageableService<UserEntity> {
      * @param passwd plain-text password chosen by user
      * @return True on success, false on failure(eg. email already registered)
      */
-    public Pair<UserEntity,String> registerUser(UserEntity user, String passwd);
+    Pair<UserEntity,String> registerUser(UserEntity user, String passwd);
 
     /**
      * Checks whether given user is an admin
      * @param user user to check up on
      * @return Admin flag setting for given user
      */
-    public boolean isAdmin(UserEntity user);
+    boolean isAdmin(UserEntity user);
 
     /**
      * Attempts to authenticate a user
@@ -50,13 +50,21 @@ public interface UserService extends PageableService<UserEntity> {
      * @param passwd Password to check
      * @return True on success, false on failure
      */
-    public boolean authenticate(UserEntity user, String passwd);
+    boolean authenticate(UserEntity user, String passwd);
 
     /**
      * Updates user info
      * @param user New user info to be saved
      * @return UserDto instance with updated user info
      */
-    public UserEntity updateUser(UserEntity user);
+    UserEntity updateUser(UserEntity user);
 
+
+    /**
+     * confirms user's email adress
+     * @param email user's email adress
+     * @param token token for user confirmation
+     * @return if confirmation is successful
+     */
+    boolean confirmUser(String email, String token);
 }

@@ -6,6 +6,7 @@ import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
+import cz.muni.pa165.bookingmanager.persistence.dao.UserTokenDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.DatabaseAccountState;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import java.security.NoSuchAlgorithmException;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import cz.muni.pa165.bookingmanager.persistence.entity.UserToken;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
@@ -69,7 +71,12 @@ public class UserServiceTest {
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        userService = new UserServiceImpl(userDaoMock, ctx.getBean(Mapper.class));
+        UserTokenDao userTokenDao = mock(UserTokenDao.class);
+
+        when(userTokenDao.findByEmail(any()))
+                .thenReturn(Optional.of(new UserToken("email","USER_TOKEN")));
+
+        userService = new UserServiceImpl(userDaoMock, ctx.getBean(Mapper.class), userTokenDao);
     }
 
     @Test

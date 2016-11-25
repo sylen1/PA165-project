@@ -5,7 +5,7 @@ package cz.muni.pa165.bookingmanager.persistence.entity;
  * @author Matej Harcar, 422714
  */
 public enum DatabaseAccountState {
-    INACTIVE, // new, unconfirmed user or one that requested account de-activation
+    INACTIVE, // new, unconfirmed user
     CUSTOMER, // regular customer
     ADMIN     // administrator
 }

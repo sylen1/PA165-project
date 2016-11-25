@@ -91,14 +91,7 @@ public class UserFacadeImpl implements UserFacade{
 
     @Override
     public boolean confirmUserRegistration(String email, String token) {
-        Optional<UserEntity> a = userService.findByEmail(email);
-        if(!a.isPresent()) return false;
-        String cmp = Integer.toHexString(a.get().hashCode()).toLowerCase();
-        for(int i=0;i<16384;i++){
-            cmp = Integer.toHexString(cmp.hashCode()).toLowerCase();
-        }
-        cmp = cmp.toLowerCase();
-        return cmp.equals(token);
+        return userService.confirmUser(email, token);
     }
 
     private UserEntity userDtoToEntity(UserDto dto){

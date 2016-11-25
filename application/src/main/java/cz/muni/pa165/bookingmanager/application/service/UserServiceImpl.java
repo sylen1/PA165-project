@@ -4,8 +4,10 @@ import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
+import cz.muni.pa165.bookingmanager.persistence.dao.UserTokenDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.DatabaseAccountState;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.UserToken;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -22,6 +24,7 @@ import javax.inject.Inject;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -39,11 +42,13 @@ public class UserServiceImpl implements UserService{
 
     private UserDao userDao;
     private Mapper mapper;
+    private UserTokenDao userTokenDao;
 
     @Inject
-    public UserServiceImpl(UserDao userDao, Mapper mapper) {
+    public UserServiceImpl(UserDao userDao, Mapper mapper, UserTokenDao userTokenDao) {
         this.userDao = userDao;
         this.mapper = mapper;
+        this.userTokenDao = userTokenDao;
     }
 
     @Override
@@ -84,9 +89,10 @@ public class UserServiceImpl implements UserService{
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             return null;
         }
-        Pair<UserEntity,String> rv = new ImmutablePair<UserEntity,String >(user,rv2.toString());
 
-        return rv;
+        String rv2String = Arrays.toString(rv2);
+        userTokenDao.save(new UserToken(user.getEmail(), rv2String));
+        return Pair.of(user, rv2String);
     }
 
     @Override
@@ -111,6 +117,20 @@ public class UserServiceImpl implements UserService{
     public UserEntity updateUser(UserEntity user) {
         Validate.notNull(user.getId());
         return userDao.save(user);
+    }
+
+    @Override
+    public boolean confirmUser(String email, String token) {
+        Validate.notNull(email);
+        Validate.notNull(token);
+        Optional<UserToken> userToken = userTokenDao.findByEmail(email);
+        if (userToken.isPresent() && token.equals(userToken.get().getToken())){
+            UserEntity user = userDao.findByEmail(email);
+            user.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
+            updateUser(user);
+            return true;
+        }
+        return false;
     }
 
     private Pair<byte[],byte[]> makeHashAndSalt(String passwd) throws InvalidKeySpecException, NoSuchAlgorithmException {
