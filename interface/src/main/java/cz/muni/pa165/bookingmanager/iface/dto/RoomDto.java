@@ -17,7 +17,7 @@ public class RoomDto {
 
     private String description;
 
-    private HotelDto hotel;
+    private long hotelId;
 
     public Long getId() {
         return id;
@@ -59,12 +59,12 @@ public class RoomDto {
         this.description = description;
     }
 
-    public HotelDto getHotel() {
-        return hotel;
+    public long getHotelId() {
+        return hotelId;
     }
 
-    public void setHotel(HotelDto hotel) {
-        this.hotel = hotel;
+    public void setHotelId(long hotelId) {
+        this.hotelId = hotelId;
     }
 
     @Override
@@ -75,14 +75,13 @@ public class RoomDto {
         RoomDto roomDto = (RoomDto) o;
 
         if (!getName().equals(roomDto.getName())) return false;
-        return getHotel().equals(roomDto.getHotel());
+        return getHotelId() == roomDto.getHotelId();
 
     }
 
     @Override
     public int hashCode() {
         int result = getName().hashCode();
-        result = 31 * result + getHotel().hashCode();
         return result;
     }
 
@@ -94,7 +93,7 @@ public class RoomDto {
                 ", price=" + price +
                 ", bedCount=" + bedCount +
                 ", description='" + description + '\'' +
-                ", hotel=" + hotel +
+                ", hotelId=" + hotelId +
                 '}';
     }
 }

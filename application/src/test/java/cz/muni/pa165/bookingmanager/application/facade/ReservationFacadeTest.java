@@ -1,27 +1,18 @@
 package cz.muni.pa165.bookingmanager.application.facade;
 
-import cz.muni.pa165.bookingmanager.application.service.ReservationServiceImpl;
 import cz.muni.pa165.bookingmanager.application.service.iface.ReservationService;
 import cz.muni.pa165.bookingmanager.iface.dto.*;
 import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
-import cz.muni.pa165.bookingmanager.persistence.dao.HotelDao;
-import cz.muni.pa165.bookingmanager.persistence.dao.ReservationDao;
-import cz.muni.pa165.bookingmanager.persistence.dao.RoomDao;
-import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
-import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
-import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
-import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -33,7 +24,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -88,7 +78,7 @@ public class ReservationFacadeTest {
         room.setId(1L);
         room.setPrice(new BigDecimal("10.24"));
         room.setName("A32");
-        room.setHotel(hotel);
+        room.setHotelId(hotel.getId());
 
     }
 

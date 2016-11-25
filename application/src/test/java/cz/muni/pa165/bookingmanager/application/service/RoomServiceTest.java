@@ -9,6 +9,7 @@ import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.persistence.dao.RoomDao;
+import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 import org.dozer.Mapper;
 import org.junit.Test;
@@ -186,6 +187,9 @@ public class RoomServiceTest {
             roomEntity.setBedCount(key.length());
             roomEntity.setDescription("Description of: " + roomEntity.getName());
             roomEntity.setPrice(new BigDecimal(roomEntity.getDescription().length() * 100));
+            HotelEntity hotelEntity = new HotelEntity();
+            hotelEntity.setId(1L);
+            roomEntity.setHotel(hotelEntity);
             return roomEntity;
         }
 }
