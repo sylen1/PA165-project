@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -51,11 +52,11 @@ public class RoomDaoTest {
         for(int i = 0; i < 5; i++) {
             roomDao.save(nextRoom());
         }
-        List<RoomEntity> roomEntities =  roomDao.findByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(0,1000, new BigDecimal(0), new BigDecimal(10000), new PageRequest(0, 5));
+        Page<RoomEntity> roomEntities =  roomDao.findByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(0,1000, new BigDecimal(0), new BigDecimal(10000), new PageRequest(0, 5));
         int i = roomDao.countByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(0,1000, new BigDecimal(0), new BigDecimal(10000));
         assertTrue(i == 5);
         assertTrue(roomDao.count() == 5);
-        assertTrue(0 < roomEntities.size());
+        assertTrue(0 < roomEntities.getTotalElements());
     }
     @Test
     public void deleteRoomTest(){

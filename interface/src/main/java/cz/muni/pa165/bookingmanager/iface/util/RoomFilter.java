@@ -13,6 +13,13 @@ public class RoomFilter {
     private BigDecimal priceFrom;
     private BigDecimal priceTo;
 
+    public RoomFilter(Integer bedContFrom, Integer bedCountTo, BigDecimal priceFrom, BigDecimal priceTo) {
+        this.bedContFrom = bedContFrom;
+        this.bedCountTo = bedCountTo;
+        this.priceFrom = priceFrom;
+        this.priceTo = priceTo;
+    }
+
     public RoomFilter() {
     }
 

@@ -1,28 +1,34 @@
 package cz.muni.pa165.bookingmanager.application.service;
 
-import cz.muni.pa165.bookingmanager.iface.util.PageResult;
-import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.application.service.iface.RoomService;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
+import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.persistence.dao.RoomDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 import org.apache.commons.lang3.Validate;
+import org.dozer.Mapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
-
-import static java.lang.Math.toIntExact;
 
 /**
  * @author Gasior
  */
 public class RoomServiceImpl implements RoomService {
-    @Inject
+
     private RoomDao roomDao;
+    private Mapper mapper;
+
+    @Inject
+    public RoomServiceImpl(RoomDao roomDao, Mapper mapper) {
+        this.roomDao = roomDao;
+        this.mapper = mapper;
+    }
 
     @Override
     public PageResult<RoomEntity> findAll(PageInfo pageInfo) {
@@ -31,12 +37,8 @@ public class RoomServiceImpl implements RoomService {
             throw  new IllegalArgumentException("pageInfo cannot be null");
         }
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
-
-        List<RoomEntity> entities = roomDao.findAll(pageRequest).getContent();
-        int countAll = toIntExact(roomDao.count());
-
-//        return new PageResult<>(entities, countAll, pageInfo);
-        return null;
+        Page<RoomEntity> page = roomDao.findAll(pageRequest);
+        return mapPage(page);
     }
 
     @Override
@@ -95,7 +97,15 @@ public class RoomServiceImpl implements RoomService {
             priceTo = filter.getPriceTo().get();
         }
 
-//        return new PageResult<>(roomDao.findByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(bedFrom, bedTo, priceFrom, priceTo, pageRequest), roomDao.countByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(bedFrom, bedTo, priceFrom, priceTo), pageInfo);
-        return null;
+        Page<RoomEntity> page = roomDao.findByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(bedFrom, bedTo, priceFrom, priceTo, pageRequest);
+        return mapPage(page);
+    }
+
+    private PageResult<RoomEntity> mapPage(Page<RoomEntity> page){
+        PageResult<RoomEntity> pageResult = new PageResult<>();
+        mapper.map(page, pageResult);
+        pageResult.setEntries(page.getContent());
+
+        return pageResult;
     }
 }
