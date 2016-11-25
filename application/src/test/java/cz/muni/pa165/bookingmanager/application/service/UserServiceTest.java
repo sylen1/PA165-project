@@ -104,7 +104,6 @@ public class UserServiceTest {
 
         PageRequest pagerq = new PageRequest(pageInfo.getPageNumber(),pageInfo.getPageSize());
         PageImpl<UserEntity> springDataPage = new PageImpl<>(testUsers, pagerq, 2);
-
         when(userDaoMock.findAll(pagerq)).thenReturn(springDataPage);
 
         PageResult<UserEntity> resultPage = userService.findAll(pageInfo);

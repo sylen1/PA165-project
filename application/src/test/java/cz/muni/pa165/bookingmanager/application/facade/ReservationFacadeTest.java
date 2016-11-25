@@ -12,6 +12,7 @@ import cz.muni.pa165.bookingmanager.persistence.dao.ReservationDao;
 import cz.muni.pa165.bookingmanager.persistence.dao.RoomDao;
 import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import org.dozer.Mapper;
@@ -32,6 +33,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 /**
  * Reservation facade tests
@@ -51,12 +53,13 @@ public class ReservationFacadeTest {
     private UserDto user;
     private HotelDto hotel;
     private RoomDto room;
-
+    private Mapper mapper;
 
     @Before
     public void init(){
         MockitoAnnotations.initMocks(this);
-        rf = new ReservationFacadeImpl(rs, ctx.getBean(Mapper.class));
+        mapper = ctx.getBean(Mapper.class);
+        rf = new ReservationFacadeImpl(rs, mapper);
 
         user = new UserDto();
         user.setAdmin(false);
@@ -84,6 +87,7 @@ public class ReservationFacadeTest {
         room.setId(1L);
         room.setPrice(new BigDecimal("10.24"));
         room.setName("A32");
+        room.setHotelId(hotel.getId());
 
     }
 
@@ -95,6 +99,8 @@ public class ReservationFacadeTest {
         r1.setState(ReservationState.NEW);
         r1.setStartDate(Date.valueOf("2016-07-25"));
         r1.setEndDate(Date.valueOf("2016-08-15"));
+        ReservationEntity r1e = mapper.map(r1,ReservationEntity.class);
+        when(rs.createReservation(r1e)).thenReturn(giveR9nId(r1e));
         r1 = rf.createReservation(r1);
         assertNotNull(r1);
         assertEquals(user,r1.getCustomer());
@@ -102,6 +108,17 @@ public class ReservationFacadeTest {
         assertEquals(ReservationState.NEW,r1.getState());
         assertEquals(Date.valueOf("2016-07-25"),r1.getStartDate());
         assertEquals(Date.valueOf("2016-08-15"),r1.getEndDate());
+    }
+
+    private ReservationEntity giveR9nId(ReservationEntity re) {
+        ReservationEntity rv = new ReservationEntity();
+        rv.setCustomer(re.getCustomer());
+        rv.setEndDate(re.getEndDate());
+        rv.setRoom(re.getRoom());
+        rv.setState(re.getState());
+        rv.setStartDate(re.getStartDate());
+        rv.setId(1L);
+        return rv;
     }
 
     @Test
@@ -183,7 +200,6 @@ public class ReservationFacadeTest {
 
         PageResult<ReservationDto> x = rf.findAll(i);
         assertEquals(a,x);
-
     }
 
     @Test
@@ -247,5 +263,6 @@ public class ReservationFacadeTest {
         PageResult<ReservationDto> x = rf.findFiltered(f,i);
         assertNotEquals(a,x);
     }
+
 
 }

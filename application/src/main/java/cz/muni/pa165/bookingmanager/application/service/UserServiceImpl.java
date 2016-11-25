@@ -9,6 +9,8 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.dozer.Mapper;
@@ -47,9 +49,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public PageResult<UserEntity> findAll(PageInfo pageInfo) {
         Pageable pagerq = new PageRequest(pageInfo.getPageNumber(),pageInfo.getPageSize());
-        List<UserEntity> entities = userDao.findAll(pagerq).getContent();
-//        return new PageResult<>(entities, entities.size(), pageInfo);
-        return null;
+        Page<UserEntity> findResult = userDao.findAll(pagerq);
+        PageResult rv = mapper.map(findResult,PageResult.class);
+        return rv;
     }
 
     @Override
