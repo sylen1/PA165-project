@@ -72,30 +72,10 @@ public class RoomServiceImpl implements RoomService {
             throw new IllegalArgumentException("Parameters cannot be null!");
         }
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
-        int bedFrom;
-        int bedTo;
-        BigDecimal priceFrom;
-        BigDecimal priceTo;
-        if(filter.getBedContFrom().isPresent()) {
-            bedFrom = filter.getBedContFrom().get();
-        } else {
-            bedFrom = 0;
-        }
-        if(filter.getBedCountTo().isPresent()) {
-            bedTo = filter.getBedCountTo().get();
-        } else {
-            bedTo = Integer.MAX_VALUE;
-        }
-        if(filter.getPriceFrom().isPresent()) {
-            priceFrom = filter.getPriceFrom().get();
-        } else {
-            priceFrom = new BigDecimal(0);
-        }
-        if(filter.getBedCountTo().isPresent()) {
-            priceTo = filter.getPriceTo().get();
-        } else {
-            priceTo = new BigDecimal(Double.MAX_VALUE);
-        }
+        int bedFrom = filter.getBedContFrom().orElse(0);
+        int bedTo = filter.getBedCountTo().orElse(Integer.MAX_VALUE);
+        BigDecimal priceFrom = filter.getPriceFrom().orElse(new BigDecimal(0));
+        BigDecimal priceTo = filter.getPriceTo().orElse(new BigDecimal(Double.MAX_VALUE));
 
         Page<RoomEntity> page = roomDao.findByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(bedFrom, bedTo, priceFrom, priceTo, pageRequest);
         return mapPage(page);
