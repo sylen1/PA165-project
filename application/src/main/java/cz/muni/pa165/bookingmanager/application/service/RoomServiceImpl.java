@@ -76,25 +76,25 @@ public class RoomServiceImpl implements RoomService {
         int bedTo;
         BigDecimal priceFrom;
         BigDecimal priceTo;
-        if(filter.getBedContFrom() == null) {
-            bedFrom = 0;
-        } else {
+        if(filter.getBedContFrom().isPresent()) {
             bedFrom = filter.getBedContFrom().get();
-        }
-        if(filter.getBedCountTo() == null) {
-            bedTo = Integer.MAX_VALUE;
         } else {
+            bedFrom = 0;
+        }
+        if(filter.getBedCountTo().isPresent()) {
             bedTo = filter.getBedCountTo().get();
-        }
-        if(filter.getPriceFrom() == null) {
-            priceFrom = new BigDecimal(0);
         } else {
+            bedTo = Integer.MAX_VALUE;
+        }
+        if(filter.getPriceFrom().isPresent()) {
             priceFrom = filter.getPriceFrom().get();
-        }
-        if(filter.getBedCountTo() == null) {
-            priceTo = new BigDecimal(Double.MAX_VALUE);
         } else {
+            priceFrom = new BigDecimal(0);
+        }
+        if(filter.getBedCountTo().isPresent()) {
             priceTo = filter.getPriceTo().get();
+        } else {
+            priceTo = new BigDecimal(Double.MAX_VALUE);
         }
 
         Page<RoomEntity> page = roomDao.findByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(bedFrom, bedTo, priceFrom, priceTo, pageRequest);
