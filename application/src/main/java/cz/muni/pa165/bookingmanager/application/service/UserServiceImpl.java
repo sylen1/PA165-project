@@ -128,6 +128,7 @@ public class UserServiceImpl implements UserService{
             UserEntity user = userDao.findByEmail(email);
             user.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
             updateUser(user);
+            userTokenDao.delete(userToken.get());
             return true;
         }
         return false;
