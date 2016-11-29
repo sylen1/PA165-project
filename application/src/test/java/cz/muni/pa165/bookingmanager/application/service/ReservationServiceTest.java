@@ -2,6 +2,7 @@ package cz.muni.pa165.bookingmanager.application.service;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.ReservationService;
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationState;
+import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
@@ -197,6 +198,59 @@ public class ReservationServiceTest {
         PageResult<ReservationEntity> y = rs.findFiltered(f,info);
         assertNotNull(y);
         assertEquals(0, y.getEntrySize());
+    }
+
+
+
+    @Test
+    public void gatherHotelStatisticsTest() {
+        RoomEntity room2 = new RoomEntity();
+        room2.setBedCount(3);
+        room2.setDescription("Nondescript room");
+        room2.setName("Room 101");
+        room2.setPrice(new BigDecimal("15.36"));
+        room2.setId(2L);
+        room2.setHotelId(1L);
+        hotel.getRooms().add(room2);
+
+        ReservationEntity r9n1 = new ReservationEntity();
+        r9n1.setStartDate(Date.valueOf("2016-08-30"));
+        r9n1.setEndDate(Date.valueOf("2016-09-03"));
+        r9n1.setRoom(room);
+        r9n1.setCustomer(user);
+        r9n1.setState(String.valueOf(ReservationState.PAID));
+
+        ReservationEntity r9n2 = new ReservationEntity();
+        r9n2.setStartDate(Date.valueOf("2016-09-02"));
+        r9n2.setEndDate(Date.valueOf("2016-09-05"));
+        r9n2.setRoom(room2);
+        r9n2.setCustomer(user);
+        r9n2.setState(String.valueOf(ReservationState.ENDED));
+
+        ReservationEntity r9n3 = new ReservationEntity();
+        r9n3.setStartDate(Date.valueOf("2016-09-01"));
+        r9n3.setEndDate(Date.valueOf("2016-09-08"));
+        r9n3.setRoom(room2);
+        r9n3.setCustomer(user);
+        r9n3.setState(String.valueOf(ReservationState.CANCELLED)); // cancelled should not be counted into statistics
+
+        List<ReservationEntity> returnValueFromDao = new ArrayList<>();
+        returnValueFromDao.add(r9n1);
+        returnValueFromDao.add(r9n2);
+        returnValueFromDao.add(r9n3);
+
+        when(reservationDao.findByHotelIdValidInInterval(hotel.getId(), Date.valueOf("2016-09-01"),
+                Date.valueOf("2016-09-05"))).thenReturn(returnValueFromDao);
+
+        HotelStatistics result = rs.gatherHotelStatistics(hotel.getId(), Date.valueOf("2016-09-01"),
+                Date.valueOf("2016-09-05"));
+
+        System.out.println(result);
+
+        assertEquals(2, result.getNumberOfCompletedReservations());
+        assertEquals(new BigDecimal("107.52"), result.getRevenue());
+        assertEquals(1.4, result.getAverageRoomUsage(), 0.01);
+        assertEquals(3.5, result.getAverageReservationLength(), 0.01);
     }
 
     private ReservationEntity returnR9nWithSetID(ReservationEntity r9n) {

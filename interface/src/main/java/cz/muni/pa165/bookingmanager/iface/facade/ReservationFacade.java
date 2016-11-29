@@ -1,10 +1,12 @@
 package cz.muni.pa165.bookingmanager.iface.facade;
 
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationDto;
+import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -19,7 +21,7 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      * @return saved reservation info
      */
     ReservationDto createReservation(ReservationDto reservationDto);
-    
+
     /**
      * Updates information about reservation according to information present in
      * given ReservationDto instance. Id parameter present on the reservationDto
@@ -28,7 +30,7 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      * @return saved reservation info
      */
     ReservationDto updateReservation(ReservationDto reservationDto);
-    
+
     /**
      * Returns one page of all recorded reservations. Size of page and which
      * page of the result should be returned is specified in given PageInfo
@@ -38,7 +40,7 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      */
     @Override
     PageResult<ReservationDto> findAll(PageInfo pageInfo);
-    
+
     /**
      * If reservation with given ID exists in the data source, this method
      * returns its representation in ReservationDto encapsulated in Optional.
@@ -47,14 +49,24 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
      * @return Instance of Optional, either empty or with instance of ReservationDto.
      */
     Optional<ReservationDto> findById(Long id);
-    
+
     /**
      * Returns one page reservations filtered by properties of given instance of
-     * ReservationFilter. 
+     * ReservationFilter.
      * @param filter instance of ReservationFilter restricting the result
      * @param pageInfo contains pagination parameters
      * @return PageResult instance containing part of the result
      */
     PageResult<ReservationDto> findFiltered(ReservationFilter filter, PageInfo pageInfo);
 
+    /**
+     * Assembles instance of HotelStatistics with statistics gathered from database.
+     * Takes into account only completed Reservations, so only those with state PAID or ENDED.
+     *
+     * @param hotelId id of concerned hotel
+     * @param intervalStart inclusive end date of interval for the statistics gathering
+     * @param intervalEnd inclusive end date of interval for the statistics gathering
+     * @return instance of HotelStatistics full of statistics
+     */
+    HotelStatistics gatherHotelStatistics(Long hotelId, Date intervalStart, Date intervalEnd);
 }

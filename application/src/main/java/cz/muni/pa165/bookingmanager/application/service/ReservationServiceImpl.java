@@ -82,7 +82,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         return mapPageToPageResult(page);
     }
-    
+
     public HotelStatistics gatherHotelStatistics(Long hotelId, Date intervalStart, Date intervalEnd) {
         if(intervalEnd.before(intervalStart)) {
             throw new IllegalArgumentException("intervalEnd can not be before intervalStart");
@@ -142,8 +142,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         long totalNumOfDaysInInterval = numberOfdaysBetweenLocalDates(intervalStartLocal, intervalEndLocal);
 
-        averageRoomUsage = roomDays / totalNumOfDaysInInterval;
-        averageReservationLength = totalReservedDays / totalNumOfDaysInInterval;
+        averageRoomUsage = (1. * roomDays) / totalNumOfDaysInInterval;
+        averageReservationLength = (1. * totalReservedDays) / completedReservations.size();
 
         return new HotelStatistics(completedReservations.size(), revenue, averageRoomUsage, averageReservationLength);
     }
