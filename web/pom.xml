@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>bookingmanager</artifactId>
+        <groupId>cz.muni.pa165.bookingmanager</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>web</artifactId>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>4.3.3.RELEASE</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring4 -->
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring4</artifactId>
+            <version>3.0.2.RELEASE</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-logging-log4j -->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-logging-log4j</artifactId>
+            <version>7.0.47</version>
+        </dependency>
+        <dependency>
+            <groupId>cz.muni.pa165.bookingmanager</groupId>
+            <artifactId>interface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <path>/pa165</path>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

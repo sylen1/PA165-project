@@ -9,15 +9,6 @@
         <root level="warn">
             <appenderref ref="console"/>
         </root>
-        <logger name="org.jboss.logging" level="error">
-            <appenderref ref="console"/>
-        </logger>
-        <logger name="org.hibernate" level="warn">
-            <appenderref ref="console"/>
-        </logger>
-        <logger name="org.springframework" level="info">
-            <appenderref ref="console"/>
-        </logger>
     </loggers>
 
 </configuration>

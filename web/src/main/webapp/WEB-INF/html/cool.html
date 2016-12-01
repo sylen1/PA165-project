@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head></head>
+<body>
+    <h1 th:text="${title}">var_title</h1>
+    <ul>
+        <li th:each="number : ${numbers}" th:text="${number}">var_number</li>
+    </ul>
+    <div th:inline="text">
+        <b>name:</b> [[${user.name}]]<br>
+        <b>email:</b> [[${user.email}]]<br>
+        <b>account state:</b> [[${user.accountState}]]<br>
+    </div>
+
+    <div>
+        <div>
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <div>
+                                <div>
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <div>
+                                                    <div>
+                                                        <div>
+                                                            <div th:text="${alenka}">var_alenka</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
