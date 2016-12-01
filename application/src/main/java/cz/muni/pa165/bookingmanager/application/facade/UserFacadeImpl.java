@@ -1,6 +1,7 @@
 package cz.muni.pa165.bookingmanager.application.facade;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
+import cz.muni.pa165.bookingmanager.iface.dto.AccountState;
 import cz.muni.pa165.bookingmanager.iface.dto.UserDto;
 import cz.muni.pa165.bookingmanager.iface.dto.UserLoginDto;
 import cz.muni.pa165.bookingmanager.iface.facade.UserFacade;
@@ -52,6 +53,7 @@ public class UserFacadeImpl implements UserFacade{
     @Override
     @Transactional
     public Pair<UserDto,String> registerUser(UserDto user, String passwd) {
+        user.setAccountState(AccountState.INACTIVE);
         UserEntity entity = this.userDtoToEntity(user);
         Pair<UserEntity,String> x = userService.registerUser(entity,passwd);
         user.setId(entity.getId());

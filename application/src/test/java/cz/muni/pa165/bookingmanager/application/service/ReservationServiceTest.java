@@ -65,7 +65,7 @@ public class ReservationServiceTest {
         rs = new ReservationServiceImpl(reservationDao, ctx.getBean(Mapper.class));
 
         user = new UserEntity();
-        user.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
+        user.setAccountState(DatabaseAccountState.CUSTOMER);
         user.setBirthDate(Date.valueOf("1975-03-21"));
         user.setPasswordSalt(new byte[]{0x3f, 0x2a, 0x09});
         user.setAddress("Address A, City C, postcode P, country C");

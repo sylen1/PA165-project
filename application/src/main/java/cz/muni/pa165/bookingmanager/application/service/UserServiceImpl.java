@@ -9,7 +9,6 @@ import cz.muni.pa165.bookingmanager.persistence.entity.DatabaseAccountState;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserToken;
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -97,7 +96,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean isAdmin(UserEntity user) {
-        return userDao.findByEmail(user.getEmail()).getDatabaseAccountState().equals(DatabaseAccountState.ADMIN);
+        return userDao.findByEmail(user.getEmail()).getAccountState().equals(DatabaseAccountState.ADMIN);
     }
 
     @Override
@@ -126,7 +125,7 @@ public class UserServiceImpl implements UserService{
         Optional<UserToken> userToken = userTokenDao.findByEmail(email);
         if (userToken.isPresent() && token.equals(userToken.get().getToken())){
             UserEntity user = userDao.findByEmail(email);
-            user.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
+            user.setAccountState(DatabaseAccountState.CUSTOMER);
             updateUser(user);
             userTokenDao.delete(userToken.get());
             return true;

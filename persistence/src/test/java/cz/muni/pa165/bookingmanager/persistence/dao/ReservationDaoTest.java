@@ -80,7 +80,7 @@ public class ReservationDaoTest {
         c.setName("Qwer Tyui");
         c.setAddress("Asdf 53");
         c.setBirthDate(new Date(0L));
-        c.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
+        c.setAccountState(DatabaseAccountState.CUSTOMER);
         c.setPasswordHash(new byte[]{0x3A, (byte) 0xF9, (byte) 0xA1});
         c.setPasswordSalt(new byte[]{0x5C, (byte) 0x91, (byte) 0x84});
         c.setPhoneNumber("+2147483647");
@@ -242,7 +242,7 @@ public class ReservationDaoTest {
         c2.setAddress("Opium 23");
         c2.setBirthDate(new Date(183230805000L));
         c2.setName("OpieOP");
-        c2.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
+        c2.setAccountState(DatabaseAccountState.CUSTOMER);
         c2.setPasswordHash(new byte[]{0x3D, (byte) 0xF3, (byte) 0xA8});
         c2.setPasswordSalt(new byte[]{0x5E, (byte) 0x99, (byte) 0x87});
         userDao.save(c2);
@@ -267,7 +267,7 @@ public class ReservationDaoTest {
         c2.setAddress("Opium 23");
         c2.setBirthDate(new Date(183230805000L));
         c2.setName("OpieOP");
-        c2.setDatabaseAccountState(DatabaseAccountState.CUSTOMER);
+        c2.setAccountState(DatabaseAccountState.CUSTOMER);
         c2.setPasswordHash(new byte[]{0x5B, (byte) 0xC4, (byte) 0xD5});
         c2.setPasswordSalt(new byte[]{0x7A, (byte) 0xE3, (byte) 0x96});
         userDao.save(c2);
