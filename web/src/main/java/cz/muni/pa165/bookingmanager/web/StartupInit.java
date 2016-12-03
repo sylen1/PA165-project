@@ -19,7 +19,6 @@ public class StartupInit implements ApplicationContextAware {
     
     public void onStartUp() {
         LOG.info("Executing onStartUp");
-        System.out.println("Executing onStartUp");
 
         UserDto adminDto = new UserDto();
         adminDto.setAddress("");
@@ -37,7 +36,6 @@ public class StartupInit implements ApplicationContextAware {
         userFacade.updateUser(adminDto);
 
         System.out.println(userFacade.findByEmail(adminDto.getEmail()));
-
     }
 
     @Override

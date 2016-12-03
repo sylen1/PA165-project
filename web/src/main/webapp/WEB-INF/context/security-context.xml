@@ -6,6 +6,8 @@
 
     <http>
         <intercept-url pattern="/login.php" access="isAnonymous()" />
+        <intercept-url pattern="/registration.php" access="isAnonymous()" />
+        <intercept-url pattern="/confirm.php" access="permitAll" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <form-login login-page="/login.php"/>
     </http>

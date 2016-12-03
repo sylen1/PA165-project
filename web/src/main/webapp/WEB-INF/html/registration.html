@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{registration.php}" th:object="${userRegistrationPto}" th:method="post">
+    <label for="name">Name:</label>
+    <input id="name" type="text" th:field="*{name}" /><br>
+    <label for="address">Adress:</label>
+    <input id="address" type="text" th:field="*{address}" /><br>
+    <label for="email">Email:</label>
+    <input id="email" type="text" th:field="*{email}" /><br>
+    <label for="phoneNumber">Phone number:</label>
+    <input id="phoneNumber" type="text" th:field="*{phoneNumber}" /><br>
+    <label for="birthDate">Date of birth:</label>
+    <input id="birthDate" type="text" th:field="*{birthDate}"/><br>
+    <label for="password">Password:</label>
+    <input id="password" type="password" th:field="*{password}" /><br>
+    <input type="submit" value="Register">
+</form>
+</body>
+</html>

@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.inject.Inject;
@@ -36,6 +37,15 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 
         List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_" + userDto.getAccountState());
         return new UsernamePasswordAuthenticationToken(email, password, authorities);
+    }
+
+    public static void logInUser(UserDto user, String password){
+        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_" + user.getAccountState());
+
+        Authentication auth =
+                new UsernamePasswordAuthenticationToken(user.getEmail(), password, authorities);
+
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
     @Override

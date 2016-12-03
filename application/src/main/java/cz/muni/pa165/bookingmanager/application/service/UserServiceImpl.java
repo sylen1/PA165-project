@@ -8,6 +8,7 @@ import cz.muni.pa165.bookingmanager.persistence.dao.UserTokenDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.DatabaseAccountState;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserToken;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +25,6 @@ import javax.inject.Inject;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -80,20 +80,11 @@ public class UserServiceImpl implements UserService{
         user.setPasswordSalt(hashSalt.getValue());
 
         user = userDao.save(user);
-        String a = user.getEmail();
-        SecureRandom rng = new SecureRandom();
-        byte[] r = new byte[32];
-        rng.nextBytes(r);
-        byte[] rv2;
-        try {
-            rv2 = pbkdf2(a.toCharArray(),r,1024,32);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            return null;
-        }
 
-        String rv2String = Arrays.toString(rv2);
-        userTokenDao.save(new UserToken(user.getEmail(), rv2String));
-        return Pair.of(user, rv2String);
+        String token = RandomStringUtils.randomAlphanumeric(32);
+
+        userTokenDao.save(new UserToken(user.getEmail(), token));
+        return Pair.of(user, token);
     }
 
     @Override
