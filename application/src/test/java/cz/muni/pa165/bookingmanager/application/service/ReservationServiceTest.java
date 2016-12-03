@@ -245,8 +245,6 @@ public class ReservationServiceTest {
         HotelStatistics result = rs.gatherHotelStatistics(hotel.getId(), Date.valueOf("2016-09-01"),
                 Date.valueOf("2016-09-05"));
 
-        System.out.println(result);
-
         assertEquals(2, result.getNumberOfCompletedReservations());
         assertEquals(new BigDecimal("107.52"), result.getRevenue());
         assertEquals(1.4, result.getAverageRoomUsage(), 0.01);

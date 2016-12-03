@@ -346,10 +346,10 @@ public class ReservationDaoTest {
         r1=reservationDao.save(r1);
 
         List<ReservationEntity> reslist = reservationDao.findByStartDateBeforeAndEndDateAfter(Date.valueOf("2016-05-07"),Date.valueOf("2016-05-07"));
-        System.out.println("reslist = " + reslist);
+        assertEquals(r1, reslist.get(0));
 
-       reslist = reservationDao.findByStartDateBeforeAndEndDateAfter(Date.valueOf("2016-05-01"),Date.valueOf("2016-05-01"));
-        System.out.println("reslist="+reslist);
+        reslist = reservationDao.findByStartDateBeforeAndEndDateAfter(Date.valueOf("2016-05-01"),Date.valueOf("2016-05-01"));
+        assertEquals(0, reslist.size());
     }
 
     // Helper method
