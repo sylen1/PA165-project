@@ -16,6 +16,7 @@ import org.dozer.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -30,6 +31,7 @@ import java.util.Optional;
  * User service interface implementation
  * @author Matej Harcar, 422714
  */
+@Service
 public class UserServiceImpl implements UserService{
     private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
 

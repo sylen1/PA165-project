@@ -20,10 +20,9 @@ public interface UserFacade extends PageableFacade<UserDto>{
 
     /**
      * Attempts to authenticate user
-     * @param u UserLoginDto instance with email and password given by user
      * @return true on success, false on failure(wrong info)
      */
-    boolean authenticate(UserLoginDto u);
+    boolean authenticate(String email, String password);
 
     /**
      * Attempts to register a user in the database

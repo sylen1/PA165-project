@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
  * Implementation of ReservationFacade interface
  * @author Mojmír Odehnal, 374422
  */
-@Transactional
 @Service
 public class ReservationFacadeImpl implements ReservationFacade {
     private ReservationService reservationService;
@@ -68,11 +67,13 @@ public class ReservationFacadeImpl implements ReservationFacade {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PageResult<ReservationDto> findFiltered(ReservationFilter filter, PageInfo pageInfo) {
         PageResult<ReservationEntity> pageOfEntities = reservationService.findFiltered(filter, pageInfo);
         return mapPageResultToDtos(pageOfEntities);
     }
 
+    @Transactional(readOnly = true)
     public HotelStatistics gatherHotelStatistics(Long hotelId, Date intervalStart, Date intervalEnd) {
         return reservationService.gatherHotelStatistics(hotelId, intervalStart, intervalEnd);
     }

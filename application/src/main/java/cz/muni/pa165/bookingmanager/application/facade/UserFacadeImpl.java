@@ -12,6 +12,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.dozer.Mapper;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  * UserFacade implementation
  * @author Matej Harcar, 422714
  */
+@Service
 public class UserFacadeImpl implements UserFacade{
     private UserService userService;
     private Mapper mapper;
@@ -40,12 +42,12 @@ public class UserFacadeImpl implements UserFacade{
     }
 
     @Override
-    @Transactional
-    public boolean authenticate(UserLoginDto u) {
+    @Transactional(readOnly = true)
+    public boolean authenticate(String email, String password) {
         boolean result = false;
-        Optional<UserEntity> byEmail = userService.findByEmail(u.getEmail());
+        Optional<UserEntity> byEmail = userService.findByEmail(email);
         if (byEmail.isPresent()){
-            result = userService.authenticate(byEmail.get(), u.getPasswd());
+            result = userService.authenticate(byEmail.get(), password);
         }
         return result;
     }

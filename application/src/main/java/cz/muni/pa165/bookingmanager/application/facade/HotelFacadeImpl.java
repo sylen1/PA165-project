@@ -8,6 +8,7 @@ import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import org.apache.commons.lang3.Validate;
 import org.dozer.Mapper;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class HotelFacadeImpl implements HotelFacade {
     private HotelService hotelService;
     private Mapper mapper;

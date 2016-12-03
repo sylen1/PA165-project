@@ -190,10 +190,10 @@ public class UserFacadeTest {
         login.setEmail("mail1@mail.mail");
         login.setPasswd("password");
 
-        assertTrue(userFacade.authenticate(login));
+        assertTrue(userFacade.authenticate(login.getEmail(), login.getPasswd()));
 
         login.setPasswd("not password");
-        assertFalse(userFacade.authenticate(login));
+        assertFalse(userFacade.authenticate(login.getEmail(), login.getPasswd()));
     }
 
     @Test

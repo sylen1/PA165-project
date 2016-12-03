@@ -9,6 +9,7 @@ import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 import org.dozer.Mapper;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 /**
  * @author Gasior
  */
+@Service
 public class RoomFacadeImpl implements RoomFacade {
 
     private RoomService roomService;
