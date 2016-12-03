@@ -10,4 +10,9 @@
         <form-login login-page="/login.php"/>
     </http>
 
+    <authentication-manager>
+        <authentication-provider ref="authenticationProviderImpl"/>
+    </authentication-manager>
+
+    <b:bean id="authenticationProviderImpl" class="cz.muni.pa165.bookingmanager.web.AuthenticationProviderImpl"/>
 </b:beans>

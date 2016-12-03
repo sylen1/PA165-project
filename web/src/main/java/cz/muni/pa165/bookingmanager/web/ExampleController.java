@@ -45,4 +45,9 @@ public class ExampleController {
     public String index(){
         return "index";
     }
+
+    @RequestMapping("/login.php")
+    public String login(){
+        return "login";
+    }
 }
