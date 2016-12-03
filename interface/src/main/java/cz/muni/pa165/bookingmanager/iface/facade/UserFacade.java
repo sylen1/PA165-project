@@ -1,7 +1,6 @@
 package cz.muni.pa165.bookingmanager.iface.facade;
 
 import cz.muni.pa165.bookingmanager.iface.dto.UserDto;
-import cz.muni.pa165.bookingmanager.iface.dto.UserLoginDto;
 import org.apache.commons.lang3.tuple.Pair;
 import java.util.Optional;
 

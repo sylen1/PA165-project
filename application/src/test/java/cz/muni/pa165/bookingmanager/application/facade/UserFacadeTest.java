@@ -3,7 +3,6 @@ package cz.muni.pa165.bookingmanager.application.facade;
 import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
 import cz.muni.pa165.bookingmanager.iface.dto.AccountState;
 import cz.muni.pa165.bookingmanager.iface.dto.UserDto;
-import cz.muni.pa165.bookingmanager.iface.dto.UserLoginDto;
 import cz.muni.pa165.bookingmanager.iface.facade.UserFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
@@ -21,6 +20,7 @@ import org.mockito.stubbing.Answer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import javax.inject.Inject;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for implementation of UserFacade
@@ -186,14 +186,9 @@ public class UserFacadeTest {
         when(userServiceMock.authenticate(u1entity,"password")).thenReturn(true);
         when(userServiceMock.authenticate(u1entity,"not password")).thenReturn(false);
 
-        UserLoginDto login = new UserLoginDto();
-        login.setEmail("mail1@mail.mail");
-        login.setPasswd("password");
+        assertTrue(userFacade.authenticate("mail1@mail.mail", "password"));
 
-        assertTrue(userFacade.authenticate(login.getEmail(), login.getPasswd()));
-
-        login.setPasswd("not password");
-        assertFalse(userFacade.authenticate(login.getEmail(), login.getPasswd()));
+        assertFalse(userFacade.authenticate("mail1@mail.mail", "not password"));
     }
 
     @Test

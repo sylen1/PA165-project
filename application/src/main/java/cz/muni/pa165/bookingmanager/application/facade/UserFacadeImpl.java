@@ -3,7 +3,6 @@ package cz.muni.pa165.bookingmanager.application.facade;
 import cz.muni.pa165.bookingmanager.application.service.iface.UserService;
 import cz.muni.pa165.bookingmanager.iface.dto.AccountState;
 import cz.muni.pa165.bookingmanager.iface.dto.UserDto;
-import cz.muni.pa165.bookingmanager.iface.dto.UserLoginDto;
 import cz.muni.pa165.bookingmanager.iface.facade.UserFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
