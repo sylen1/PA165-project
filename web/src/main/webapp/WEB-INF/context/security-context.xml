@@ -7,8 +7,8 @@
     <http>
         <intercept-url pattern="/login.php" access="isAnonymous()" />
         <intercept-url pattern="/registration.php" access="isAnonymous()" />
-        <intercept-url pattern="/confirm.php" access="permitAll" />
-        <intercept-url pattern="/**" access="isAuthenticated()" />
+        <intercept-url pattern="/user/**" access="isAuthenticated()" />
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
         <form-login login-page="/login.php"/>
     </http>
 
