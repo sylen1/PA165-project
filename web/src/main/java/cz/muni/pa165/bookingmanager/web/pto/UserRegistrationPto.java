@@ -1,11 +1,10 @@
 package cz.muni.pa165.bookingmanager.web.pto;
 
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.util.Date;
 
 public class UserRegistrationPto {
+
     private Long id;
     private String name;
     private String address;

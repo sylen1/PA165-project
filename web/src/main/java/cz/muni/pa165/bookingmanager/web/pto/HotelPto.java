@@ -2,6 +2,8 @@ package cz.muni.pa165.bookingmanager.web.pto;
 
 import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
 
+import java.util.List;
+
 public class HotelPto {
     private Long id;
 
