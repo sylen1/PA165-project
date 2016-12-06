@@ -17,9 +17,9 @@ public class ReservationPto {
     
     private Long id;
     
-    private RoomDto room;
+    private RoomPto room;
     
-    private UserDto customer;
+    private UserPto customer;
     
     private Date startDate;
     
@@ -41,19 +41,19 @@ public class ReservationPto {
         this.id = id;
     }
 
-    public RoomDto getRoom() {
+    public RoomPto getRoom() {
         return room;
     }
 
-    public void setRoom(RoomDto room) {
+    public void setRoom(RoomPto room) {
         this.room = room;
     }
 
-    public UserDto getCustomer() {
+    public UserPto getCustomer() {
         return customer;
     }
 
-    public void setCustomer(UserDto customer) {
+    public void setCustomer(UserPto customer) {
         this.customer = customer;
     }
 
@@ -78,7 +78,7 @@ public class ReservationPto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ReservationDto that = (ReservationDto) o;
+        ReservationPto that = (ReservationPto) o;
 
         if (getState() != that.getState()) return false;
         if (getRoom() != null ? !getRoom().equals(that.getRoom()) : that.getRoom() != null) return false;
