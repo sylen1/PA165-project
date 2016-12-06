@@ -4,8 +4,6 @@ package cz.muni.pa165.bookingmanager.web.pto;
 import java.util.Date;
 
 public class UserRegistrationPto {
-
-    private Long id;
     private String name;
     private String address;
     private String email;
@@ -14,15 +12,6 @@ public class UserRegistrationPto {
     private String password;
 
     public UserRegistrationPto() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public UserRegistrationPto setId(Long id) {
-        this.id = id;
-        return this;
     }
 
     public String getName() {
@@ -98,8 +87,7 @@ public class UserRegistrationPto {
     @Override
     public String toString() {
         return "UserRegistrationPto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
