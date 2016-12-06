@@ -1,7 +1,5 @@
 package cz.muni.pa165.bookingmanager.web.pto;
 
-import cz.muni.pa165.bookingmanager.iface.dto.RoomDto;
-
 import java.math.BigDecimal;
 
 /**
@@ -69,15 +67,16 @@ public class RoomPto {
         this.hotelId = hotelId;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RoomDto)) return false;
+        if (!(o instanceof RoomPto)) return false;
 
-        RoomDto roomDto = (RoomDto) o;
+        RoomPto roomPto = (RoomPto) o;
 
-        if (!getName().equals(roomDto.getName())) return false;
-        return getHotelId().equals(roomDto.getHotelId());
+        if (!name.equals(roomPto.name)) return false;
+        return hotelId.equals(roomPto.hotelId);
 
     }
 
