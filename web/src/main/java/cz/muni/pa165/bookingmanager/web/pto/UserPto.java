@@ -2,7 +2,7 @@ package cz.muni.pa165.bookingmanager.web.pto;
 
 import cz.muni.pa165.bookingmanager.iface.dto.AccountState;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * @author Matej Harcar, 422714
