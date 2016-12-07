@@ -93,8 +93,8 @@ public class RoomFacadeImpl implements RoomFacade {
     }
 
     @Override
-    public List<RoomDto> findAvailableRooms(Date availableFrom, Date availableTo, RoomFilter roomPropertyRestrictions, String city) {
-        return null;
+    public PageResult<RoomDto> findAvailableRooms(Date from, Date to, RoomFilter filter, String city, PageInfo pageInfo) {
+        return convertAll(roomService.findAvailableRooms(from, to, filter, city, pageInfo));
     }
 
     private PageResult<RoomDto> convertAll(PageResult<RoomEntity> all) {

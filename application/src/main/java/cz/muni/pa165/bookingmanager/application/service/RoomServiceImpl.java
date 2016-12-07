@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -74,12 +75,33 @@ public class RoomServiceImpl implements RoomService {
             throw new IllegalArgumentException("Parameters cannot be null!");
         }
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
-        int bedFrom = filter.getBedContFrom().orElse(0);
+        int bedFrom = filter.getBedCountFrom().orElse(0);
         int bedTo = filter.getBedCountTo().orElse(Integer.MAX_VALUE);
         BigDecimal priceFrom = filter.getPriceFrom().orElse(new BigDecimal(0));
         BigDecimal priceTo = filter.getPriceTo().orElse(new BigDecimal(Double.MAX_VALUE));
 
         Page<RoomEntity> page = roomDao.findByBedCountGreaterThanAndBedCountLessThanAndPriceGreaterThanAndPriceLessThan(bedFrom, bedTo, priceFrom, priceTo, pageRequest);
+        return mapPage(page);
+    }
+
+    @Override
+    public PageResult<RoomEntity> findAvailableRooms(Date from, Date to, RoomFilter filter, String city, PageInfo pageInfo) {
+        Validate.notNull(from, "availableFrom cannot be null");
+        Validate.notNull(to, "availableTo cannot be null");
+        Validate.notNull(filter, "roomPropertyRestrictions cannot be null");
+        Validate.notNull(city, "city cannot be null");
+        Validate.notNull(pageInfo, "pageInfo cannot be null");
+        Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
+        Page<RoomEntity> page = roomDao.findAvailableRooms(
+                new java.sql.Date(from.getTime()),
+                new java.sql.Date(to.getTime()),
+                filter.getBedCountFrom().orElse(0),
+                filter.getBedCountTo().orElse(Integer.MAX_VALUE),
+                filter.getPriceFrom().orElse(new BigDecimal(0)),
+                filter.getPriceTo().orElse(new BigDecimal(Double.MAX_VALUE)),
+                city,
+                new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize())
+            );
         return mapPage(page);
     }
 

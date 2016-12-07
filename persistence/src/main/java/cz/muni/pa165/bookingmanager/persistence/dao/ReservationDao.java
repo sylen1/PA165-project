@@ -61,7 +61,7 @@ public interface ReservationDao extends JpaRepository<ReservationEntity, Long>{
     @Query("SELECT re FROM ReservationEntity re"
             + " WHERE re.room.id IN (SELECT ro.id FROM HotelEntity h JOIN h.rooms ro WHERE h.id = :hotelId)"
             + "   AND ("
-            + "     (re.startDate <= :intFrom AND re.endDate >= :intTo)" // is valid through the whole interval
+            + "     (re.startDate < :intFrom AND re.endDate > :intTo)" // is valid through the whole interval
             + "     OR (re.startDate >= :intFrom AND re.startDate <= :intTo)" // or starts in it (and ends either in or out)
             + "     OR (re.endDate >= :intFrom AND re.endDate <= :intTo)"  // or ends in it (and starts either in or out)
             + "   )")

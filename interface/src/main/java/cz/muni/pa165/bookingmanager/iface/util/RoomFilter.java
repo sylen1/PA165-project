@@ -8,13 +8,13 @@ import java.util.Optional;
  */
 public class RoomFilter {
 
-    private Integer bedContFrom;
+    private Integer bedCountFrom;
     private Integer bedCountTo;
     private BigDecimal priceFrom;
     private BigDecimal priceTo;
 
-    public RoomFilter(Integer bedContFrom, Integer bedCountTo, BigDecimal priceFrom, BigDecimal priceTo) {
-        this.bedContFrom = bedContFrom;
+    public RoomFilter(Integer bedCountFrom, Integer bedCountTo, BigDecimal priceFrom, BigDecimal priceTo) {
+        this.bedCountFrom = bedCountFrom;
         this.bedCountTo = bedCountTo;
         this.priceFrom = priceFrom;
         this.priceTo = priceTo;
@@ -23,12 +23,12 @@ public class RoomFilter {
     public RoomFilter() {
     }
 
-    public Optional<Integer> getBedContFrom() {
-        return Optional.ofNullable(bedContFrom);
+    public Optional<Integer> getBedCountFrom() {
+        return Optional.ofNullable(bedCountFrom);
     }
 
-    public RoomFilter setBedContFrom(Integer bedContFrom) {
-        this.bedContFrom = bedContFrom;
+    public RoomFilter setBedCountFrom(Integer bedCountFrom) {
+        this.bedCountFrom = bedCountFrom;
         return this;
     }
 
@@ -66,7 +66,7 @@ public class RoomFilter {
 
         RoomFilter that = (RoomFilter) o;
 
-        if (getBedContFrom() != null ? !getBedContFrom().equals(that.getBedContFrom()) : that.getBedContFrom() != null)
+        if (getBedCountFrom() != null ? !getBedCountFrom().equals(that.getBedCountFrom()) : that.getBedCountFrom() != null)
             return false;
         if (getBedCountTo() != null ? !getBedCountTo().equals(that.getBedCountTo()) : that.getBedCountTo() != null)
             return false;
@@ -78,7 +78,7 @@ public class RoomFilter {
 
     @Override
     public int hashCode() {
-        int result = getBedContFrom() != null ? getBedContFrom().hashCode() : 0;
+        int result = getBedCountFrom() != null ? getBedCountFrom().hashCode() : 0;
         result = 31 * result + (getBedCountTo() != null ? getBedCountTo().hashCode() : 0);
         result = 31 * result + (getPriceFrom() != null ? getPriceFrom().hashCode() : 0);
         result = 31 * result + (getPriceTo() != null ? getPriceTo().hashCode() : 0);
@@ -88,7 +88,7 @@ public class RoomFilter {
     @Override
     public String toString() {
         return "RoomFilter{" +
-                "bedContFrom=" + bedContFrom +
+                "bedCountFrom=" + bedCountFrom +
                 ", bedCountTo=" + bedCountTo +
                 ", priceFrom=" + priceFrom +
                 ", priceTo=" + priceTo +

@@ -55,7 +55,7 @@ public interface RoomFacade extends PageableFacade<RoomDto> {
     public PageResult<RoomDto> filterRooms(RoomFilter filter, PageInfo pageInfo);
 
     /**
-     * Returns list of rooms, which don't have any reservation in given range of dates, optionally filtered by given
+     * Returns page of rooms, which don't have any reservation in given range of dates, optionally filtered by given
      * restrictions for properties of a room and by city of the hotel of a room.
      * Takes into account reservations of all statuses except CANCELLED.
      *
@@ -63,8 +63,9 @@ public interface RoomFacade extends PageableFacade<RoomDto> {
      * @param availableTo inclusive end date of the interval, in which given rooms must be available for reservation
      * @param roomPropertyRestrictions instance of RoomFilter for specifying range for properties of returned rooms.
      * @param city name of city, in which returned rooms have to be located. Empty string means no restriction.
-     * @return list of rooms meeting the criteria from arguments of this method.
+     * @param pageInfo contains pagination parameters
+     * @return page of rooms meeting the criteria from arguments of this method.
      */
-    List<RoomDto> findAvailableRooms(Date availableFrom, Date availableTo, RoomFilter roomPropertyRestrictions,
-                                     String city);
+    PageResult<RoomDto> findAvailableRooms(Date availableFrom, Date availableTo, RoomFilter roomPropertyRestrictions,
+                                           String city, PageInfo pageInfo);
 }
