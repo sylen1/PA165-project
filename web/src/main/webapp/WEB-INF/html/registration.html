@@ -2,14 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head"></head>
 <body>
-<div th:replace="fragments/top-bar :: top-bar">xxx</div>
+<div th:replace="fragments/top-bar :: top-bar">top-bar</div>
 <div class="col-md-offset-3 col-md-8" style="margin-top: 64px">
     <h1 class="col-md-offset-2">Registration</h1>
-    <form class="form-horizontal" th:action="@{registration.php}" th:object="${userRegistrationPto}" th:method="post">
+    <form id="registration-form" class="form-horizontal" th:action="@{registration.php}" th:object="${userRegistrationPto}" th:method="post">
         <div class="form-group">
             <label class="col-md-2 control-label" for="name">Name: </label>
             <div class="col-md-4">
-                <input class="form-control" id="name" type="text" th:field="*{name}" />
+                <input th:class="form-control " id="name" type="text" th:field="*{name}" />
+                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger" role="alert">
+                    err_name
+                </div>
             </div>
         </div>
 
@@ -17,6 +20,9 @@
             <label class="col-md-2 control-label" for="email">Email: </label>
             <div class="col-md-4">
                 <input class="form-control" id="email" type="text" th:field="*{email}" />
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger" role="alert">
+                    err_email
+                </div>
             </div>
         </div>
 
@@ -24,6 +30,9 @@
             <label class="col-md-2 control-label" for="address">Adress: </label>
             <div class="col-md-4">
                 <input class="form-control" id="address" type="text" th:field="*{address}" />
+                <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="alert alert-danger" role="alert">
+                    err_address
+                </div>
             </div>
         </div>
 
@@ -31,6 +40,9 @@
             <label class="col-md-2 control-label" for="phone-number">Phone number: </label>
             <div class="col-md-4">
                 <input class="form-control" id="phone-number" type="text" th:field="*{phoneNumber}" />
+                <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="alert alert-danger" role="alert">
+                    err_phoneNumber
+                </div>
             </div>
         </div>
 
@@ -38,6 +50,9 @@
             <label class="col-md-2 control-label" for="date-of-birth">Date of birth: </label>
             <div class="col-md-4">
                 <input class="form-control" id="date-of-birth" type="text" th:field="*{birthDate}" />
+                <div th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="alert alert-danger" role="alert">
+                    err_birthDate
+                </div>
             </div>
         </div>
 
@@ -45,10 +60,13 @@
             <label class="col-md-2 control-label" for="password">Password: </label>
             <div class="col-md-4">
                 <input class="form-control" id="password" type="password" th:field="*{password}" />
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger" role="alert">
+                    err_password
+                </div>
             </div>
         </div>
         <div class="col-md-offset-2 col-md-4" style="padding-left:0;">
-            <button class="btn btn-default" type="button">Cancel</button>
+            <a th:href="@{/}" class="btn btn-default">Cancel</a>
             <button class="btn btn-primary pull-right" type="submit"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Register</button>
         </div>
 

@@ -7,7 +7,6 @@
 
     <context:component-scan base-package="cz.muni.pa165.bookingmanager.web"/>
 
-    <!-- THYMELEAF: Template Resolver for webapp pages   -->
     <bean id="thymeleafTemplateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
         <property name="prefix" value="WEB-INF/html/"/>
         <property name="suffix" value=".html"/>
@@ -16,12 +15,15 @@
         <property name="cacheable" value="false" />
     </bean>
 
-    <!-- THYMELEAF: Template Engine (Spring3-specific version) -->
     <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolver" ref="thymeleafTemplateResolver"/>
+        <property name="additionalDialects">
+            <set>
+                <bean class="org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect"/>
+            </set>
+        </property>
     </bean>
 
-    <!-- THYMELEAF: View Resolver - implementation of Spring's ViewResolver interface -->
     <bean id="thymeleafViewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
         <property name="viewNames" value="*"/>
         <property name="templateEngine" ref="templateEngine"/>

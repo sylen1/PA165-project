@@ -7,15 +7,16 @@ import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.web.pto.UserRegistrationPto;
 import org.apache.commons.lang3.tuple.Pair;
 import org.dozer.Mapper;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 
 @Controller
 public class ExampleController {
@@ -24,13 +25,6 @@ public class ExampleController {
     private UserFacade userFacade;
     @Inject
     private Mapper mapper;
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, false));
-    }
 
     @RequestMapping("/foo.php")
     public String foo(){
@@ -71,16 +65,19 @@ public class ExampleController {
     }
 
     @RequestMapping(value = "/registration.php", method = RequestMethod.GET)
-    public String registrationGet(@ModelAttribute UserRegistrationPto userRegistrationPto, Model model){
-        if (userRegistrationPto == null){
+    public String registrationGet(Model model){
+        if (!model.containsAttribute("userRegistrationPto")){
             model.addAttribute("userRegistrationPto", new UserRegistrationPto());
         }
-
         return "registration";
     }
 
     @RequestMapping(value = "/registration.php", method = RequestMethod.POST)
-    public String registrationPost(@ModelAttribute UserRegistrationPto userRegistrationPto, Model model){
+    public String registrationPost(@Valid UserRegistrationPto userRegistrationPto, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()){
+            return "registration";
+        }
+
         UserDto userDto = mapper.map(userRegistrationPto, UserDto.class);
         Pair<UserDto, String> registerResult;
         try {
@@ -103,5 +100,20 @@ public class ExampleController {
         model.addAttribute("success", success ? "success" : "failure");
 
         return "confirm";
+    }
+
+    @RequestMapping("/about.php")
+    public String about(){
+        return "about";
+    }
+
+    @RequestMapping("/contact.php")
+    public String contact(){
+        return "contact";
+    }
+
+    @RequestMapping("/user/profile.php")
+    public String profile(){
+        return "profile";
     }
 }

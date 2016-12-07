@@ -1,14 +1,33 @@
 package cz.muni.pa165.bookingmanager.web.pto;
 
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class UserRegistrationPto {
+    @Pattern(regexp = "^[a-zA-Z ]*$")
+    @Length(min = 2, max = 32)
     private String name;
+    @NotBlank
     private String address;
+    @Email
+    @NotBlank
     private String email;
+    @NotBlank
     private String phoneNumber;
+    @Past
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @NotNull
     private Date birthDate;
+    @Pattern(regexp = "^[0-9a-zA-Z]*$")
+    @Length(min = 6, max = 32)
     private String password;
 
     public UserRegistrationPto() {

@@ -1,9 +1,6 @@
 package cz.muni.pa165.bookingmanager.web.pto;
 
-import cz.muni.pa165.bookingmanager.iface.dto.ReservationDto;
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationState;
-import cz.muni.pa165.bookingmanager.iface.dto.RoomDto;
-import cz.muni.pa165.bookingmanager.iface.dto.UserDto;
 
 import java.util.Date;
 
