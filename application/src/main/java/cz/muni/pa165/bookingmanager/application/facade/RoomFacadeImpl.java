@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -89,6 +90,11 @@ public class RoomFacadeImpl implements RoomFacade {
     @Transactional(readOnly = true)
     public PageResult<RoomDto> filterRooms(RoomFilter filter, PageInfo pageInfo) {
         return convertAll(roomService.filterRooms(filter, pageInfo));
+    }
+
+    @Override
+    public List<RoomDto> findAvailableRooms(Date availableFrom, Date availableTo, RoomFilter roomPropertyRestrictions, String city) {
+        return null;
     }
 
     private PageResult<RoomDto> convertAll(PageResult<RoomEntity> all) {
