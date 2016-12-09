@@ -25,4 +25,6 @@ public interface HotelFacade extends PageableFacade<HotelDto> {
     PageResult<HotelDto> findByCity(String city, PageInfo pageInfo);
 
     Optional<HotelDto> findById(Long id);
+
+    Optional<HotelDto> findByName(String name);
 }

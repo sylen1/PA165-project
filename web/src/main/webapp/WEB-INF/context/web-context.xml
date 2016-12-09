@@ -6,7 +6,7 @@
     <bean class="cz.muni.pa165.bookingmanager.web.StartupInit" init-method="onStartUp"/>
 
     <!--<bean id="myBeansValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />-->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven  validator="myBeansValidator" />
 
     <mvc:resources mapping="/*.css" location="WEB-INF/css/"/>
 
@@ -14,6 +14,8 @@
           class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="locale.messages"/>
     </bean>
+
+    <bean id="myBeansValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
     <import resource="security-context.xml"/>
     <import resource="classpath*:application-context.xml"/>

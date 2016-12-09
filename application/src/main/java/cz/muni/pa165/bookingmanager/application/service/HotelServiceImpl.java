@@ -50,6 +50,11 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public Optional<HotelEntity> findByName(String name) {
+        return Optional.ofNullable(hotelDao.findByName(name));
+    }
+
+    @Override
     public PageResult<HotelEntity> findAll(PageInfo pageInfo) {
         Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
         Page<HotelEntity> page = hotelDao.findAll(pageRequest);

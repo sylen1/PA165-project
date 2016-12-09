@@ -1,5 +1,6 @@
 package cz.muni.pa165.bookingmanager.iface.dto;
 
+import java.util.List;
 import java.util.Set;
 
 public class HotelDto {
@@ -14,6 +15,8 @@ public class HotelDto {
     private String email;
 
     private String phoneNumber;
+
+    private List<RoomDto> rooms;
 
     public HotelDto() {
     }
@@ -74,6 +77,14 @@ public class HotelDto {
         this.phoneNumber = phoneNumber;
     }
 
+    public List<RoomDto> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<RoomDto> rooms) {
+        this.rooms = rooms;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -108,6 +119,7 @@ public class HotelDto {
                 ", streetNumber='" + streetNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", rooms=" + rooms +
                 '}';
     }
 }

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (pageTitle='Hotel')"></head>
+<body>
+<div th:replace="fragments/top-bar :: top-bar">top-bar</div>
+<div class="container">
+    <h1>Hotel</h1>
+    <div th:text="${hotelOptional}"></div>
+</div>
+</body>
+</html>

@@ -65,6 +65,13 @@ public class HotelFacadeImpl implements HotelFacade {
 
     @Override
     @Transactional(readOnly = true)
+    public Optional<HotelDto> findByName(String name) {
+        return hotelService.findByName(name)
+                .map(x -> mapper.map(x, HotelDto.class));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public PageResult<HotelDto> findAll(PageInfo pageInfo) {
         PageResult<HotelEntity> entityPage = hotelService.findAll(pageInfo);
         return mapPage(entityPage);

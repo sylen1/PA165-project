@@ -28,4 +28,6 @@ public interface HotelService extends PageableService<HotelEntity> {
     PageResult<HotelEntity> findByCity(String city, PageInfo pageInfo);
 
     Optional<HotelEntity> findById(Long id);
+
+    Optional<HotelEntity> findByName(String name);
 }

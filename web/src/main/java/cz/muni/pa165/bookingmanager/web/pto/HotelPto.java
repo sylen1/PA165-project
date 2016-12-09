@@ -1,22 +1,29 @@
 package cz.muni.pa165.bookingmanager.web.pto;
 
 import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.List;
 
 public class HotelPto {
     private Long id;
 
+    @NotEmpty
     private String name;
 
+    @NotEmpty
     private String city;
 
+    @NotEmpty
     private String street;
 
+    @NotEmpty
     private String streetNumber;
 
+    @NotEmpty
     private String email;
 
+    @NotEmpty
     private String phoneNumber;
 
     private HotelStatistics hotelStatistics;
@@ -79,6 +86,14 @@ public class HotelPto {
         this.phoneNumber = phoneNumber;
     }
 
+    public List<RoomPto> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<RoomPto> rooms) {
+        this.rooms = rooms;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -119,6 +134,8 @@ public class HotelPto {
                 ", streetNumber='" + streetNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", hotelStatistics=" + hotelStatistics +
+                ", rooms=" + rooms +
                 '}';
     }
 }

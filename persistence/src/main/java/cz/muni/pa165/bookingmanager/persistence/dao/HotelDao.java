@@ -16,4 +16,6 @@ import org.springframework.stereotype.Repository;
 public interface HotelDao extends JpaRepository<HotelEntity, Long> {
 
     Page<HotelEntity> findByCity(String city, Pageable pageable);
+
+    HotelEntity findByName(String name);
 }
