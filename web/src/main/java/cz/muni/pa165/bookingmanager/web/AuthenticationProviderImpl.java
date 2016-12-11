@@ -11,8 +11,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class AuthenticationProviderImpl implements AuthenticationProvider {
@@ -46,6 +49,11 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
                 new UsernamePasswordAuthenticationToken(user.getEmail(), password, authorities);
 
         SecurityContextHolder.getContext().setAuthentication(auth);
+    }
+
+    public static void logout(HttpServletRequest request){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        new SecurityContextLogoutHandler().logout(request, null, auth);
     }
 
     @Override

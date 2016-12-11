@@ -5,7 +5,7 @@
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
 <div class="col-md-offset-3 col-md-8">
     <h1 class="col-md-offset-2">Registration</h1>
-    <form id="registration-form" class="form-horizontal" th:action="@{registration.php}" th:object="${userRegistrationPto}" th:method="post">
+    <form id="registration-form" class="form-horizontal" th:action="@{registration}" th:object="${userRegistrationPto}" th:method="post">
         <div class="form-group">
             <label class="col-md-2 control-label" for="name">Name: </label>
             <div class="col-md-4">

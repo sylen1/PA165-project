@@ -5,25 +5,34 @@
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
 <div class="col-md-offset-3 col-md-8">
     <h1 class="col-md-offset-2">Log in</h1>
-    <form th:action="@{/login}" method="post" class="form-horizontal">
-        <div class="form-group">
-            <label class="col-md-2 control-label" for="username">Email:</label>
-            <div class="col-md-4">
-                <input class="form-control" type="text" id="username" name="username" autofocus="autofocus"/>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <label class="col-md-2 control-label" for="username">Password:</label>
-            <div class="col-md-4">
-                <input class="form-control" type="password" id="password" name="password"/>
+    <!--/*@thymesVar id="logout" type="java.lang.Boolean"*/-->
+    <div th:if="${logout}">
+        <div class="col-md-7 alert alert-success text-center" role="alert">You have been successfully logged out.</div>
+    </div>
+
+    <div class="col-md-10" style="margin-top: 16px">
+        <form th:action="@{/login}" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="username">Email:</label>
+                <div class="col-md-4">
+                    <input class="form-control" type="text" id="username" name="username" autofocus="autofocus"/>
+                </div>
             </div>
-        </div>
-        <div class="col-md-offset-2 col-md-4" style="padding-left:0;">
-            <input class="btn btn-primary" type="submit" value="Log in"/>
-            <a class="btn btn-default" th:href="@{/registration.php}">Registration</a>
-        </div>
-    </form>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="password">Password:</label>
+                <div class="col-md-4">
+                    <input class="form-control" type="password" id="password" name="password"/>
+                </div>
+            </div>
+            <div class="col-md-offset-2 col-md-4" style="padding-left:0;">
+                <input class="btn btn-primary" type="submit" value="Log in"/>
+                <a class="btn btn-default" th:href="@{/registration}">Registration</a>
+            </div>
+        </form>
+    </div>
+
 </div>
 </body>
 </html>

@@ -26,13 +26,13 @@ public class ExampleController {
     @Inject
     private Mapper mapper;
 
-    @RequestMapping("/foo.php")
+    @RequestMapping("/foo")
     public String foo(){
         return "foo";
     }
 
 
-    @RequestMapping("/cool.php")
+    @RequestMapping("/cool")
     public String cool(Model model){
         String title = "This is page title";
         UserDto userDto = new UserDto();
@@ -60,62 +60,6 @@ public class ExampleController {
         return "index";
     }*/
 
-    @RequestMapping("/login.php")
-    public String login(){
-        return "login";
-    }
 
-    @RequestMapping(value = "/registration.php", method = RequestMethod.GET)
-    public String registrationGet(Model model){
-        if (!model.containsAttribute("userRegistrationPto")){
-            model.addAttribute("userRegistrationPto", new UserRegistrationPto());
-        }
-        return "registration";
-    }
-
-    @RequestMapping(value = "/registration.php", method = RequestMethod.POST)
-    public String registrationPost(@Valid UserRegistrationPto userRegistrationPto, BindingResult bindingResult, Model model){
-        if (bindingResult.hasErrors()){
-            return "registration";
-        }
-
-        UserDto userDto = mapper.map(userRegistrationPto, UserDto.class);
-        Pair<UserDto, String> registerResult;
-        try {
-            registerResult = userFacade.registerUser(userDto, userRegistrationPto.getPassword());
-        } catch (Exception e) {
-            return "registration";
-        }
-
-        AuthenticationProviderImpl.logInUser(userDto, userRegistrationPto.getPassword());
-
-        model.addAttribute("email", userDto.getEmail());
-        model.addAttribute("token", registerResult.getRight());
-
-        return "registration_successful";
-    }
-
-    @RequestMapping("/confirm.php")
-    public String confirmUser(@RequestParam String email, @RequestParam String token, Model model){
-        boolean success = userFacade.confirmUserRegistration(email, token);
-        model.addAttribute("success", success ? "success" : "failure");
-
-        return "confirm";
-    }
-
-    @RequestMapping("/about.php")
-    public String about(){
-        return "about";
-    }
-
-    @RequestMapping("/contact.php")
-    public String contact(){
-        return "contact";
-    }
-
-    @RequestMapping("/user/profile.php")
-    public String profile(){
-        return "profile";
-    }
 
 }
