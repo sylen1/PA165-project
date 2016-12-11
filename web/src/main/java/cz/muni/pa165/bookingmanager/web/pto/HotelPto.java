@@ -94,6 +94,14 @@ public class HotelPto {
         this.rooms = rooms;
     }
 
+    public HotelStatistics getHotelStatistics() {
+        return hotelStatistics;
+    }
+
+    public void setHotelStatistics(HotelStatistics hotelStatistics) {
+        this.hotelStatistics = hotelStatistics;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
