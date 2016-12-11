@@ -2,10 +2,99 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head (pageTitle='Hotel')"></head>
 <body>
-<div th:replace="fragments/top-bar :: top-bar">top-bar</div>
-<div class="container">
-    <h1>Hotel</h1>
-    <div th:text="${hotelOptional}"></div>
-</div>
+    <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
+    <div class="container">
+        <p th:if="${hotelOptional.isPresent()}" class="pull-right">
+            <a th:href="@{list}">&lt; Back to list of hotels</a>
+        </p>
+        <h1 th:text="${'Hotel with ID '+ requestedId}"></h1>
+
+        <p th:if="${!hotelOptional.isPresent()}" class="alert alert-info" role="alert">
+            No hotel found for received ID. Please, <a th:href="@{list}">return back to list of hotels</a>.
+        </p>
+
+        <div th:if="${hotelOptional.isPresent()}" th:with="hotel=${hotelOptional.get()}">
+            <h2>Detail of the hotel</h2>
+            <table class="table table-nonfluid table-bordered table-striped table-hover">
+                <tr>
+                    <th>Name</th>
+                    <td th:text="${hotel.name}"></td>
+                </tr>
+                <tr>
+                    <th>City</th>
+                    <td th:text="${hotel.city}"></td>
+                </tr>
+                <tr>
+                    <th>Street</th>
+                    <td th:text="${hotel.street +' '+ hotel.streetNumber}"></td>
+                </tr>
+                <tr>
+                    <th>E-mail</th>
+                    <td th:text="${hotel.email}"></td>
+                </tr>
+                <tr>
+                    <th>Phone number</th>
+                    <td th:text="${hotel.phoneNumber}"></td>
+                </tr>
+            </table>
+            <p><a th:href="@{{id}/edit(id=${hotel.id})}"><span class="glyphicon glyphicon-pencil"></span> Edit details</a></p>
+            <p><a th:href="@{{id}/delete(id=${hotel.id})}"><span class="glyphicon glyphicon-remove"></span> Delete hotel</a></p>
+
+
+            <h2>Rooms</h2>
+            <p th:if="${!hotel.rooms.isEmpty()}" class="pull-right">Count: <strong th:text="${hotel.rooms.size()}"></strong></p>
+            <p><a th:href="@{{id}/room/add(id=${hotel.id})}"><span class="glyphicon glyphicon-plus"></span> Add new room to this hotel</a></p>
+            <p th:if="${hotel.rooms.isEmpty()}" class="alert alert-info" role="alert">
+                There are no rooms assigned to this hotel
+            </p>
+            <div th:if="${!hotel.rooms.isEmpty()}">
+                <table class="admin-list-of-rooms-in-hotel table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Bed count</th>
+                            <!--th>Description</th-->
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="room : ${hotel.rooms}">
+                            <td th:text="${room.id}"></td>
+                            <td th:text="${room.name}"></td>
+                            <td th:text="${room.price}"></td>
+                            <td th:text="${room.bedCount}"></td>
+                            <!--td>
+                                <a href="#" class="show-description">Show description</a>
+                                <span class="hide description-content"></span>
+                            </td-->
+                            <td>
+                                <a th:href="@{{hotelId}/room/{roomId}/edit(hotelId=${hotel.id}, roomId=${room.id})}">
+                                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                                </a>
+                                |
+                                <a th:href="@{{hotelId}/room/{roomId}/delete(hotelId=${hotel.id}, roomId=${room.id})}">
+                                    <span class="glyphicon glyphicon-remove"></span> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--script src="https://code.jquery.com/jquery-2.2.4.min.js" crossorigin="anonymous"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="></script>
+    <script th:src="@{/plugins/fancybox/jquery.fancybox.pack.js}"></script>
+    <link rel="stylesheet" th:href="@{/plugins/fancybox/jquery.fancybox.pack.css}" type="text/css" media="screen" />
+    <script>
+        $(function() {
+            $('.show-description').click(function(e) {
+                e.preventDefault();
+                $.fancybox({ content: $(this).closest('td').find('.description-content').html() });
+            });
+        });
+    </script-->
 </body>
 </html>

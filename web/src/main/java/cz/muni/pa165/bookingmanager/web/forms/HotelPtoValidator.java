@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author Mojmír Odehnal, 374422
  */
 public class HotelPtoValidator implements Validator {
-    HotelFacade hotelFacade;
+    private HotelFacade hotelFacade;
 
     public HotelPtoValidator(HotelFacade hotelFacade) {
         this.hotelFacade = hotelFacade;

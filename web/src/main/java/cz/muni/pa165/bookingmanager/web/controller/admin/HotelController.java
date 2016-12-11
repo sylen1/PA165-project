@@ -2,6 +2,8 @@ package cz.muni.pa165.bookingmanager.web.controller.admin;
 
 import cz.muni.pa165.bookingmanager.iface.dto.HotelDto;
 import cz.muni.pa165.bookingmanager.iface.facade.HotelFacade;
+import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
+import cz.muni.pa165.bookingmanager.iface.facade.RoomFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.web.WebAppConstants;
@@ -30,6 +32,8 @@ import java.util.stream.Collectors;
 public class HotelController {
     @Inject
     private HotelFacade hotelFacade;
+    @Inject
+    private ReservationFacade reservationFacade;
 
     @Inject
     private Mapper mapper;
@@ -50,6 +54,7 @@ public class HotelController {
     @RequestMapping("/{id}")
     public String view(@PathVariable("id") Long hotelId, Model model) {
         model.addAttribute("hotelOptional", hotelFacade.findById(hotelId).map(x -> mapper.map(x, HotelPto.class)));
+        model.addAttribute("requestedId", hotelId);
         return "admin/hotel/view";
     }
 

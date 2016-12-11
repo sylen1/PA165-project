@@ -53,7 +53,9 @@ public class HomeController {
             Date from = new Date();
             Date to = new Date();
             to.setTime(to.getTime()+10*24*60*60*1000);
-            List<RoomDto> rooms =  roomFacade.findAvailableRooms(from, to, new RoomFilter(0,10, new BigDecimal(0), new BigDecimal(10000)), "New York", new PageInfo(0,Integer.MAX_VALUE)).getEntries();
+            System.out.println(roomFacade.findAvailableRooms(from, to,
+                    new RoomFilter(0,10, new BigDecimal(0), new BigDecimal(10000)),
+                    "New York", new PageInfo(0,Integer.MAX_VALUE)).getEntries().size());
             List<RoomDto> roomz = roomFacade.findAll(new PageInfo(0, Integer.MAX_VALUE)).getEntries();
             List<HotelDto> hotelz = hotelFacade.findAll(new PageInfo(0,Integer.MAX_VALUE)).getEntries();
             model.addAttribute("rooms", roomz);

@@ -1,29 +1,31 @@
 package cz.muni.pa165.bookingmanager.web.pto;
 
 import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.util.List;
 
 public class HotelPto {
     private Long id;
 
-    @NotEmpty
+    @NotBlank
     private String name;
 
-    @NotEmpty
+    @NotBlank
     private String city;
 
-    @NotEmpty
+    @NotBlank
     private String street;
 
-    @NotEmpty
+    @NotBlank
     private String streetNumber;
 
-    @NotEmpty
+    @NotBlank
+    @Email
     private String email;
 
-    @NotEmpty
+    @NotBlank
     private String phoneNumber;
 
     private HotelStatistics hotelStatistics;

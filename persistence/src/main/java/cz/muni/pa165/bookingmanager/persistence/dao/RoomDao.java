@@ -28,7 +28,7 @@ public interface RoomDao extends JpaRepository<RoomEntity, Long> {
             + "         (re.startDate < :since AND re.endDate > :until)" // is valid through the whole interval
             + "         OR (re.startDate >= :since AND re.startDate <= :until)" // or starts in it (and ends either in or out)
             + "         OR (re.endDate >= :since AND re.endDate <= :until)"  // or ends in it (and starts either in or out)
-            + "       )"
+            + "       ) AND re.state <> 'CANCELLED'"
             + "   )"
             + "   AND ro.bedCount > :bedsFrom AND ro.bedCount < :bedsTo AND ro.price > :priceFrom AND ro.price < :priceTo")
     Page<RoomEntity> findAvailableRooms(@Param("since") Date availableFrom, @Param("until") Date availableTo,

@@ -6,7 +6,16 @@
     margin-top: 8px;
     margin-bottom: 0;
 }
+
+.table-nonfluid {
+    width: auto;
+}
+
 .index{
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+table.admin-list-of-hotels thead th:last-child {
+    width: 290px;
 }
