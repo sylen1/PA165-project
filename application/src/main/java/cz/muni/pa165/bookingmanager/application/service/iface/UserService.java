@@ -30,6 +30,13 @@ public interface UserService extends PageableService<UserEntity> {
     Optional<UserEntity> findByEmail(String email);
 
     /**
+     * Tries to find user by phone
+     * @param phone phone number to look for
+     * @return Optional with UserEntity if found, else empty one
+     */
+    Optional<UserEntity> findByPhoneNumber(String phone);
+
+    /**
      * Attempts to register a new user
      * @param user UserDto instance containing user info
      * @param passwd plain-text password chosen by user

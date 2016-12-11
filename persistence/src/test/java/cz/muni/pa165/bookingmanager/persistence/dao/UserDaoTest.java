@@ -210,7 +210,7 @@ public class UserDaoTest {
         assertEquals("Address updated", retrieved3.getAddress());
     }
     
-    @Test()
+    @Test
     public void delete() {
         UserEntity c = new UserEntity();
         c.setName("Customer");
@@ -229,34 +229,20 @@ public class UserDaoTest {
         assertNull(userDao.findOne(c.getId()));
     }
 
-    @Test()
-    public void findByName() {
-        UserEntity c1 = new UserEntity();
-        c1.setName("Customer number 1");
-        c1.setAddress("Address 1");
-        c1.setEmail("mail1@mail.mail");
-        c1.setPhoneNumber("123456");
-        c1.setPasswordHash(dummyhash1);
-        c1.setPasswordSalt(dummysalt1);
-        c1.setAccountState(DatabaseAccountState.CUSTOMER);
-        c1.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
-        c1 = userDao.save(c1);
+    @Test
+    public void findByPhoneNumberTest(){
+        UserEntity c = new UserEntity();
+        c.setName("Customer");
+        c.setAddress("Address");
+        c.setEmail("mail@mail.mail");
+        c.setPhoneNumber("123456");
+        c.setPasswordHash(dummyhash2);
+        c.setPasswordSalt(dummysalt2);
+        c.setAccountState(DatabaseAccountState.CUSTOMER);
+        c.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
 
-        UserEntity c2 = new UserEntity();
-        c2.setName("Customer number 2");
-        c2.setAddress("Address 2");
-        c2.setEmail("mail2@mail.mail");
-        c2.setPasswordHash(dummyhash2);
-        c2.setPasswordSalt(dummysalt2);
-        c2.setPhoneNumber("1234567");
-        c2.setAccountState(DatabaseAccountState.CUSTOMER);
-        c2.setBirthDate(new Date(Date.valueOf("1985-08-20").getTime()));
-        userDao.save(c2);
-
-        assertEquals(2, userDao.count());
-        List<UserEntity> found = userDao.findByName(c1.getName());
-        assertEquals(1,found.size());
-        assertEquals(c1,found.get(0));
+        c = userDao.save(c);
+        assertEquals(c,userDao.findByPhoneNumber(c.getPhoneNumber()));
     }
 
 

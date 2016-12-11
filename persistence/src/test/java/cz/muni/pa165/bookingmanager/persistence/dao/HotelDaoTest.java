@@ -2,7 +2,6 @@ package cz.muni.pa165.bookingmanager.persistence.dao;
 
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -42,6 +42,12 @@ public class UserFacadeImpl implements UserFacade{
 
     @Override
     @Transactional(readOnly = true)
+    public Optional<UserDto> findByPhoneNumber(String phone) {
+        return userService.findByPhoneNumber(phone).map(this::userEntityToDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public boolean authenticate(String email, String password) {
         boolean result = false;
         Optional<UserEntity> byEmail = userService.findByEmail(email);
