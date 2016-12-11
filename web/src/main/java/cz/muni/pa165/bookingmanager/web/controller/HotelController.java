@@ -16,6 +16,6 @@ public class HotelController {
     private HotelFacade hotelFacade;
 
     public String detail(){
-        return "detail";
+        return "/hotel/detail";
     }
 }
