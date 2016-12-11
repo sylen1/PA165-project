@@ -18,6 +18,13 @@ public interface UserFacade extends PageableFacade<UserDto>{
     Optional<UserDto> findByEmail(String email);
 
     /**
+     * Finds user by phone
+     * @param phone phone number to look for
+     * @return Optional instance with UserDto if found, else empty one
+     */
+    Optional<UserDto> findByPhoneNumber(String phone);
+
+    /**
      * Attempts to authenticate user
      * @return true on success, false on failure(wrong info)
      */

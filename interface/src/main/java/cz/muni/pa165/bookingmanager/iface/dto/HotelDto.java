@@ -1,7 +1,6 @@
 package cz.muni.pa165.bookingmanager.iface.dto;
 
 import java.util.List;
-import java.util.Set;
 
 public class HotelDto {
     private Long id;

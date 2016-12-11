@@ -3,11 +3,9 @@ package cz.muni.pa165.bookingmanager.web.forms;
 import cz.muni.pa165.bookingmanager.iface.dto.HotelDto;
 import cz.muni.pa165.bookingmanager.iface.facade.HotelFacade;
 import cz.muni.pa165.bookingmanager.web.pto.HotelPto;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import javax.inject.Inject;
 import java.util.Optional;
 
 /**

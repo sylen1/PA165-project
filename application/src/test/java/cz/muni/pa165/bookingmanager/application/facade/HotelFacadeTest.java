@@ -10,16 +10,16 @@ import org.dozer.Mapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.domain.Page;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.*;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ContextConfiguration(locations = { "/application-context.xml" } )
 @RunWith(SpringJUnit4ClassRunner.class)

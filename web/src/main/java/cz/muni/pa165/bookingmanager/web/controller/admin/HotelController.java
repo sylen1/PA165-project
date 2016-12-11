@@ -98,15 +98,15 @@ public class HotelController {
 
 
 
-    private PageResult<HotelPto> mapToPagePtos(PageResult<HotelDto> entityPage){
-        List<HotelPto> dtos = entityPage.getEntries()
+    private PageResult<HotelPto> mapToPagePtos(PageResult<HotelDto> dtoPageResult){
+        List<HotelPto> ptos = dtoPageResult.getEntries()
                 .stream()
                 .map(x -> mapper.map(x, HotelPto.class))
                 .collect(Collectors.toList());
 
         PageResult<HotelPto> result = new PageResult<>();
-        mapper.map(entityPage, result);
-        result.setEntries(dtos);
+        mapper.map(dtoPageResult, result);
+        result.setEntries(ptos);
 
         return result;
     }

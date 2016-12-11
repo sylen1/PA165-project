@@ -1,12 +1,11 @@
 package cz.muni.pa165.bookingmanager.application.service.iface;
 
-import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
-import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
+import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 /**
