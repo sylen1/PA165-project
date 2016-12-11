@@ -24,7 +24,7 @@ public interface RoomDao extends JpaRepository<RoomEntity, Long> {
             + " WHERE (:city = '' OR ro.id IN (SELECT ro2.id FROM HotelEntity h JOIN h.rooms ro2 WHERE h.city = :city))"
             + "   AND NOT EXISTS (" // does not have reservation in that time range
             + "     SELECT re.id FROM ReservationEntity re WHERE"
-            + "       re.room = ro.id AND ("
+            + "       re.room.id = ro.id AND ("
             + "         (re.startDate < :since AND re.endDate > :until)" // is valid through the whole interval
             + "         OR (re.startDate >= :since AND re.startDate <= :until)" // or starts in it (and ends either in or out)
             + "         OR (re.endDate >= :since AND re.endDate <= :until)"  // or ends in it (and starts either in or out)
