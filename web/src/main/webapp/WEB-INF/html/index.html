@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head"></head>
-<body>
+<head th:replace="fragments/head :: head">
+    <style th:href="custom.css" type="text/css"/>
+</head>
+<body class="index" background="index_bg.jpg">
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
-<div class="col-md-offset-3 col-md-8">
-    <p>
-        <h1>Welcome!</h1>
-    </p>
+
+<div class="row col-md-12">
+    <div style="text-align: center">
+        <h1 style="font-size: 100px; color: white">Welcome!</h1><br/>
+        <p>
+          <a href="/pa165/list.fortran" class="btn btn-warning" role="button" style="font-size: 40px">Click to continue.</a>
+        </p>
+    </div>
 </div>
 </body>
 </html>

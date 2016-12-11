@@ -54,10 +54,11 @@ public class ExampleController {
         return "cool";
     }
 
-    @RequestMapping("/")
+ /*  @RequestMapping("/")
     public String index(){
+
         return "index";
-    }
+    }*/
 
     @RequestMapping("/login.php")
     public String login(){
@@ -116,4 +117,5 @@ public class ExampleController {
     public String profile(){
         return "profile";
     }
+
 }
