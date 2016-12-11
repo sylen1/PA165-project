@@ -245,5 +245,20 @@ public class UserDaoTest {
         assertEquals(c,userDao.findByPhoneNumber(c.getPhoneNumber()));
     }
 
+    @Test
+    public void findByIdTest(){
+        UserEntity c = new UserEntity();
+        c.setName("Customer");
+        c.setAddress("Address");
+        c.setEmail("mail@mail.mail");
+        c.setPhoneNumber("123456");
+        c.setPasswordHash(dummyhash2);
+        c.setPasswordSalt(dummysalt2);
+        c.setAccountState(DatabaseAccountState.CUSTOMER);
+        c.setBirthDate(new Date(Date.valueOf("1990-03-05").getTime()));
+
+        c = userDao.save(c);
+        assertEquals(c,userDao.findById(c.getId()));
+    }
 
 }

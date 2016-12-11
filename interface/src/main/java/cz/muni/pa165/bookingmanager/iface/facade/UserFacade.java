@@ -10,6 +10,14 @@ import java.util.Optional;
  */
 public interface UserFacade extends PageableFacade<UserDto>{
 
+
+    /**
+     * Finds user by ID
+     * @param id ID to look for
+     * @return Optional instance with correct ID if found, else empty one
+     */
+    Optional<UserDto> findById(Long id);
+
     /**
      * Finds user by email address
      * @param email email to search for

@@ -73,6 +73,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Optional<UserEntity> findById(Long id){
+        return Optional.of(userDao.findById(id));
+    }
+
+    @Override
     public Pair<UserEntity, String> registerUser(UserEntity user, String passwd) {
         Pair<byte[],byte[]> hashSalt;
         try {

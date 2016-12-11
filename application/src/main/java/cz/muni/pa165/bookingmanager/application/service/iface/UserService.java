@@ -23,6 +23,13 @@ public interface UserService extends PageableService<UserEntity> {
     PageResult<UserEntity> findAll(PageInfo pageInfo);
 
     /**
+     * Finds user by ID
+     * @param id ID to look for
+     * @return Optional with UserEntity if found, else empty
+     */
+    Optional<UserEntity> findById(Long id);
+
+    /**
      * Attempts to find a user by email address
      * @param email email to search for
      * @return Optional instance, with UserDto if found, empty otherwise

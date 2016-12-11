@@ -54,10 +54,10 @@ public class UserController {
         return "admin/user/list";
     }
 
-    @RequestMapping("/{email}")
-    public String view(@PathVariable("email") String userEmail, Model model){
+    @RequestMapping("/{id}")
+    public String view(@PathVariable("id") Long userId, Model model){
         log.debug("admin userctl view");
-        model.addAttribute("userOptional",userFacade.findByEmail(userEmail).map(x-> mapper.map(x,UserPto.class)));
+        model.addAttribute("userOptional",userFacade.findById(userId).map(x-> mapper.map(x,UserPto.class)));
         return "admin/user/view";
     }
 
@@ -77,22 +77,22 @@ public class UserController {
             dto = userFacade.registerUser(dto,passwd).getLeft();
 
             redirectAttributes.addFlashAttribute("alert_success", "User '" + dto.getName() + "' was successfully created");
-            return "redirect:" + uriBuilder.path("/admin/user/{email}").buildAndExpand(dto.getEmail()).encode().toUriString();
+            return "redirect:" + uriBuilder.path("/admin/user/{id}").buildAndExpand(dto.getId()).encode().toUriString();
         }
         return "admin/user/add";
     }
 
-    @RequestMapping(value = "/{email}/edit", method = RequestMethod.GET)
-    public String editGet(@PathVariable("email") String userEmail, Model model) {
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    public String editGet(@PathVariable("id") Long userId, Model model) {
         log.debug("admin userctl editget");
-        Optional<UserDto> userDtoOptional = userFacade.findByEmail(userEmail);
-        if(!userDtoOptional.isPresent()) throw new IllegalArgumentException("User with given email does not exist");
+        Optional<UserDto> userDtoOptional = userFacade.findById(userId);
+        if(!userDtoOptional.isPresent()) throw new IllegalArgumentException("User does not exist");
         model.addAttribute("user", mapper.map(userDtoOptional.get(), UserPto.class));
         return "admin/user/edit";
     }
 
-    @RequestMapping(value = "/{email}/edit", method = RequestMethod.POST)
-    public String editPost(@PathVariable("email") String userEmail, @Valid @ModelAttribute("user") UserPto pto,
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    public String editPost(@PathVariable("id") String userEmail, @Valid @ModelAttribute("user") UserPto pto,
                            BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("admin userctl editpost");
         if(!userEmail.equals(pto.getEmail())) throw new IllegalArgumentException("User email unequal to email in PTO");
@@ -101,7 +101,7 @@ public class UserController {
             UserDto dto = userFacade.updateUser(mapper.map(pto, UserDto.class));
 
             redirectAttributes.addFlashAttribute("alert_success", "User '" + dto.getName() + "' was successfully updated");
-            return "redirect:" + uriBuilder.path("/admin/user/{email}").buildAndExpand(dto.getEmail()).encode().toUriString();
+            return "redirect:" + uriBuilder.path("/admin/user/{id}").buildAndExpand(dto.getId()).encode().toUriString();
         }
 
         return "admin/user/edit";
