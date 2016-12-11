@@ -91,7 +91,6 @@ public class RoomServiceImpl implements RoomService {
         Validate.notNull(filter, "roomPropertyRestrictions cannot be null");
         Validate.notNull(city, "city cannot be null");
         Validate.notNull(pageInfo, "pageInfo cannot be null");
-        Pageable pageRequest = new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize());
         Page<RoomEntity> page = roomDao.findAvailableRooms(
                 new java.sql.Date(from.getTime()),
                 new java.sql.Date(to.getTime()),

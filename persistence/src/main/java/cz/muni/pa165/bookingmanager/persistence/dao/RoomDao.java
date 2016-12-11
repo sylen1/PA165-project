@@ -30,7 +30,7 @@ public interface RoomDao extends JpaRepository<RoomEntity, Long> {
             + "         OR (re.endDate >= :since AND re.endDate <= :until)"  // or ends in it (and starts either in or out)
             + "       )"
             + "   )"
-            + "   AND ro.bedCount > :bedsFrom AND ro.bedCount > :bedsTo AND ro.price > :priceFrom AND ro.price > :priceTo")
+            + "   AND ro.bedCount > :bedsFrom AND ro.bedCount < :bedsTo AND ro.price > :priceFrom AND ro.price < :priceTo")
     Page<RoomEntity> findAvailableRooms(@Param("since") Date availableFrom, @Param("until") Date availableTo,
             @Param("bedsFrom") int bedCountFrom, @Param("bedsTo") int bedCountTo, @Param("priceFrom") BigDecimal priceFrom,
             @Param("priceTo") BigDecimal priceTo, @Param("city") String city, Pageable pageInfo);
