@@ -4,6 +4,8 @@
          xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
+    <http security="none" pattern="/rest/**" />
+
     <http>
         <intercept-url pattern="/login" access="isAnonymous()" />
         <intercept-url pattern="/registration" access="isAnonymous()" />
@@ -11,6 +13,7 @@
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
         <form-login login-page="/login"/>
     </http>
+
 
     <authentication-manager>
         <authentication-provider ref="authenticationProviderImpl"/>
