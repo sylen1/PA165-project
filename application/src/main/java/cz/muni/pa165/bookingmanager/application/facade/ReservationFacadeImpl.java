@@ -2,6 +2,7 @@ package cz.muni.pa165.bookingmanager.application.facade;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.ReservationService;
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationDto;
+import cz.muni.pa165.bookingmanager.iface.dto.ReservationState;
 import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
@@ -38,6 +39,7 @@ public class ReservationFacadeImpl implements ReservationFacade {
     @Transactional
     public ReservationDto createReservation(ReservationDto reservationDto) {
         Validate.isTrue(reservationDto.getId() == null);
+        reservationDto.setState(ReservationState.NEW);
         ReservationEntity entity = mapper.map(reservationDto, ReservationEntity.class);
         ReservationEntity saved = reservationService.createReservation(entity);
         return mapper.map(saved, ReservationDto.class);

@@ -56,6 +56,11 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         new SecurityContextLogoutHandler().logout(request, null, auth);
     }
 
+    public static String getLoggedUserEmail(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
+    }
+
     @Override
     public boolean supports(Class<?> authentication) {
         return true;

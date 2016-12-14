@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+<div th:replace="fragments/top-bar :: top-bar">top-bar</div>
+<div class="col-md-offset-3 col-md-8">
+    <h1 class="col-md-offset-2">Reservation</h1>
+
+    <form id="reservation-form" class="form-inline" th:action="@{form}" th:object="${reservationPto}" th:method="post">
+        <label class="control-label" for="date-from">From: </label>
+        <input class="form-control datepicker" id="date-from" type="text" th:field="*{startDate}" />
+        <div th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="alert alert-danger" role="alert">
+            err_date_from
+        </div>
+
+        <label class="control-label" for="date-to">To: </label>
+        <input class="form-control datepicker" id="date-to" type="text" th:field="*{endDate}" />
+        <div th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="alert alert-danger" role="alert">
+            err_date_to
+        </div>
+
+        <input type="hidden" th:field="*{roomId}">
+
+        <a th:href="@{/}" class="btn btn-default">Cancel</a>
+        <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Reserve</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('.datepicker').datepicker({
+                dateFormat: 'dd.mm.yy',
+                minDate: new Date(),
+                value: new Date()
+            }).datepicker('setDate', new Date());
+        });
+    </script>
+</div>
+</body>

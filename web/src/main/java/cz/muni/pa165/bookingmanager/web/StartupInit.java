@@ -1,12 +1,11 @@
 package cz.muni.pa165.bookingmanager.web;
 
-import cz.muni.pa165.bookingmanager.iface.dto.AccountState;
-import cz.muni.pa165.bookingmanager.iface.dto.HotelDto;
-import cz.muni.pa165.bookingmanager.iface.dto.RoomDto;
-import cz.muni.pa165.bookingmanager.iface.dto.UserDto;
+import cz.muni.pa165.bookingmanager.iface.dto.*;
 import cz.muni.pa165.bookingmanager.iface.facade.HotelFacade;
+import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
 import cz.muni.pa165.bookingmanager.iface.facade.RoomFacade;
 import cz.muni.pa165.bookingmanager.iface.facade.UserFacade;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +14,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class StartupInit implements ApplicationContextAware {
@@ -29,7 +28,7 @@ public class StartupInit implements ApplicationContextAware {
 
         UserDto adminDto = new UserDto();
         adminDto.setAddress("");
-        adminDto.setBirthDate(Date.valueOf("1990-1-1"));
+        adminDto.setBirthDate(java.sql.Date.valueOf("1990-1-1"));
         adminDto.setName("Admin");
         adminDto.setEmail("admin@admin.com");
         adminDto.setPhoneNumber("123");
@@ -47,6 +46,24 @@ public class StartupInit implements ApplicationContextAware {
 
 
         seedRoomsAndHotels();
+        createReservations(adminDto);
+    }
+
+    private void createReservations(UserDto userDto) {
+        ReservationFacade reservationFacade = context.getBean(ReservationFacade.class);
+
+        RoomFacade roomFacade = context.getBean(RoomFacade.class);
+        RoomDto roomDto = roomFacade.findById(1L).get();
+
+        for (int i = 0; i < 24; i++){
+            ReservationDto reservationDto = new ReservationDto();
+            reservationDto.setCustomer(userDto);
+            reservationDto.setRoom(roomDto);
+            Date now = new Date();
+            reservationDto.setStartDate(new Date(now.getTime() + i * DateUtils.MILLIS_PER_DAY));
+            reservationDto.setEndDate(new Date(now.getTime() + (i+1) * DateUtils.MILLIS_PER_DAY));
+            reservationFacade.createReservation(reservationDto);
+        }
     }
 
     @Override

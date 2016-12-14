@@ -3,7 +3,6 @@ package cz.muni.pa165.bookingmanager.web.controller.admin;
 import cz.muni.pa165.bookingmanager.iface.dto.HotelDto;
 import cz.muni.pa165.bookingmanager.iface.facade.HotelFacade;
 import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
-import cz.muni.pa165.bookingmanager.iface.facade.RoomFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.web.WebAppConstants;
@@ -47,7 +46,7 @@ public class HotelController {
 
     @RequestMapping("/list")
     public String list(@RequestParam(defaultValue = "1") int p, Model model) {
-        model.addAttribute("pageOfHotels", mapToPagePtos(hotelFacade.findAll(new PageInfo(p-1, WebAppConstants.defaultPageSize))));
+        model.addAttribute("pageOfHotels", mapToPagePtos(hotelFacade.findAll(new PageInfo(p-1, WebAppConstants.DEFAULT_PAGE_SIZE))));
         return "admin/hotel/list";
     }
 

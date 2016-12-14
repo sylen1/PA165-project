@@ -1,7 +1,10 @@
 package cz.muni.pa165.bookingmanager.web.pto;
 
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationState;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -9,26 +12,19 @@ import java.util.Date;
  * @author Mojmír Odehnal, 374422
  */
 public class ReservationPto {
-    
-    private ReservationState state;
-    
     private Long id;
-    
-    private RoomPto room;
-    
-    private UserPto customer;
-    
+
+    private Long roomId;
+
+    @NotNull
+    @Future
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private Date startDate;
-    
+
+    @NotNull
+    @Future
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private Date endDate;
-
-    public ReservationState getState() {
-        return state;
-    }
-
-    public void setState(ReservationState state) {
-        this.state = state;
-    }
 
     public Long getId() {
         return id;
@@ -38,20 +34,12 @@ public class ReservationPto {
         this.id = id;
     }
 
-    public RoomPto getRoom() {
-        return room;
+    public Long getRoomId() {
+        return roomId;
     }
 
-    public void setRoom(RoomPto room) {
-        this.room = room;
-    }
-
-    public UserPto getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(UserPto customer) {
-        this.customer = customer;
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 
     public Date getStartDate() {
@@ -77,23 +65,17 @@ public class ReservationPto {
 
         ReservationPto that = (ReservationPto) o;
 
-        if (getState() != that.getState()) return false;
-        if (getRoom() != null ? !getRoom().equals(that.getRoom()) : that.getRoom() != null) return false;
-        if (getCustomer() != null ? !getCustomer().equals(that.getCustomer()) : that.getCustomer() != null)
-            return false;
-        if (getStartDate() != null ? !getStartDate().equals(that.getStartDate()) : that.getStartDate() != null)
-            return false;
-        return getEndDate() != null ? getEndDate().equals(that.getEndDate()) : that.getEndDate() == null;
+        if (roomId != null ? !roomId.equals(that.roomId) : that.roomId != null) return false;
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        return endDate != null ? endDate.equals(that.endDate) : that.endDate == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getState() != null ? getState().hashCode() : 0;
-        result = 31 * result + (getRoom() != null ? getRoom().hashCode() : 0);
-        result = 31 * result + (getCustomer() != null ? getCustomer().hashCode() : 0);
-        result = 31 * result + (getStartDate() != null ? getStartDate().hashCode() : 0);
-        result = 31 * result + (getEndDate() != null ? getEndDate().hashCode() : 0);
+        int result = roomId != null ? roomId.hashCode() : 0;
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         return result;
     }
 
@@ -101,9 +83,7 @@ public class ReservationPto {
     public String toString() {
         return "ReservationPto{" +
                 "id=" + id +
-                ", state=" + state +
-                ", room=" + room +
-                ", customer=" + customer +
+                ", roomId=" + roomId +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 '}';

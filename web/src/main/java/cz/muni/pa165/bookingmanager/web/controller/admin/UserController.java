@@ -49,7 +49,7 @@ public class UserController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(@RequestParam(defaultValue = "1") int pnx, Model model){
         log.debug("admin userctl list");
-        PageInfo info = new PageInfo(pnx-1, WebAppConstants.defaultPageSize);
+        PageInfo info = new PageInfo(pnx-1, WebAppConstants.DEFAULT_PAGE_SIZE);
         model.addAttribute("pageOfUsers",mapUserDtosToPtos(userFacade.findAll(info)));
         return "admin/user/list";
     }
