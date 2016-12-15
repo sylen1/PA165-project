@@ -2,6 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/head :: head"></head>
 <body>
+<script>
+    $( function() {
+        $( ".datepicker" ).datepicker();
+    } );
+</script>
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
 <div class="row col-md-offset-3 col-md-6" style="text-align: center; margin-bottom: 30px">
     <div class="col-md-2">
@@ -16,7 +21,7 @@
 </div>
 <div class="row col-md-offset-2 col-md-8" style="text-align: center; margin-bottom: 30px">
     <div class="col-md-3">
-        <h1>Hotel </h1> <h1 th:text="${hotel.name}"></h1>
+        <h1>Hotel <b th:text="${hotel.name}"></b></h1>
     </div>
     <div class="col-md-3">
         <h3>Hotel statistics </h3>
@@ -26,6 +31,8 @@
         Completed reservation: <b th:text="${hotel.hotelStatistics.numberOfCompletedReservations}"></b><br/>
     </div>
     <div class="col-md-2">
+        <p>Stats. from: <input type="text" class="datepicker"></p>
+        <p>Stats. to: <input type="text" class="datepicker"></p>
         <div sec:authorize="hasRole('ROLE_ADMIN')">
             <a th:href="@{/admin/hotel/{id}/edit(id=${hotel.id})}" class="btn btn-info" role="button" style="font-size: 25px">Edit hotel</a>
         </div>

@@ -9,6 +9,7 @@ import cz.muni.pa165.bookingmanager.iface.facade.UserFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.web.AuthenticationProviderImpl;
+import cz.muni.pa165.bookingmanager.web.WebAppConstants;
 import cz.muni.pa165.bookingmanager.web.pto.HotelPto;
 import cz.muni.pa165.bookingmanager.web.pto.RoomPto;
 import cz.muni.pa165.bookingmanager.web.pto.UserPto;
@@ -58,7 +59,8 @@ public class HomeController {
         Date from = new Date();
         Date to = new Date();
         to.setTime(to.getTime()+10*24*60*60*1000);
-        List<RoomDto> rooms =  roomFacade.findAvailableRooms(from, to, new RoomFilter(0,10, new BigDecimal(0), new BigDecimal(10000)), "New York", new PageInfo(0,Integer.MAX_VALUE)).getEntries();
+        List<RoomDto> rooms =  roomFacade.findAvailableRooms(from, to, new RoomFilter(0,10, new BigDecimal(0), new BigDecimal(10000)), "New York", new PageInfo(0, WebAppConstants.DEFAULT_PAGE_SIZE)).getEntries();
+
         model.addAttribute("rooms", rooms.stream().map(x -> mapper.map(x, RoomPto.class)).toArray());
         return "list";
     }

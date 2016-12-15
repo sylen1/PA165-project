@@ -1,8 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
 <body>
+<script>
+    $( function() {
+        $( ".datepicker" ).datepicker();
+    } );
+</script>
+
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
+<div class="row col-md-offset-2 col-md-8" style="text-align: center; margin-bottom: 30px">
+    <div class="col-md-3">
+    <p>Date to: <input type="text" class="datepicker"></p>
+    <p>Beds to: <input type="text"></p>
+    <p>Price to: <input type="text"></p>
+     <p>City: <input type="text" name="example" list="cities">
+        <datalist id="cities">
+            <option value="New York">
+            <option value="Paris">
+        </datalist></p>
+    </div>
+        <div class="col-md-3">
+    <p>Date from: <input type="text" class="datepicker"></p>
+    <p>Beds from: <input type="text"></p>
+    <p>Price from: <input type="text"></p>
+        </div>
+    <div class="col-md-2">
+        <a href="/pa165/list.fortran" class="btn btn-info" role="button" style="font-size: 40px">Apply filter</a>
+    </div>
+</div>
+<div class="row col-md-offset-3 col-md-6" style="text-align: center; margin-bottom: 30px">
+</div>
+<hr/>
 <div th:each="room : ${rooms}" class="row col-md-offset-2 col-md-8" style="text-align: center; margin-bottom: 30px">
     <div class="col-md-3">
         <p> You can spend night in room
