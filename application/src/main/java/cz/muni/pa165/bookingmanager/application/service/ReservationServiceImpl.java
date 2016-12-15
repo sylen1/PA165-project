@@ -141,8 +141,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         long totalNumOfDaysInInterval = numberOfdaysBetweenLocalDates(intervalStartLocal, intervalEndLocal);
 
-        averageRoomUsage = (1. * roomDays) / totalNumOfDaysInInterval;
-        averageReservationLength = (1. * totalReservedDays) / completedReservations.size();
+        if(totalNumOfDaysInInterval > 0) averageRoomUsage = (1. * roomDays) / totalNumOfDaysInInterval;
+        if(completedReservations.size() > 0) averageReservationLength = (1. * totalReservedDays) / completedReservations.size();
 
         return new HotelStatistics(completedReservations.size(), revenue, averageRoomUsage, averageReservationLength);
     }

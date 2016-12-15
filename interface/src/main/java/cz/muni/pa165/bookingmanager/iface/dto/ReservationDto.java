@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ReservationDto {
     
-    private ReservationState state;
+    private ReservationState state = ReservationState.NEW;
     
     private Long id;
     

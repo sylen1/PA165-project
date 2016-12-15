@@ -62,6 +62,7 @@ public class StartupInit implements ApplicationContextAware {
             Date now = new Date();
             reservationDto.setStartDate(new Date(now.getTime() + i * DateUtils.MILLIS_PER_DAY));
             reservationDto.setEndDate(new Date(now.getTime() + (i+1) * DateUtils.MILLIS_PER_DAY));
+            reservationDto.setState(ReservationState.PAID);
             reservationFacade.createReservation(reservationDto);
         }
     }

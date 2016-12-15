@@ -39,7 +39,7 @@ public class ReservationFacadeImpl implements ReservationFacade {
     @Transactional
     public ReservationDto createReservation(ReservationDto reservationDto) {
         Validate.isTrue(reservationDto.getId() == null);
-        reservationDto.setState(ReservationState.NEW);
+                
         ReservationEntity entity = mapper.map(reservationDto, ReservationEntity.class);
         ReservationEntity saved = reservationService.createReservation(entity);
         return mapper.map(saved, ReservationDto.class);
