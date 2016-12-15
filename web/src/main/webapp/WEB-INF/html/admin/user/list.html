@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (pageTitle='List of users')"></head>
+<body>
+<div th:replace="fragments/top-bar :: top-bar">top-bar</div>
+<div class="container">
+    <h1>List of hotels</h1>
+    <p><a th:href="@{add}"><span class="glyphicon glyphicon-plus"></span> Add new hotel</a></p>
+    <p th:if="${pageOfUsers.entries.isEmpty()}" class="alert alert-info" role="alert">There are no users in the system</p>
+    <div th:if="${!pageOfUsers.entries.isEmpty()}">
+        <p th:text="'Page '+ ${pageOfUsers.pageNumber + 1} +' of '+ ${pageOfUsers.pageCount}
+                        +' ('+ ${pageOfUsers.totalEntries} +' user(s) total)'"></p>
+        <table class="admin-list-of-users table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${pageOfUsers.entries}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td>
+                    <a th:href="@{{id}(id=${user.id})}"><span class="glyphicon glyphicon-eye-open"></span> View details</a>
+                    | <a th:href="@{{id}/edit(id=${user.id})}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                    | <a th:href="@{{id}/delete(id=${user.id})}"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2 style="float:left">Pages of this list: &nbsp;&nbsp;&nbsp;</h2>
+
+        <nav th:if="${!pageOfUsers.entries.isEmpty()}" aria-label="Page navigation">
+            <ul class="pagination">
+                <li th:class="${pageOfUsers.pageNumber <= 0 ?'disabled' : ''}">
+                    <a th:if="${pageOfUsers.pageNumber > 0}" th:href="@{list(p=${pageOfUsers.pageNumber})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                    <span th:if="${pageOfUsers.pageNumber <= 0}" aria-hidden="true">&laquo;</span>
+                </li>
+                <li th:if="${pageOfUsers.pageNumber - 2 >= 0}">
+                    <a th:href="@{list(p=${pageOfUsers.pageNumber - 1})}" th:text="${pageOfUsers.pageNumber - 1}"></a>
+                </li>
+                <li th:if="${pageOfUsers.pageNumber - 1 >= 0}">
+                    <a th:href="@{list(p=${pageOfUsers.pageNumber})}" th:text="${pageOfUsers.pageNumber}"></a>
+                </li>
+                <li class="active">
+                    <a th:href="@{list(p=${pageOfUsers.pageNumber + 1})}" th:text="${pageOfUsers.pageNumber + 1}"></a>
+                </li>
+                <li th:if="${pageOfUsers.pageNumber + 1 < pageOfUsers.pageCount}">
+                    <a th:href="@{list(p=${pageOfUsers.pageNumber + 2})}" th:text="${pageOfUsers.pageNumber + 2}"></a>
+                </li>
+                <li th:if="${pageOfUsers.pageNumber + 2 < pageOfUsers.pageCount}">
+                    <a th:href="@{list(p=${pageOfUsers.pageNumber + 3})}" th:text="${pageOfUsers.pageNumber + 3}"></a>
+                </li>
+                <li th:class="${pageOfUsers.pageNumber + 1 >= pageOfUsers.pageCount ? 'disabled' : ''}">
+                    <a th:if="${pageOfUsers.pageNumber + 1 < pageOfUsers.pageCount}"
+                       th:href="@{list(p=${pageOfUsers.pageNumber + 2})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    <span th:if="${pageOfUsers.pageNumber + 1 >= pageOfUsers.pageCount}" aria-hidden="true">&raquo;</span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

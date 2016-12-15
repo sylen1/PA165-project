@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (pageTitle='Add new users')"></head>
+<body>
+    <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
+    <div class="container">
+        <h1>Add new user</h1>
+        <div class="panel panel-default">
+            <form class="form-horizontal panel-body" th:action="@{add}" th:object="${user}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <div class="form-group">
+                    <label class="col-md-2 control-label" th:for="${#ids.next('name')}">Name: </label>
+                    <div class="col-md-10">
+                        <input type="text" th:field="*{name}" class="form-control" />
+                        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger" role="alert">
+                            err_name
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" th:for="${#ids.next('address')}">Address: </label>
+                    <div class="col-md-10">
+                        <input type="text" th:field="*{address}" class="form-control" />
+                        <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="alert alert-danger" role="alert">
+                            err_name
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" th:for="${#ids.next('phoneNumber')}">Phone #: </label>
+                    <div class="col-md-10">
+                        <input type="text" th:field="*{phoneNumber}" class="form-control" />
+                        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="alert alert-danger" role="alert">
+                            err_name
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" th:for="${#ids.next('birthDate')}">Birth date: </label>
+                    <div class="col-md-10">
+                        <input type="date" th:field="*{birthDate}" class="form-control" />
+                        <div th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="alert alert-danger" role="alert">
+                            err_name
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" th:for="${#ids.next('accountType')}">User type: </label>
+                    <div class="col-md-10">
+                        <input type="hidden" th:field="*{accountState}" class="form-control" value="INACTIVE">
+                    </div>
+                    <!-- user account is created as inactive and must be activated/-->
+                </div>
+                <p class="col-md-offset-2">
+                    <button type="submit" class="btn btn-primary btn-lg">Save user</button>
+                    <a th:href="@{/admin/user/list}" class="btn btn-default btn-lg">Back to list of users without saving</a>
+                </p>
+                <p class="col-md-offset-2">All fields in this form are mandatory</p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

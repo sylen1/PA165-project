@@ -5,7 +5,6 @@ import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.web.WebAppConstants;
-import cz.muni.pa165.bookingmanager.web.pto.ReservationPto;
 import org.dozer.Mapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
-import java.util.stream.Collectors;
 
 /**
  * @author Mojmír Odehnal, 374422
