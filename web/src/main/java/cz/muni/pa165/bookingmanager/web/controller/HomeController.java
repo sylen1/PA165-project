@@ -11,6 +11,7 @@ import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.web.AuthenticationProviderImpl;
 import cz.muni.pa165.bookingmanager.web.pto.HotelPto;
 import cz.muni.pa165.bookingmanager.web.pto.RoomPto;
+import cz.muni.pa165.bookingmanager.web.pto.UserPto;
 import cz.muni.pa165.bookingmanager.web.pto.UserRegistrationPto;
 import org.apache.commons.lang3.tuple.Pair;
 import org.dozer.Mapper;
@@ -136,7 +137,9 @@ public class HomeController {
     }
 
     @RequestMapping("/user/profile")
-    public String profile() {
-        return "profile";
+    public String profile(Model model) {
+        String email = AuthenticationProviderImpl.getLoggedUserEmail();
+        model.addAttribute("userOptional",userFacade.findByEmail(email).map(x-> mapper.map(x,UserPto.class)));
+        return "/profile";
     }
 }

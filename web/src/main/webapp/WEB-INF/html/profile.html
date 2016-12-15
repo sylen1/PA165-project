@@ -3,9 +3,38 @@
 <head th:replace="fragments/head :: head"></head>
 <body>
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
-<div class="col-md-offset-3 col-md-8">
-    <h1 class="col-md-offset-2">Profile</h1>
-</div>
+<div class="container">
+    <p th:if="${!userOptional.isPresent()}" class="alert alert-info" role="alert">
+        User profile not found. Please contact the administrator(s).
+    </p>
 
+    <div th:if="${userOptional.isPresent()}" th:with="user=${userOptional.get()}">
+        <table class="table table-nonfluid table-bordered table-striped table-hover">
+            <tr>
+                <th>Name</th>
+                <td th:text="${user.name}"></td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td th:text="${user.address}"></td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td th:text="${user.email}"></td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td th:text="${user.phoneNumber}"></td>
+            </tr>
+            <tr>
+                <th>Birth date</th>
+                <td th:text="${user.birthDate}"></td>
+            </tr>
+            <tr>
+                <th>Account state</th>
+                <td th:text="${user.accountState}"></td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
