@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head (pageTitle='Add new hotels')"></head>
+<head th:replace="fragments/head :: head (pageTitle='Add new hotel')"></head>
 <body>
     <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
     <div class="container">
@@ -11,7 +11,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" th:for="${#ids.next('name')}">Name: </label>
                     <div class="col-md-10">
-                        <input type="text" th:field="*{name}" class="form-control" />
+                        <input type="text" th:field="*{name}" class="form-control" required />
                         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger" role="alert">
                             err_name
                         </div>
@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" th:for="${#ids.next('city')}">City: </label>
                     <div class="col-md-10">
-                        <input type="text" th:field="*{city}" class="form-control" />
+                        <input type="text" th:field="*{city}" class="form-control" required />
                         <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="alert alert-danger" role="alert">
                             err_name
                         </div>
@@ -29,7 +29,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" th:for="${#ids.next('street')}">Street: </label>
                     <div class="col-md-10">
-                        <input type="text" th:field="*{street}" class="form-control" />
+                        <input type="text" th:field="*{street}" class="form-control" required />
                         <div th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="alert alert-danger" role="alert">
                             err_name
                         </div>
@@ -38,7 +38,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" th:for="${#ids.next('streetNumber')}">Street number: </label>
                     <div class="col-md-10">
-                        <input type="text" th:field="*{streetNumber}" class="form-control" />
+                        <input type="text" th:field="*{streetNumber}" class="form-control" required />
                         <div th:if="${#fields.hasErrors('streetNumber')}" th:errors="*{streetNumber}" class="alert alert-danger" role="alert">
                             err_name
                         </div>
@@ -47,7 +47,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" th:for="${#ids.next('email')}">E-mail: </label>
                     <div class="col-md-10">
-                        <input type="email" th:field="*{email}" class="form-control" />
+                        <input type="email" th:field="*{email}" class="form-control" required />
                         <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger" role="alert">
                             err_name
                         </div>
@@ -56,7 +56,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" th:for="${#ids.next('phoneNumber')}">Phone number: </label>
                     <div class="col-md-10">
-                        <input type="text" th:field="*{phoneNumber}" class="form-control" />
+                        <input type="text" th:field="*{phoneNumber}" class="form-control" required />
                         <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="alert alert-danger" role="alert">
                             err_name
                         </div>

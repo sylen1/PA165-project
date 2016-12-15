@@ -84,6 +84,10 @@ public class HotelDto {
         this.rooms = rooms;
     }
 
+    public void addRoom(RoomDto room) {
+        this.rooms.add(room);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

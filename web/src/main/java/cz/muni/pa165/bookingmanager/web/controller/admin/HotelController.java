@@ -1,17 +1,22 @@
 package cz.muni.pa165.bookingmanager.web.controller.admin;
 
 import cz.muni.pa165.bookingmanager.iface.dto.HotelDto;
+import cz.muni.pa165.bookingmanager.iface.dto.RoomDto;
 import cz.muni.pa165.bookingmanager.iface.facade.HotelFacade;
 import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
+import cz.muni.pa165.bookingmanager.iface.facade.RoomFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.web.WebAppConstants;
 import cz.muni.pa165.bookingmanager.web.forms.HotelPtoValidator;
 import cz.muni.pa165.bookingmanager.web.pto.HotelPto;
+import cz.muni.pa165.bookingmanager.web.pto.RoomPto;
 import org.dozer.Mapper;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -19,6 +24,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,7 +39,7 @@ public class HotelController {
     @Inject
     private HotelFacade hotelFacade;
     @Inject
-    private ReservationFacade reservationFacade;
+    private RoomFacade roomFacade;
 
     @Inject
     private Mapper mapper;
@@ -50,8 +57,8 @@ public class HotelController {
         return "admin/hotel/list";
     }
 
-    @RequestMapping("/{id}")
-    public String view(@PathVariable("id") Long hotelId, Model model) {
+    @RequestMapping("/{hotelId}")
+    public String view(@PathVariable("hotelId") Long hotelId, Model model) {
         model.addAttribute("hotelOptional", hotelFacade.findById(hotelId).map(x -> mapper.map(x, HotelPto.class)));
         model.addAttribute("requestedId", hotelId);
         return "admin/hotel/view";
@@ -76,22 +83,28 @@ public class HotelController {
         return "admin/hotel/add";
     }
 
-    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String editGet(@PathVariable("id") Long hotelId, Model model) {
+    @RequestMapping(value = "/{hotelId}/edit", method = RequestMethod.GET)
+    public String editGet(@PathVariable("hotelId") Long hotelId, Model model) {
         Optional<HotelDto> hotelDtoOptional = hotelFacade.findById(hotelId);
-        if(!hotelDtoOptional.isPresent()) throw new IllegalArgumentException("Given ID is invalid");
+        if(!hotelDtoOptional.isPresent()) throw new IllegalArgumentException("Given ID of hotel is invalid");
         model.addAttribute("hotel", mapper.map(hotelDtoOptional.get(), HotelPto.class));
+
         return "admin/hotel/edit";
     }
 
-    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String editPost(@PathVariable("id") Long hotelId, @Valid @ModelAttribute("hotel") HotelPto pto,
-            BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
-        if(!hotelId.equals(pto.getId())) throw new IllegalArgumentException("Weird");
+    @RequestMapping(value = "/{hotelId}/edit", method = RequestMethod.POST)
+    public String editPost(@PathVariable("hotelId") Long hotelId, @Valid @ModelAttribute("hotel") HotelPto pto,
+                           BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+        if(!hotelId.equals(pto.getId()))
+            throw new IllegalArgumentException("ID of hotel in URL is different than ID received from the form");
+
+        Optional<HotelDto> storedDtoOptional = hotelFacade.findById(hotelId);
+        if(!storedDtoOptional.isPresent()) throw new IllegalArgumentException("Hotel with received ID has not been found");
 
         if(!bindingResult.hasErrors()) {
-            HotelDto dto = hotelFacade.updateHotelInformation(mapper.map(pto, HotelDto.class));
-
+            HotelDto dto = mapper.map(pto, HotelDto.class);
+            dto.setRooms(storedDtoOptional.get().getRooms());
+            hotelFacade.updateHotelInformation(dto);
             redirectAttributes.addFlashAttribute("alert_success", "Hotel '" + dto.getName() + "' was updated");
             return "redirect:" + uriBuilder.path("/admin/hotel/{id}").buildAndExpand(dto.getId()).encode().toUriString();
         }
@@ -99,8 +112,77 @@ public class HotelController {
         return "admin/hotel/edit";
     }
 
+    @RequestMapping(value = "/{hotelId}/room/add", method = RequestMethod.GET)
+    public String addRoomGet(@PathVariable("hotelId") Long hotelId, Model model) {
+        Optional<HotelDto> hotelDtoOptional = hotelFacade.findById(hotelId);
+        if(!hotelDtoOptional.isPresent()) throw new IllegalArgumentException("Given ID of hotel is invalid");
+        model.addAttribute("hotel", mapper.map(hotelDtoOptional.get(), HotelPto.class));
+        RoomPto pto = new RoomPto();
+        pto.setPrice(BigDecimal.ZERO);
+        model.addAttribute("room", pto);
+        return "admin/room/add";
+    }
 
+    @RequestMapping(value = "/{hotelId}/room/add", method = RequestMethod.POST)
+    public String addRoomPost(@PathVariable("hotelId") Long hotelId, @Valid @ModelAttribute("hotel") RoomPto roomPto, Model model,
+                    BindingResult bindingResult, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+        Optional<HotelDto> hotelDtoOptional = hotelFacade.findById(hotelId);
+        if(!hotelDtoOptional.isPresent()) throw new IllegalArgumentException("Hotel with received ID has not been found");
+        HotelDto hotelDto = hotelDtoOptional.get();
 
+        if (!bindingResult.hasErrors()) {
+            RoomDto roomDto = roomFacade.registerRoom(mapper.map(roomPto, RoomDto.class));
+            hotelDto.addRoom(roomDto);
+            hotelFacade.updateHotelInformation(hotelDto);
+
+            redirectAttributes.addFlashAttribute("alert_success", "Room '" + roomDto.getName()
+                    + "' was successfully created in hotel '" + hotelDto.getName() + "'");
+            return "redirect:" + uriBuilder.path("/admin/hotel/{id}").buildAndExpand(hotelDto.getId()).encode().toUriString();
+        }
+
+        return "admin/room/add";
+    }
+
+    @RequestMapping(value = "/{hotelId}/room/{roomId}/edit", method = RequestMethod.GET)
+    public String editRoomGet(@PathVariable("hotelId") Long hotelId, @PathVariable("roomId") Long roomId, Model model) {
+        Optional<RoomDto> roomDtoOptional = roomFacade.findById(roomId);
+        if(!roomDtoOptional.isPresent()) throw new IllegalArgumentException("Given ID of room is invalid");
+
+        if(!roomDtoOptional.map(RoomDto :: getHotelId).equals(Optional.of(hotelId)))
+            throw new IllegalArgumentException("ID of hotel in URL is different than ID stored in the room");
+
+        Optional<HotelDto> hotelDtoOptional = hotelFacade.findById(hotelId);
+        if(!hotelDtoOptional.isPresent()) throw new IllegalArgumentException("Given ID of hotel is invalid");
+
+        model.addAttribute("hotel", mapper.map(hotelDtoOptional.get(), HotelPto.class));
+        model.addAttribute("room", mapper.map(roomDtoOptional.get(), RoomPto.class));
+        return "admin/room/edit";
+    }
+
+    @RequestMapping(value = "/{idOfHotel}/room/{roomId}/edit", method = RequestMethod.POST)
+    public String editRoomPost(@PathVariable("idOfHotel") Long hotelId, @PathVariable("roomId") Long roomId,
+                               @Valid @ModelAttribute("room") RoomPto roomPto, BindingResult bindingResult, Model model,
+                               RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+        if(!roomId.equals(roomPto.getId()))
+            throw new IllegalArgumentException("ID of room in URL is different than ID received from the form");
+        if(!hotelId.equals(roomPto.getHotelId()))
+            throw new IllegalArgumentException("ID of hotel in URL is different than ID received from the form");
+
+        Optional<HotelDto> hotelDtoOptional = hotelFacade.findById(hotelId);
+        if(!hotelDtoOptional.isPresent()) throw new IllegalArgumentException("Given ID of hotel is invalid");
+        HotelDto hotelDto = hotelDtoOptional.get();
+
+        if(!bindingResult.hasErrors()) {
+            RoomDto roomDto = roomFacade.updateRoom(mapper.map(roomPto, RoomDto.class));
+
+            redirectAttributes.addFlashAttribute("alert_success", "Room '" + roomDto.getName()
+                    + "' in hotel '" + hotelDto.getName() + "' was updated");
+            return "redirect:" + uriBuilder.path("/admin/hotel/{id}").buildAndExpand(hotelDto.getId()).encode().toUriString();
+        }
+
+        model.addAttribute("hotel", mapper.map(hotelDto, HotelPto.class));
+        return "admin/room/edit";
+    }
 
     private PageResult<HotelPto> mapToPagePtos(PageResult<HotelDto> dtoPageResult){
         List<HotelPto> ptos = dtoPageResult.getEntries()

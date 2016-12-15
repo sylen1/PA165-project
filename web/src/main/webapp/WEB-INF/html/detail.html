@@ -42,7 +42,8 @@
         </p>
         <a th:href="@{/reservation/{id}(id=${room.id})}" class="btn btn-warning" role="button" style="font-size: 25px">I Want It!</a>
         <div sec:authorize="hasRole('ROLE_ADMIN')">
-            <a th:href="@{/admin/room/{id}/edit(id=${room.id})}" class="btn btn-info" role="button" style="font-size: 25px">Edit room</a>
+            <a th:href="@{/admin/hotel/{hotelId}/room/{id}/edit(hotelId=${room.hotelId},id=${room.id})}"
+               class="btn btn-info" role="button" style="font-size: 25px">Edit room</a>
         </div>
     </div>
     <div class="col-md-3">
