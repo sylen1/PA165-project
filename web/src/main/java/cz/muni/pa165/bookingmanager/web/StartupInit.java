@@ -110,7 +110,7 @@ public class StartupInit implements ApplicationContextAware {
                 "Maximum occupancy 2 people\n" +
                 "Nespresso coffee machine\n" +
                 "30-38m²/ 323-409ft²");
-        roomDto.setPrice(new BigDecimal(Integer.valueOf(key) * 100));
+        roomDto.setPrice(new BigDecimal(roomDto.getBedCount() * 100));
         roomDto.setHotelId(hotel.getId());
         return roomDto;
     }
