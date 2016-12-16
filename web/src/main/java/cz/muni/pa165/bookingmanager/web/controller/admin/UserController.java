@@ -71,14 +71,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String editPost(@PathVariable("id") String userEmail, @Valid @ModelAttribute("user") UserPto pto,
+    public String editPost(@PathVariable("id") Long userId, @Valid @ModelAttribute("user") UserPto pto,
                            BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         log.debug("admin userctl editpost");
-        if(!userEmail.equals(pto.getEmail())) throw new IllegalArgumentException("User email unequal to email in PTO");
-
+        if(!userId.equals(pto.getId())) throw new IllegalArgumentException("User ID unequal to PTO ID");
         if(!bindingResult.hasErrors()) {
-            UserDto dto = userFacade.updateUser(mapper.map(pto, UserDto.class));
-
+            UserDto dto = mapper.map(pto, UserDto.class);
+            if(dto.getPhoneNumber()==null) throw new NullPointerException("phone is null");
+            dto = userFacade.updateUser(dto);
             redirectAttributes.addFlashAttribute("alert_success", "User '" + dto.getName() + "' was successfully updated");
             return "redirect:" + uriBuilder.path("/admin/user/{id}").buildAndExpand(dto.getId()).encode().toUriString();
         }
