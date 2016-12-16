@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="fragments/head :: head (pageTitle=${'Hotel ' + hotel.name})"></head>
+<head th:replace="fragments/head :: head"></head>
 <body>
 <script>
     $( function() {
-        $( ".datepicker" ).datepicker();
+        $( ".datepicker" ).datepicker({
+            onSelect: function(dateText, inst) {
+                var to = new Date(document.getElementById('to').value).getTime();
+                var from = new Date(document.getElementById('from').value).getTime();
+                if(isNaN(to)) {
+                    to = 0;
+                }
+                if(isNaN(from)) {
+                    from = 0;
+                }
+                window.location = "/pa165/detail/"+  document.getElementById('id').value + "?from=" + from  + "&to=" + to
+            }
+        });
     } );
 </script>
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
@@ -23,17 +35,20 @@
     <div class="col-md-3">
         <h1>Hotel <b th:text="${hotel.name}"></b></h1>
     </div>
-    <div class="col-md-3">
-        <h3>Hotel statistics </h3>
-        Avarage reservation length: <b th:text="${hotel.hotelStatistics.averageReservationLength}"></b><br/>
-        Avarage room usage: <b th:text="${hotel.hotelStatistics.averageRoomUsage}"></b><br/>
-        Revenue: <b th:text="${hotel.hotelStatistics.revenue}"></b><br/>
-        Completed reservation: <b th:text="${hotel.hotelStatistics.numberOfCompletedReservations}"></b><br/>
-    </div>
-    <div class="col-md-2">
-        <p>Stats. from: <input type="text" class="datepicker"></p>
-        <p>Stats. to: <input type="text" class="datepicker"></p>
-        <div sec:authorize="hasRole('ROLE_ADMIN')">
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <div class="col-md-3">
+            <h3>Hotel statistics </h3>
+            Avarage reservation length: <b th:text="${hotel.hotelStatistics.getReservationLenght()}"></b><br/>
+            Avarage room usage: <b th:text="${hotel.hotelStatistics.getUsage()}"></b><br/>
+            Revenue: <b th:text="${hotel.hotelStatistics.revenue}"></b><br/>
+            Completed reservation: <b th:text="${hotel.hotelStatistics.numberOfCompletedReservations}"></b><br/>
+        </div>
+        <div class="col-md-2">
+            <input type="hidden" th:value="${hotel.id}" id="id"/>
+            <label for="from">Stats. from: </label>
+            <p><input type="text" class="form-control datepicker" id="from" th:value="${from}"></p>
+            <label for="to">Stats. to: </label>
+            <p><input type="text" class="form-control datepicker" id="to" th:value="${to}"></p>
             <a th:href="@{/admin/hotel/{id}/edit(id=${hotel.id})}" class="btn btn-info" role="button" style="font-size: 25px">Edit hotel</a>
         </div>
     </div>

@@ -26,7 +26,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,18 +108,30 @@ public class HomeController {
     }
 
     @RequestMapping("/detail/{hotel_id}")
-    public String detail(@PathVariable("hotel_id") Long hotelId, Model model){
-        // TODO FILTER FROM - TO DATE
+    public String detail(@PathVariable("hotel_id") Long hotelId, @RequestParam(name = "from", defaultValue = "0") Long from,  @RequestParam(name = "to", defaultValue = "0") Long to, Model model){
 
-        Date from = new Date();
-        from.setTime(0);
-        Date to = new Date();
-        to.setTime(to.getTime()*2);
+        Date fromDate = new Date();
+        Date toDate = new Date();
+
+        if(from == 0) {
+            fromDate.setTime(toDate.getTime()-365*24*60*60*1000);
+        } else  {
+            fromDate.setTime(from);
+        }
+        if(to == 0) {
+            toDate.setTime(toDate.getTime()+365*24*60*60*1000);
+        } else  {
+            toDate.setTime(to);
+        }
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         HotelPto hotelPto = mapper.map(hotelFacade.findById(hotelId).get(), HotelPto.class);
-        hotelPto.setHotelStatistics(reservationFacade.gatherHotelStatistics(hotelPto.getId(), from, to));
+        hotelPto.setHotelStatistics(reservationFacade.gatherHotelStatistics(hotelPto.getId(), fromDate, toDate));
+        model.addAttribute("from", df.format(fromDate));
+        model.addAttribute("to",  df.format(toDate));
         model.addAttribute("hotel", hotelPto);
         return "detail";
     }
+
 
     @RequestMapping("/login")
     public String login(@RequestParam(required = false, defaultValue = "false") Boolean logout, Model model) {

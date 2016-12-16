@@ -1,6 +1,7 @@
 package cz.muni.pa165.bookingmanager.iface.util;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 
 /**
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
  * @author Mojmír Odehnal, 374422
  */
 public class HotelStatistics {
+
     long numberOfCompletedReservations;
     BigDecimal revenue;
     double averageRoomUsage;
@@ -20,6 +22,15 @@ public class HotelStatistics {
         this.averageReservationLength = averageReservationLength;
     }
 
+    public String getUsage() {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(averageRoomUsage*100)+"%";
+    }
+
+    public String getReservationLenght() {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(averageReservationLength);
+    }
     public long getNumberOfCompletedReservations() {
         return numberOfCompletedReservations;
     }
