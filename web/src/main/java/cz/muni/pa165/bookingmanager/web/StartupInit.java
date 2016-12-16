@@ -82,7 +82,7 @@ public class StartupInit implements ApplicationContextAware {
 
         hotels.add(createHotel("Plaza", "New York"));
         hotels.add(createHotel("Hilton", "Los Angeles"));
-        hotels.add(createHotel("Paris", "Praguq"));
+        hotels.add(createHotel("Paris", "Prague"));
         hotels.add(createHotel("Los Pollos Hermanos", "Seatle"));
         hotels.add(createHotel("Continental", "Dubai"));
         hotels.add(createHotel("Trump", "New York"));

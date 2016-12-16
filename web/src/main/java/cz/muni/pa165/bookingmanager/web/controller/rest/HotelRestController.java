@@ -33,8 +33,8 @@ public class HotelRestController {
      * @param pageSize   size of desired page
      * @return One page of hotels
      */
-    @RequestMapping(value = "list/{page_number}/{page_size}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final List<HotelDto> listHotels(@PathVariable("page_number") int pageNumber, @PathVariable("page_size") int pageSize) {
+    @RequestMapping(value = "list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final List<HotelDto> listHotels(@RequestParam("page") int pageNumber, @RequestParam("size") int pageSize) {
         try {
             return hotelFacade.findAll(new PageInfo(pageNumber, pageSize)).getEntries();
         } catch (Exception ex) {
@@ -47,8 +47,8 @@ public class HotelRestController {
      * @param city hotels that are in city will be listed
      * @return all hotels in city
      */
-    @RequestMapping(value = "by_city/{city}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final List<HotelDto> findHotelsByCity(@PathVariable("city") String city) {
+    @RequestMapping(value = "by_city", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final List<HotelDto> findHotelsByCity(@RequestParam("city") String city) {
         try {
             return hotelFacade.findByCity(city, new PageInfo(0, Integer.MAX_VALUE)).getEntries();
         } catch (Exception ex) {
@@ -80,8 +80,8 @@ public class HotelRestController {
      * @param name unique name identities hotel
      * @return one hotel if name exists
      */
-    @RequestMapping(value = "by_name/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final HotelDto findHotelByName(@PathVariable("name") String name) {
+    @RequestMapping(value = "by_name", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final HotelDto findHotelByName(@RequestParam("name") String name) {
         try {
             Optional<HotelDto> hotel = hotelFacade.findByName(name);
             if (hotel.isPresent()) {
@@ -103,9 +103,8 @@ public class HotelRestController {
     @RequestMapping(value = "update/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final HotelDto updateHotel(@PathVariable("id") long id, @RequestBody HotelDto updatedHotel) {
-        if (updatedHotel.getId() != id) {
-            throw new ResourceNotModifiedException();
-        }
+
+        updatedHotel.setId(id);
         try {
             return hotelFacade.updateHotelInformation(updatedHotel);
         } catch (Exception ex) {
