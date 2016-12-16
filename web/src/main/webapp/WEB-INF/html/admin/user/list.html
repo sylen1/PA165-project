@@ -5,7 +5,6 @@
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
 <div class="container">
     <h1>List of users</h1>
-    <p><a th:href="@{add}"><span class="glyphicon glyphicon-plus"></span> Add new user</a></p>
     <p th:if="${pageOfUsers.entries.isEmpty()}" class="alert alert-info" role="alert">There are no users in the system</p>
     <div th:if="${!pageOfUsers.entries.isEmpty()}">
         <p th:text="'Page '+ ${pageOfUsers.pageNumber + 1} +' of '+ ${pageOfUsers.pageCount}
@@ -26,7 +25,6 @@
                 <td>
                     <a th:href="@{{id}(id=${user.id})}"><span class="glyphicon glyphicon-eye-open"></span> View details</a>
                     | <a th:href="@{{id}/edit(id=${user.id})}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                    | <a th:href="@{{id}/delete(id=${user.id})}"><span class="glyphicon glyphicon-remove"></span> Delete</a>
                 </td>
             </tr>
             </tbody>

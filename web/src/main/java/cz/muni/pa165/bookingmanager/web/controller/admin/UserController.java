@@ -61,27 +61,6 @@ public class UserController {
         return "admin/user/view";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String addGet(Model model) {
-        log.debug("admin userctl addget");
-        model.addAttribute("user", new UserPto());
-        return "admin/user/add";
-    }
-
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addPost(@Valid @ModelAttribute("user") UserPto pto, String passwd, BindingResult bindingResult,
-                          Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
-        log.debug("admin userctl addpost");
-        if (!bindingResult.hasErrors()) {
-            UserDto dto = mapper.map(pto,UserDto.class);
-            dto = userFacade.registerUser(dto,passwd).getLeft();
-
-            redirectAttributes.addFlashAttribute("alert_success", "User '" + dto.getName() + "' was successfully created");
-            return "redirect:" + uriBuilder.path("/admin/user/{id}").buildAndExpand(dto.getId()).encode().toUriString();
-        }
-        return "admin/user/add";
-    }
-
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String editGet(@PathVariable("id") Long userId, Model model) {
         log.debug("admin userctl editget");
