@@ -21,16 +21,16 @@ public interface RoomDao extends JpaRepository<RoomEntity, Long> {
     long count();
 
     @Query("SELECT ro FROM RoomEntity ro"
-            + " WHERE (:city = '' OR ro.id IN (SELECT ro2.id FROM HotelEntity h JOIN h.rooms ro2 WHERE h.city = :city))"
+            + " WHERE (:city = '' OR ro.id IN (SELECT ro2.id FROM HotelEntity h JOIN h.rooms ro2 WHERE LOWER(h.city) LIKE LOWER(:city)))"
             + "   AND NOT EXISTS (" // does not have reservation in that time range
             + "     SELECT re.id FROM ReservationEntity re WHERE"
             + "       re.room.id = ro.id AND ("
-            + "         (re.startDate < :since AND re.endDate > :until)" // is valid through the whole interval
+            + "         (re.startDate <= :since AND re.endDate >= :until)" // is valid through the whole interval
             + "         OR (re.startDate >= :since AND re.startDate <= :until)" // or starts in it (and ends either in or out)
             + "         OR (re.endDate >= :since AND re.endDate <= :until)"  // or ends in it (and starts either in or out)
             + "       ) AND re.state <> 'CANCELLED'"
             + "   )"
-            + "   AND ro.bedCount > :bedsFrom AND ro.bedCount < :bedsTo AND ro.price > :priceFrom AND ro.price < :priceTo")
+            + "   AND ro.bedCount >= :bedsFrom AND ro.bedCount <= :bedsTo AND ro.price >= :priceFrom AND ro.price <= :priceTo")
     Page<RoomEntity> findAvailableRooms(@Param("since") Date availableFrom, @Param("until") Date availableTo,
             @Param("bedsFrom") int bedCountFrom, @Param("bedsTo") int bedCountTo, @Param("priceFrom") BigDecimal priceFrom,
             @Param("priceTo") BigDecimal priceTo, @Param("city") String city, Pageable pageInfo);

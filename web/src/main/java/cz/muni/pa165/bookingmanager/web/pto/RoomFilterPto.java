@@ -1,4 +1,6 @@
 package cz.muni.pa165.bookingmanager.web.pto;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +12,9 @@ public class RoomFilterPto {
 
     private Integer bedFrom;
     private Integer bedTo;
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private Date dateFrom;
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private Date dateTo;
     private BigDecimal priceFrom;
     private BigDecimal priceTo;
@@ -93,5 +97,19 @@ public class RoomFilterPto {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomFilterPto{" +
+                "bedFrom=" + bedFrom +
+                ", bedTo=" + bedTo +
+                ", dateFrom=" + dateFrom +
+                ", dateTo=" + dateTo +
+                ", priceFrom=" + priceFrom +
+                ", priceTo=" + priceTo +
+                ", cities=" + cities +
+                ", city='" + city + '\'' +
+                '}';
     }
 }

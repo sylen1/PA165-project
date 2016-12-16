@@ -6,6 +6,7 @@ import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.persistence.dao.RoomDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.dozer.Mapper;
 import org.springframework.data.domain.Page;
@@ -86,19 +87,14 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public PageResult<RoomEntity> findAvailableRooms(Date from, Date to, RoomFilter filter, String city, PageInfo pageInfo) {
-        Validate.notNull(from, "availableFrom cannot be null");
-        Validate.notNull(to, "availableTo cannot be null");
-        Validate.notNull(filter, "roomPropertyRestrictions cannot be null");
-        Validate.notNull(city, "city cannot be null");
-        Validate.notNull(pageInfo, "pageInfo cannot be null");
         Page<RoomEntity> page = roomDao.findAvailableRooms(
-                new java.sql.Date(from.getTime()),
-                new java.sql.Date(to.getTime()),
+                new java.sql.Date(from != null ? from.getTime() : 0),
+                new java.sql.Date(to != null ? to.getTime() : new Date().getTime()),
                 filter.getBedCountFrom().orElse(0),
                 filter.getBedCountTo().orElse(Integer.MAX_VALUE),
                 filter.getPriceFrom().orElse(new BigDecimal(0)),
                 filter.getPriceTo().orElse(new BigDecimal(Double.MAX_VALUE)),
-                city,
+                StringUtils.isNotEmpty(city) ? city : "%",
                 new PageRequest(pageInfo.getPageNumber(), pageInfo.getPageSize())
             );
         return mapPage(page);

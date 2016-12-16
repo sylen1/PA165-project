@@ -6,9 +6,11 @@
 </head>
 <body>
 <script>
-    $( function() {
-        $( ".datepicker" ).datepicker();
-    } );
+    $(document).ready(function() {
+        $('.datepicker').datepicker({
+            dateFormat: 'dd.mm.yy'
+        });
+    })
 </script>
 
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
