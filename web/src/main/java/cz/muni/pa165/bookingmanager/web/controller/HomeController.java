@@ -10,6 +10,7 @@ import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.web.AuthenticationProviderImpl;
 import cz.muni.pa165.bookingmanager.web.WebAppConstants;
+import cz.muni.pa165.bookingmanager.web.forms.UserRegistrationPtoValidator;
 import cz.muni.pa165.bookingmanager.web.pto.HotelPto;
 import cz.muni.pa165.bookingmanager.web.pto.RoomPto;
 import cz.muni.pa165.bookingmanager.web.pto.UserPto;
@@ -19,10 +20,8 @@ import org.dozer.Mapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +46,13 @@ public class HomeController {
     private ReservationFacade reservationFacade;
     @Inject
     private Mapper mapper;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        if (binder.getTarget() instanceof UserRegistrationPto) {
+            binder.addValidators(new UserRegistrationPtoValidator(userFacade));
+        }
+    }
 
     @RequestMapping("/")
     public String index(){
