@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head (pageTitle=${'Hotel ' + hotel.name})"></head>
 <body>
 <script>
     $( function() {

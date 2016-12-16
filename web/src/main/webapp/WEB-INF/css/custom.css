@@ -1,3 +1,7 @@
+html {
+    height: 100%;
+}
+
 #top-bar {
     height: 70px;
 }
@@ -14,8 +18,70 @@
 .index{
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
 }
 
 table.admin-list-of-hotels thead th:last-child {
     width: 290px;
+}
+
+.room-filter {
+    background-color: #2277cc;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 30px -15px;
+    color: white;
+    font-size: 20px;
+}
+.room-filter .row{
+    margin: 0;
+}
+@media (max-width: 767px) {
+    .room-filter {
+        border-radius: 0;
+    }
+}
+.room-filter h2 {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 0 30px;
+}
+.room-filter .form-control {
+    width: 100px;
+    display: inline-block;
+    margin: 0 15px;
+}
+.room-filter .hold-together {
+    display: inline-block;
+}
+.room-filter .fix-width {
+    display: inline-block;
+    min-width: 180px;
+    max-width: 100%;
+}
+.room-filter #city.form-control {
+    margin: 0;
+}
+.room-filter .form-group.city-group .city-input-wrap {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 325px;
+    max-width: 100%;
+}
+.room-filter .form-group.city-group input {
+    width: 100%;
+}
+@media (max-width: 415px) {
+    .room-filter .range .hold-together {
+        display: block;
+    }
+    .room-filter .range label {
+        width: 45px;
+        margin-bottom: 10px;
+    }
+}
+.room-filter .form-group.with-submit {
+    padding-top: 10px;
+    text-align: center;
 }
