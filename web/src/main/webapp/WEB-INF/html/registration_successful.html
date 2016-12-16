@@ -4,12 +4,23 @@
 <body>
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
 <div class="col-md-offset-3 col-md-8">
-    <p>
+    <h1>Registration</h1>
+    <div class="col-md-8 alert alert-success">
+        <strong>Registration successful</strong>
+    </div>
+    <p class="col-md-8" style="margin-top: 32px">
         Your your registration was successful, to confirm please visit the page below
     </p>
-    <p>
-        <a th:href="@{/confirm(email=${email},token=${token})}">Confirm</a>
+    <p class="col-md-8">
+        <strong>
+            <a th:href="@{/confirm(email=${email},token=${token})}">Confirm</a>
+        </strong>
     </p>
+
+    <div class="col-md-8 alert alert-info">
+        <strong><u>Note:</u></strong><br>
+        Confirmation link would be sent by e-mail.
+    </div>
 </div>
 </body>
 </html>
