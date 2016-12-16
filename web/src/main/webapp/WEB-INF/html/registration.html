@@ -75,9 +75,10 @@
 
 <script>
     $(document).ready(function() {
+        var now = new Date();
         $('.datepicker').datepicker({
             dateFormat: 'dd.mm.yy',
-            maxDate: new Date(),
+            maxDate: new Date(now.getFullYear()-18,now.getMonth(),now.getDay()),
             value: new Date()
         }).datepicker('setDate', new Date());
     });
