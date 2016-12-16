@@ -23,7 +23,7 @@ public class RoomPto {
 
     private int bedCount;
 
-    @NotBlank
+    @NotNull
     private String description;
 
     private Long hotelId;

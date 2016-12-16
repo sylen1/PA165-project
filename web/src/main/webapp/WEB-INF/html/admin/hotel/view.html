@@ -65,10 +65,14 @@
                             <td th:text="${room.name}"></td>
                             <td th:text="${room.price}"></td>
                             <td th:text="${room.bedCount}"></td>
-                            <td th:with="nl = ${T(java.lang.System).getProperty('line.separator')}">
+                            <td th:if="${!#strings.isEmpty( room.description )}"
+                                th:with="nl = ${T(java.lang.System).getProperty('line.separator')}">
                                 <a href="#ahoj" class="show-description">Show description</a>
                                 <span th:utext="${#strings.escapeXml( room.description ).replace(nl, '<br />'+nl)}"
                                       class="hide description-content"></span>
+                            </td>
+                            <td th:if="${#strings.isEmpty( room.description )}">
+                                No description
                             </td>
                             <td>
                                 <a th:href="@{{hotelId}/room/{roomId}/edit(hotelId=${hotel.id}, roomId=${room.id})}">

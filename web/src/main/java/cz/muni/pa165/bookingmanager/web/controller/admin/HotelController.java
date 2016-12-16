@@ -124,8 +124,8 @@ public class HotelController {
     }
 
     @RequestMapping(value = "/{hotelId}/room/add", method = RequestMethod.POST)
-    public String addRoomPost(@PathVariable("hotelId") Long hotelId, @Valid @ModelAttribute("hotel") RoomPto roomPto, Model model,
-                    BindingResult bindingResult, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+    public String addRoomPost(@PathVariable("hotelId") Long hotelId, @Valid @ModelAttribute("room") RoomPto roomPto,
+            BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         Optional<HotelDto> hotelDtoOptional = hotelFacade.findById(hotelId);
         if(!hotelDtoOptional.isPresent()) throw new IllegalArgumentException("Hotel with received ID has not been found");
         HotelDto hotelDto = hotelDtoOptional.get();
@@ -139,6 +139,8 @@ public class HotelController {
                     + "' was successfully created in hotel '" + hotelDto.getName() + "'");
             return "redirect:" + uriBuilder.path("/admin/hotel/{id}").buildAndExpand(hotelDto.getId()).encode().toUriString();
         }
+
+        model.addAttribute("hotel", mapper.map(hotelDto, HotelPto.class));
 
         return "admin/room/add";
     }
