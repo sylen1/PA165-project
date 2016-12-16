@@ -96,11 +96,12 @@ public class StartupInit implements ApplicationContextAware {
 
 
     }
+
     private RoomDto createRoom(String key, HotelDto hotel){
 
         RoomDto roomDto = new RoomDto();
         roomDto.setName("A222 " + key + " in " + hotel.getName());
-        roomDto.setBedCount(Integer.valueOf(key)%5);
+        roomDto.setBedCount(Integer.valueOf(key)%5+2);
         roomDto.setDescription(roomDto.getName() + " :\n" +
                 "Queen-size or twin beds available\n" +
                 "Complimentary Wi Fi\n" +
