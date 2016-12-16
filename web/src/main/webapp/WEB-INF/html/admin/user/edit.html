@@ -7,7 +7,6 @@
     <h1>Edit information about user with ID <span th:text="${user.getId()}"></span></h1>
     <div class="panel panel-default">
         <form class="form-horizontal panel-body" th:action="@{edit}" th:object="${user}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <input type="hidden" th:field="*{id}" />
             <div class="form-group">
                 <label class="col-md-2 control-label" th:for="${#ids.next('name')}">Name: </label>
@@ -23,7 +22,7 @@
                 <div class="col-md-10">
                     <input type="text" th:field="*{address}" class="form-control" />
                     <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="alert alert-danger" role="alert">
-                        err_name
+                        err_address
                     </div>
                 </div>
             </div>
@@ -32,7 +31,7 @@
                 <div class="col-md-10">
                     <input type="email" th:field="*{email}" class="form-control" />
                     <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger" role="alert">
-                        err_name
+                        err_email
                     </div>
                 </div>
             </div>
@@ -41,27 +40,28 @@
                 <div class="col-md-10">
                     <input type="text" th:field="*{phoneNumber}" class="form-control" />
                     <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="alert alert-danger" role="alert">
-                        err_name
+                        err_phone
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label" th:for="${#ids.next('birthDate')}">Birth date: </label>
                 <div class="col-md-10">
-                    <input type="date" th:field="*{birthDate}" class="form-control" />
+                    <input type="text" th:field="*{birthDate}" class="form-control datepicker" />
                     <div th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="alert alert-danger" role="alert">
-                        err_name
+                        err_dob
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label" th:for="${#ids.next('accountType')}">User type: </label>
-                <div class="col-md-10">
+                <div class="col-md-6">
                     <input type="radio" th:field="*{accountState}" class="form-control" value="ADMIN"> Administrator<br>
                     <input type="radio" th:field="*{accountState}" class="form-control" value="CUSTOMER"> Regular user<br>
                     <input type="radio" th:field="*{accountState}" class="form-control" value="INACTIVE"> Inactive<br>
                 </div>
             </div>
+            <input class="form-control" type="hidden" th:field="*{password}" />
             <p class="col-md-offset-2">
                 <button type="submit" class="btn btn-primary btn-lg">Save user</button>
                 <a th:href="@{/admin/user/{id}(id=*{id})}" class="btn btn-default btn-lg">Back to user detail without saving</a>
@@ -70,5 +70,17 @@
         </form>
     </div>
 </div>
+<script th:inline="javascript">
+    $(document).ready(function() {
+        var now = new Date();
+        var maximum = new Date(now.getFullYear()-18,now.getMonth(),now.getDay());
+        $('.datepicker').datepicker({
+            dateFormat: 'dd.mm.yy',
+            maxDate: maximum,
+            value:
+        }).datepicker('setDate', new Date());
+    });
+</script>
+
 </body>
 </html>

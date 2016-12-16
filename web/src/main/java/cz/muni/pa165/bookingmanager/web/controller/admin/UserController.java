@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -76,10 +77,15 @@ public class UserController {
         log.debug("admin userctl editpost");
         if(!userId.equals(pto.getId())) throw new IllegalArgumentException("User ID unequal to PTO ID");
         if(!bindingResult.hasErrors()) {
-            UserDto dto = mapper.map(pto, UserDto.class);
-            if(dto.getPhoneNumber()==null) throw new NullPointerException("phone is null");
+            UserDto dto = userFacade.findById(pto.getId()).get();
+            dto.setBirthDate(new Date(pto.getBirthDate().getTime()));
+            dto.setEmail(pto.getEmail());
+            dto.setName(pto.getName());
+            dto.setPhoneNumber(pto.getPhoneNumber());
+            dto.setAddress(pto.getAddress());
+            dto.setAccountState(pto.getAccountState());
             dto = userFacade.updateUser(dto);
-            redirectAttributes.addFlashAttribute("alert_success", "User '" + dto.getName() + "' was successfully updated");
+            redirectAttributes.addFlashAttribute("alert_success", "User with ID" + dto.getId() + " was successfully updated");
             return "redirect:" + uriBuilder.path("/admin/user/{id}").buildAndExpand(dto.getId()).encode().toUriString();
         }
 

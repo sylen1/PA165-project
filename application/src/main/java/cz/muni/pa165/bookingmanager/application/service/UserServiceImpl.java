@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Optional<UserEntity> findByPhoneNumber(String phone){
-        return Optional.of(userDao.findByPhoneNumber(phone));
+        return Optional.ofNullable(userDao.findByPhoneNumber(phone));
     }
 
     @Override
