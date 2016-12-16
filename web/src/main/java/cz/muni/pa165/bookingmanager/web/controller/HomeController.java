@@ -7,14 +7,12 @@ import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
 import cz.muni.pa165.bookingmanager.iface.facade.RoomFacade;
 import cz.muni.pa165.bookingmanager.iface.facade.UserFacade;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.RoomFilter;
 import cz.muni.pa165.bookingmanager.web.AuthenticationProviderImpl;
 import cz.muni.pa165.bookingmanager.web.WebAppConstants;
 import cz.muni.pa165.bookingmanager.web.forms.UserRegistrationPtoValidator;
-import cz.muni.pa165.bookingmanager.web.pto.HotelPto;
-import cz.muni.pa165.bookingmanager.web.pto.RoomPto;
-import cz.muni.pa165.bookingmanager.web.pto.UserPto;
-import cz.muni.pa165.bookingmanager.web.pto.UserRegistrationPto;
+import cz.muni.pa165.bookingmanager.web.pto.*;
 import org.apache.commons.lang3.tuple.Pair;
 import org.dozer.Mapper;
 import org.springframework.stereotype.Controller;
@@ -22,11 +20,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +36,9 @@ import java.util.List;
 @Controller
 @RequestMapping("")
 public class HomeController {
+
+    private RoomFilterPto filterCache;
+
     @Inject
     private UserFacade userFacade;
     @Inject
@@ -59,15 +62,71 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping("/list.fortran")
-    public String view(Model model) {
-        // TODO FILTER
-        Date from = new Date();
-        Date to = new Date();
-        to.setTime(to.getTime()+10*24*60*60*1000);
-        List<RoomDto> rooms =  roomFacade.findAvailableRooms(from, to, new RoomFilter(0,10, new BigDecimal(0), new BigDecimal(10000)), "New York", new PageInfo(0, WebAppConstants.DEFAULT_PAGE_SIZE)).getEntries();
+    @RequestMapping("/list")
+    public String view(Model model, @RequestParam(name = "p", defaultValue = "1") Integer page) {
 
-        model.addAttribute("rooms", rooms.stream().map(x -> mapper.map(x, RoomPto.class)).toArray());
+        PageResult<RoomDto> rooms = null;
+        if(filterCache == null) {
+            rooms =  roomFacade.findAll(new PageInfo(page-1, WebAppConstants.DEFAULT_PAGE_SIZE));
+        } else
+        {
+          rooms =  roomFacade.findAvailableRooms(filterCache.getDateFrom(), filterCache.getDateTo(), new RoomFilter(filterCache.getBedFrom(),filterCache.getBedTo(), filterCache.getPriceFrom(),
+                  filterCache.getPriceTo()),filterCache.getCity(), new PageInfo(page-1, WebAppConstants.DEFAULT_PAGE_SIZE));
+
+        }
+
+
+        PageResult<RoomPto> roomPtosPage = new PageResult<>();
+        List<RoomPto> roomPtos = new ArrayList<>();
+
+        for(Object r : rooms.getEntries().stream().map(x -> mapper.map(x, RoomPto.class)).toArray()) {
+            roomPtos.add((RoomPto) r);
+        }
+
+        roomPtosPage.setEntries(roomPtos);
+        roomPtosPage.setPageSize(rooms.getPageSize());
+        roomPtosPage.setPageNumber(rooms.getPageNumber());
+        roomPtosPage.setPageCount(rooms.getPageCount());
+        roomPtosPage.setTotalEntries(rooms.getTotalEntries());
+
+        model.addAttribute("filter", new RoomFilterPto());
+        model.addAttribute("rooms", roomPtosPage);
+
+        return "list";
+    }
+
+    @RequestMapping("/clear")
+    public String clear() {
+
+        filterCache = null;
+
+        return "redirect:/list";
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public String listPost(@Valid @ModelAttribute("filter") RoomFilterPto filter, @RequestParam(name = "p", defaultValue = "1") Integer page, BindingResult bindingResult,
+                          Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+
+        if(filterCache == null) {
+            filterCache = filter;
+        }
+
+        PageResult<RoomDto> rooms =  roomFacade.findAvailableRooms(filter.getDateFrom(), filter.getDateTo(), new RoomFilter(filter.getBedFrom(),filter.getBedTo(), filter.getPriceFrom(),filter.getPriceTo()),filter.getCity(), new PageInfo(page-1, WebAppConstants.DEFAULT_PAGE_SIZE));
+        List<RoomPto> roomPtos = new ArrayList<>();
+
+        for(Object r : rooms.getEntries().stream().map(x -> mapper.map(x, RoomPto.class)).toArray()) {
+            roomPtos.add((RoomPto) r);
+        }
+        PageResult<RoomPto> roomPtosPage = new PageResult<>();
+        roomPtosPage.setEntries(roomPtos);
+        roomPtosPage.setPageSize(rooms.getPageSize());
+        roomPtosPage.setPageNumber(rooms.getPageNumber());
+        roomPtosPage.setPageCount(rooms.getPageCount());
+        roomPtosPage.setTotalEntries(rooms.getTotalEntries());
+
+        model.addAttribute("filter", filter);
+        model.addAttribute("rooms", roomPtosPage);
+
         return "list";
     }
 
@@ -84,6 +143,7 @@ public class HomeController {
         model.addAttribute("hotel", hotelPto);
         return "detail";
     }
+
     @RequestMapping("/login")
     public String login(@RequestParam(required = false, defaultValue = "false") Boolean logout, Model model) {
         model.addAttribute("logout", logout);
@@ -150,4 +210,5 @@ public class HomeController {
         model.addAttribute("userOptional",userFacade.findByEmail(email).map(x-> mapper.map(x,UserPto.class)));
         return "/profile";
     }
+
 }

@@ -12,30 +12,116 @@
 </script>
 
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
-<div class="row col-md-offset-2 col-md-8" style="text-align: center; margin-bottom: 30px">
-    <div class="col-md-3">
-    <p>Date to: <input type="text" class="datepicker"></p>
-    <p>Beds to: <input type="text"></p>
-    <p>Price to: <input type="text"></p>
-     <p>City: <input type="text" name="example" list="cities">
-        <datalist id="cities">
-            <option value="New York">
-            <option value="Paris">
-        </datalist></p>
-    </div>
-        <div class="col-md-3">
-    <p>Date from: <input type="text" class="datepicker"></p>
-    <p>Beds from: <input type="text"></p>
-    <p>Price from: <input type="text"></p>
+<div class="panel panel-default">
+    <form class="form-horizontal panel-body" th:action="@{list}" th:object="${filter}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <div class="form-group">
+            <div class="col-md-offset-2 row col-md-8">
+            <label class="col-md-2 control-label" >Beds from: </label>
+            <div class="col-md-2">
+                <input type="text" th:field="*{bedFrom}" class="form-control" />
+                <div th:if="${#fields.hasErrors('bedFrom')}" th:errors="*{bedFrom}" class="alert alert-danger" role="alert">
+                    err_name
+                </div>
+            </div>
+            <label class="col-md-2 control-label" >Beds to: </label>
+            <div class="col-md-2">
+                <input type="text" th:field="*{bedTo}" class="form-control"/>
+                <div th:if="${#fields.hasErrors('bedTo')}" th:errors="*{bedTo}" class="alert alert-danger" role="alert">
+                    err_name
+                </div>
+            </div>
+
+            </div>
+            <div class="col-md-offset-2 row col-md-8">
+                <label class="col-md-2 control-label">Price from: </label>
+                <div class="col-md-2">
+                    <input type="text" th:field="*{priceFrom}" class="form-control"/>
+                    <div th:if="${#fields.hasErrors('priceFrom')}" th:errors="*{priceFrom}" class="alert alert-danger" role="alert">
+                        err_name
+                    </div>
+                </div>
+                <label class="col-md-2 control-label">Price to: </label>
+                <div class="col-md-2">
+                    <input type="text" th:field="*{priceTo}" class="form-control" />
+                    <div th:if="${#fields.hasErrors('priceTo')}" th:errors="*{priceTo}" class="alert alert-danger" role="alert">
+                        err_name
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-offset-2 row col-md-8">
+                <label class="col-md-2 control-label">Date from: </label>
+                <div class="col-md-2">
+                    <input type="text" th:field="*{dateFrom}" class="datepicker" />
+                    <div th:if="${#fields.hasErrors('dateFrom')}" th:errors="*{dateFrom}" class="alert alert-danger" role="alert">
+                        err_name
+                    </div>
+                </div>
+                <label class="col-md-2 control-label">Date to: </label>
+                <div class="col-md-2">
+                    <input type="text" th:field="*{dateTo}" class="datepicker"/>
+                    <div th:if="${#fields.hasErrors('dateTo')}" th:errors="*{dateTo}" class="alert alert-danger" role="alert">
+                        err_name
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-offset-4 row col-md-4">
+                <label class="col-md-2 control-label">City: </label>
+                <div class="col-md-2">
+                    <input type="text" th:field="*{city}" class="form-control"  />
+                    <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="alert alert-danger" role="alert">
+                        err_name
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-offset-4 row col-md-4">
+                <div class=" col-md-2">
+                    <button type="submit" class="btn btn-primary btn-lg">Apply filter</button>
+                </div>
+                <div class=" col-md-2">
+                    <a th:href="@{/clear}" class="btn btn-info" role="button" style="font-size: 25px">Clear</a>
+                </div>
+            </div>
         </div>
-    <div class="col-md-2">
-        <a href="/pa165/list.fortran" class="btn btn-info" role="button" style="font-size: 40px">Apply filter</a>
-    </div>
+    </form>
 </div>
+
 <div class="row col-md-offset-3 col-md-6" style="text-align: center; margin-bottom: 30px">
+    <nav th:if="${!rooms.entries.isEmpty()}" aria-label="Page navigation">
+        <ul class="pagination">
+            <li th:class="${rooms.pageNumber <= 0 ?'disabled' : ''}">
+                <a th:if="${rooms.pageNumber > 0}" th:href="@{list(p=${rooms.pageNumber})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span th:if="${rooms.pageNumber <= 0}" aria-hidden="true">&laquo;</span>
+            </li>
+            <li th:if="${rooms.pageNumber - 2 >= 0}">
+                <a th:href="@{list(p=${rooms.pageNumber - 1})}" th:text="${rooms.pageNumber - 1}"></a>
+            </li>
+            <li th:if="${rooms.pageNumber - 1 >= 0}">
+                <a th:href="@{list(p=${rooms.pageNumber})}" th:text="${rooms.pageNumber}"></a>
+            </li>
+            <li class="active">
+                <a th:href="@{list(p=${rooms.pageNumber + 1})}" th:text="${rooms.pageNumber + 1}"></a>
+            </li>
+            <li th:if="${rooms.pageNumber + 1 < rooms.pageCount}">
+                <a th:href="@{list(p=${rooms.pageNumber + 2})}" th:text="${rooms.pageNumber + 2}"></a>
+            </li>
+            <li th:if="${rooms.pageNumber + 2 < rooms.pageCount}">
+                <a th:href="@{list(p=${rooms.pageNumber + 3})}" th:text="${rooms.pageNumber + 3}"></a>
+            </li>
+            <li th:class="${rooms.pageNumber + 1 >= rooms.pageCount ? 'disabled' : ''}">
+                <a th:if="${rooms.pageNumber + 1 < rooms.pageCount}"
+                   th:href="@{list(p=${rooms.pageNumber + 2})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span th:if="${rooms.pageNumber + 1 >= rooms.pageCount}" aria-hidden="true">&raquo;</span>
+            </li>
+        </ul>
+    </nav>
 </div>
-<hr/>
-<div th:each="room : ${rooms}" class="row col-md-offset-2 col-md-8" style="text-align: center; margin-bottom: 30px">
+<div th:each="room : ${rooms.getEntries()}" class="row col-md-offset-2 col-md-8" style="text-align: center; margin-bottom: 30px">
     <div class="col-md-3">
         <p> You can spend night in room
         <b th:text="${room.name}"></b>

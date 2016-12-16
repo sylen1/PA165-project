@@ -8,46 +8,42 @@ import java.util.List;
  */
 public class RoomFilterPto {
 
-    private int bedFrom;
-    private int bedTo;
+    private Integer bedFrom;
+    private Integer bedTo;
     private Date dateFrom;
     private Date dateTo;
     private BigDecimal priceFrom;
     private BigDecimal priceTo;
-    private int currentPage;
-    private int pageCount;
     private List<String> cities;
     private String city;
 
     public RoomFilterPto() {
     }
 
-    public RoomFilterPto(int bedFrom, int bedTo, Date dateFrom, Date dateTo, BigDecimal priceFrom, BigDecimal priceTo, int currentPage, int pageCount, List<String> cities, String city) {
+    public RoomFilterPto(Integer bedFrom, Integer bedTo, Date dateFrom, Date dateTo, BigDecimal priceFrom, BigDecimal priceTo, List<String> cities, String city) {
         this.bedFrom = bedFrom;
         this.bedTo = bedTo;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.priceFrom = priceFrom;
         this.priceTo = priceTo;
-        this.currentPage = currentPage;
-        this.pageCount = pageCount;
         this.cities = cities;
         this.city = city;
     }
 
-    public int getBedFrom() {
+    public Integer getBedFrom() {
         return bedFrom;
     }
 
-    public void setBedFrom(int bedFrom) {
+    public void setBedFrom(Integer bedFrom) {
         this.bedFrom = bedFrom;
     }
 
-    public int getBedTo() {
+    public Integer getBedTo() {
         return bedTo;
     }
 
-    public void setBedTo(int bedTo) {
+    public void setBedTo(Integer bedTo) {
         this.bedTo = bedTo;
     }
 
@@ -81,22 +77,6 @@ public class RoomFilterPto {
 
     public void setPriceTo(BigDecimal priceTo) {
         this.priceTo = priceTo;
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public int getPageCount() {
-        return pageCount;
-    }
-
-    public void setPageCount(int pageCount) {
-        this.pageCount = pageCount;
     }
 
     public List<String> getCities() {
