@@ -29,8 +29,6 @@ public class UserPto {
 
     private AccountState accountState;
 
-    private String password;
-
     public UserPto(){}
 
     public Long getId() {
@@ -89,14 +87,6 @@ public class UserPto {
         this.accountState = accountState;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -119,7 +109,6 @@ public class UserPto {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", birthDate=" + birthDate +
                 ", accountState=" + accountState +
-                ", password='" + password + '\'' +
                 '}';
     }
 

@@ -61,7 +61,6 @@
                     <input type="radio" th:field="*{accountState}" class="form-control" value="INACTIVE"> Inactive<br>
                 </div>
             </div>
-            <input class="form-control" type="hidden" th:field="*{password}" />
             <p class="col-md-offset-2">
                 <button type="submit" class="btn btn-primary btn-lg">Save user</button>
                 <a th:href="@{/admin/user/{id}(id=*{id})}" class="btn btn-default btn-lg">Back to user detail without saving</a>
