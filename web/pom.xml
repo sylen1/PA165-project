@@ -109,6 +109,7 @@
                 <version>2.2</version>
                 <configuration>
                     <path>/pa165</path>
+                    <uriEncoding>utf-8</uriEncoding>
                 </configuration>
             </plugin>
         </plugins>

@@ -12,7 +12,6 @@ import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class UserRegistrationPto {
-    @Pattern(regexp = "^[a-zA-Z ]*$")
     @Length(min = 2, max = 32)
     private String name;
     @NotBlank
