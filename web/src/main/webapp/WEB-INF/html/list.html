@@ -127,8 +127,8 @@
                 </ul>
             </nav>
         </div>
-        <div th:each="room : ${rooms.getEntries()}" class="row" style="text-align: center; margin-bottom: 30px">
-            <div class="col-md-3">
+        <div th:each="room : ${rooms.getEntries()}" class="row" style="margin-bottom: 30px">
+            <div class="col-md-3 col-sm-6" style="text-align: center">
                 <p> You can spend night in room
                 <b th:text="${room.name}"></b>
                 in up to
@@ -139,11 +139,11 @@
                 <a th:href="@{/user/reservation/form(room=${room.id})}" class="btn btn-warning" role="button" style="font-size: 25px">I Want It!</a>
                 <a th:href="@{/detail/{id}(id=${room.hotelId})}" class="btn btn-info" role="button" style="font-size: 25px">Hotel Info</a>
             </div>
-            <div class="col-md-3">
-                <p th:text="${room.description}"></p>
+            <div class="col-md-3 col-sm-6">
+                <p th:utext="${#strings.replace(#strings.escapeXml(room.description),'&#10;','<br>&#10;')}"></p>
             </div>
-            <div class="col-md-2">
-                <img src="room_list.jpg">
+            <div class="col-md-6 col-sm-6">
+                <img src="room_list.jpg" alt="room foto" style="max-width:100%">
             </div>
         </div>
     </div>

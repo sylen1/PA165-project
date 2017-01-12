@@ -9,6 +9,7 @@
     </p>
 
     <div th:if="${userOptional.isPresent()}" th:with="user=${userOptional.get()}">
+        <h1>Your profile</h1>
         <table class="table table-nonfluid table-bordered table-striped table-hover">
             <tr>
                 <th>Name</th>

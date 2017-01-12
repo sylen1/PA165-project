@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head (pageTitle=${'Hotel ' + hotel.name})"></head>
 <body>
 <script>
     $( function() {
@@ -20,59 +20,59 @@
     } );
 </script>
 <div th:replace="fragments/top-bar :: top-bar">top-bar</div>
-<div class="row col-md-offset-3 col-md-6" style="text-align: center; margin-bottom: 30px">
-    <div class="col-md-2">
-        <img src="../hotel_detail_1.jpg">
+<div class="container">
+    <div class="row" style="text-align: center; margin-bottom: 30px">
+        <div class="col-sm-4">
+            <img src="../hotel_detail_1.jpg">
+        </div>
+        <div class="col-sm-4">
+            <img src="../hotel_detail_2.jpg">
+        </div>
+        <div class="col-sm-4">
+            <img src="../hotel_detail_3.jpg">
+        </div>
     </div>
-    <div class="col-md-2">
-        <img src="../hotel_detail_2.jpg">
+    <div class="row" style="margin-bottom: 30px">
+        <h1 style="float: left;">Hotel <b th:text="${hotel.name}"></b></h1>
+        <div sec:authorize="hasRole('ROLE_ADMIN')" style="float: right; text-align: center;">
+            <div class="col-md-8">
+                <h3>Hotel statistics </h3>
+                Average reservation length: <b th:text="${hotel.hotelStatistics.getReservationLength()}"></b><br/>
+                Average room usage: <b th:text="${hotel.hotelStatistics.getUsage()}"></b><br/>
+                Revenue: <b th:text="${hotel.hotelStatistics.revenue}"></b><br/>
+                Completed reservation: <b th:text="${hotel.hotelStatistics.numberOfCompletedReservations}"></b><br/>
+            </div>
+            <div class="col-md-4">
+                <input type="hidden" th:value="${hotel.id}" id="id"/>
+                <label for="from">Stats. from: </label>
+                <p><input type="text" class="form-control datepicker" id="from" th:value="${from}"></p>
+                <label for="to">Stats. to: </label>
+                <p><input type="text" class="form-control datepicker" id="to" th:value="${to}"></p>
+                <a th:href="@{/admin/hotel/{id}/edit(id=${hotel.id})}" class="btn btn-info" role="button" style="font-size: 25px">Edit hotel</a>
+            </div>
+        </div>
     </div>
-    <div class="col-md-2">
-        <img src="../hotel_detail_3.jpg">
-    </div>
-</div>
-<div class="row col-md-offset-2 col-md-8" style="text-align: center; margin-bottom: 30px">
-    <div class="col-md-3">
-        <h1>Hotel <b th:text="${hotel.name}"></b></h1>
-    </div>
-    <div sec:authorize="hasRole('ROLE_ADMIN')">
+    <div th:each="room : ${hotel.rooms}" class="row" style="margin-bottom: 30px">
+        <div class="col-md-3" style="text-align: center">
+            <p> You can spend night in room
+                <b th:text="${room.name}"></b>
+                in up to
+                <b th:text="${room.bedCount}"></b>
+                people for
+                <b th:text="${room.price}"></b>
+            </p>
+            <a th:href="@{/user/reservation/form(room=${room.id})}" class="btn btn-warning" role="button" style="font-size: 25px">I Want It!</a>
+            <span sec:authorize="hasRole('ROLE_ADMIN')">
+                <a th:href="@{/admin/hotel/{hotelId}/room/{id}/edit(hotelId=${room.hotelId},id=${room.id})}"
+                   class="btn btn-info" role="button" style="font-size: 25px">Edit room</a>
+            </span>
+        </div>
         <div class="col-md-3">
-            <h3>Hotel statistics </h3>
-            Average reservation length: <b th:text="${hotel.hotelStatistics.getReservationLength()}"></b><br/>
-            Average room usage: <b th:text="${hotel.hotelStatistics.getUsage()}"></b><br/>
-            Revenue: <b th:text="${hotel.hotelStatistics.revenue}"></b><br/>
-            Completed reservation: <b th:text="${hotel.hotelStatistics.numberOfCompletedReservations}"></b><br/>
+            <p th:utext="${#strings.replace(#strings.escapeXml(room.description),'&#10;','<br>&#10;')}"></p>
         </div>
-        <div class="col-md-2">
-            <input type="hidden" th:value="${hotel.id}" id="id"/>
-            <label for="from">Stats. from: </label>
-            <p><input type="text" class="form-control datepicker" id="from" th:value="${from}"></p>
-            <label for="to">Stats. to: </label>
-            <p><input type="text" class="form-control datepicker" id="to" th:value="${to}"></p>
-            <a th:href="@{/admin/hotel/{id}/edit(id=${hotel.id})}" class="btn btn-info" role="button" style="font-size: 25px">Edit hotel</a>
+        <div class="col-md-6">
+            <img src="../room_list.jpg" alt="room foto" style="max-width:100%">
         </div>
-    </div>
-</div>
-<div th:each="room : ${hotel.rooms}" class="row col-md-offset-3 col-md-8" style="text-align: center; margin-bottom: 30px">
-    <div class="col-md-3">
-        <p> You can spend night in room
-            <b th:text="${room.name}"></b>
-            in up to
-            <b th:text="${room.bedCount}"></b>
-            people for
-            <b th:text="${room.price}"></b>
-        </p>
-        <a th:href="@{/user/reservation/form(room=${room.id})}" class="btn btn-warning" role="button" style="font-size: 25px">I Want It!</a>
-        <div sec:authorize="hasRole('ROLE_ADMIN')">
-            <a th:href="@{/admin/hotel/{hotelId}/room/{id}/edit(hotelId=${room.hotelId},id=${room.id})}"
-               class="btn btn-info" role="button" style="font-size: 25px">Edit room</a>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <p th:text="${room.description}"></p>
-    </div>
-    <div class="col-md-2">
-        <img src="../room_list.jpg">
     </div>
 </div>
 </body>
