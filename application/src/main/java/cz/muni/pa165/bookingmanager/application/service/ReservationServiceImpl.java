@@ -90,7 +90,7 @@ public class ReservationServiceImpl implements ReservationService {
         BigDecimal revenue = BigDecimal.ZERO;
         double averageRoomUsage = 0;
         double averageReservationLength = 0;
-        Map<RoomEntity, Long> usedDaysPerRoom = new HashMap<>();
+        Map<RoomEntity, Long> usedNightsPerRoom = new HashMap<>();
 
         java.sql.Date intervalStartSql = new java.sql.Date(intervalStart.getTime());
         java.sql.Date intervalEndSql = new java.sql.Date(intervalEnd.getTime());
@@ -102,47 +102,48 @@ public class ReservationServiceImpl implements ReservationService {
                 .stream()
                 .filter(x -> x.getState().equals("PAID") || x.getState().equals("ENDED"))
                 .collect(Collectors.toList());
-
+        List<ReservationEntity> cr9n2 = new ArrayList<>();
+        for(ReservationEntity x: completedReservations){
+            if(x.getStartDate().equals(intervalEndSql)) cr9n2.add(x);
+        }
+        completedReservations.removeAll(cr9n2);
         LocalDate intervalStartLocal = dateToLocalDate(intervalStart);
         LocalDate intervalEndLocal = dateToLocalDate(intervalEnd);
 
 
-        long totalReservedDays = 0; // regardless of room
+        long totalReservedNights = 0; // regardless of room
         for(ReservationEntity res : completedReservations) {
             long days = 0;
             LocalDate startDateLocal = dateToLocalDate(res.getStartDate());
             LocalDate endDateLocal = dateToLocalDate(res.getEndDate());
 
             if(res.getStartDate().after(intervalStart) && res.getEndDate().before(intervalEnd)) {
-                days = 1 + ChronoUnit.DAYS.between(startDateLocal, endDateLocal);
+                days = ChronoUnit.DAYS.between(startDateLocal, endDateLocal);
             } else if (res.getStartDate().after(intervalStart)) {
-                days = 1 + ChronoUnit.DAYS.between(startDateLocal, intervalEndLocal);
+                days = ChronoUnit.DAYS.between(startDateLocal, intervalEndLocal);
             } else if (res.getEndDate().before(intervalEnd)) {
-                days = 1 + ChronoUnit.DAYS.between(intervalStartLocal, endDateLocal);
+                days = ChronoUnit.DAYS.between(intervalStartLocal, endDateLocal);
             } else {
-                days = 1 + ChronoUnit.DAYS.between(intervalStartLocal, intervalEndLocal);
+                days = ChronoUnit.DAYS.between(intervalStartLocal, intervalEndLocal);
             }
-
             revenue = revenue.add(res.getRoom().getPrice().multiply(new BigDecimal(days)));
 
-            if(usedDaysPerRoom.containsKey(res.getRoom())) {
-                usedDaysPerRoom.replace(res.getRoom(), days + usedDaysPerRoom.get(res.getRoom()));
+            if(usedNightsPerRoom.containsKey(res.getRoom())) {
+                usedNightsPerRoom.replace(res.getRoom(), days + usedNightsPerRoom.get(res.getRoom()));
             } else {
-                usedDaysPerRoom.put(res.getRoom(), days);
+                usedNightsPerRoom.put(res.getRoom(), days);
             }
 
-            totalReservedDays += days;
+            totalReservedNights += days;
         }
-
         long roomDays = 0;
-        for(RoomEntity r : usedDaysPerRoom.keySet()) {
-            roomDays += usedDaysPerRoom.get(r);
+        for(RoomEntity r : usedNightsPerRoom.keySet()) {
+            roomDays += usedNightsPerRoom.get(r);
         }
 
-        long totalNumOfDaysInInterval = numberOfdaysBetweenLocalDates(intervalStartLocal, intervalEndLocal);
-
-        if(totalNumOfDaysInInterval > 0) averageRoomUsage = (1. * roomDays) / totalNumOfDaysInInterval;
-        if(completedReservations.size() > 0) averageReservationLength = (1. * totalReservedDays) / completedReservations.size();
+        long totalNumOfNightsInInterval = numberOfdaysBetweenLocalDates(intervalStartLocal, intervalEndLocal) - 1;
+        if(totalNumOfNightsInInterval > 0) averageRoomUsage = (1. * roomDays) / totalNumOfNightsInInterval;
+        if(completedReservations.size() > 0) averageReservationLength = (1. * totalReservedNights) / completedReservations.size();
 
         return new HotelStatistics(completedReservations.size(), revenue, averageRoomUsage, averageReservationLength);
     }

@@ -23,11 +23,10 @@ public class HotelStatistics {
     }
 
     public String getUsage() {
-        DecimalFormat df = new DecimalFormat("0.00");
-        return df.format(averageRoomUsage*100)+"%";
+        return averageRoomUsage + " room(s) booked each night";
     }
 
-    public String getReservationLenght() {
+    public String getReservationLength() {
         DecimalFormat df = new DecimalFormat("0.00");
         return df.format(averageReservationLength);
     }

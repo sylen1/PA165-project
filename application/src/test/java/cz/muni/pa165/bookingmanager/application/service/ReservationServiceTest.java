@@ -90,7 +90,7 @@ public class ReservationServiceTest {
         room.setBedCount(3);
         room.setDescription("Nondescript room");
         room.setName("Room 101");
-        room.setPrice(new BigDecimal("15.36"));
+        room.setPrice(new BigDecimal("20.00"));
         room.setId(1L);
         room.setHotelId(1L);
         roomset.add(room);
@@ -207,8 +207,8 @@ public class ReservationServiceTest {
         RoomEntity room2 = new RoomEntity();
         room2.setBedCount(3);
         room2.setDescription("Nondescript room");
-        room2.setName("Room 101");
-        room2.setPrice(new BigDecimal("15.36"));
+        room2.setName("Room 231");
+        room2.setPrice(new BigDecimal("20.00"));
         room2.setId(2L);
         room2.setHotelId(1L);
         hotel.getRooms().add(room2);
@@ -246,9 +246,9 @@ public class ReservationServiceTest {
                 Date.valueOf("2016-09-05"));
 
         assertEquals(2, result.getNumberOfCompletedReservations());
-        assertEquals(new BigDecimal("107.52"), result.getRevenue());
-        assertEquals(1.4, result.getAverageRoomUsage(), 0.01);
-        assertEquals(3.5, result.getAverageReservationLength(), 0.01);
+        assertEquals(new BigDecimal("100.00"), result.getRevenue());
+        assertEquals(1.25, result.getAverageRoomUsage(), 0.001);
+        assertEquals(2.5, result.getAverageReservationLength(), 0.001);
     }
 
     private ReservationEntity returnR9nWithSetID(ReservationEntity r9n) {
