@@ -1,8 +1,8 @@
 package cz.muni.pa165.bookingmanager.persistence.entity;
 
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
-import javax.persistence.*;
 
 
 /**

@@ -105,8 +105,11 @@ public class HotelRestController {
     public final HotelDto updateHotel(@PathVariable("id") long id, @RequestBody HotelDto updatedHotel) {
 
         updatedHotel.setId(id);
+        System.out.println(updatedHotel);
         try {
-            return hotelFacade.updateHotelInformation(updatedHotel);
+            HotelDto hotelDto = hotelFacade.updateHotelInformation(updatedHotel);
+            System.out.println(hotelDto);
+            return hotelDto;
         } catch (Exception ex) {
             throw new ResourceNotModifiedException();
         }

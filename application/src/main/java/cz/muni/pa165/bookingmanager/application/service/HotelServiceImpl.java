@@ -1,8 +1,8 @@
 package cz.muni.pa165.bookingmanager.application.service;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.HotelService;
-import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.persistence.dao.HotelDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.HotelEntity;
 import org.apache.commons.lang3.Validate;

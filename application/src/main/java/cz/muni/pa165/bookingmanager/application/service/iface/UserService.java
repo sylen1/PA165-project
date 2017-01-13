@@ -1,8 +1,8 @@
 package cz.muni.pa165.bookingmanager.application.service.iface;
 
 
-import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -60,7 +60,7 @@ public interface UserService extends PageableService<UserEntity> {
 
     /**
      * Attempts to authenticate a user
-     * @param u UserEntity with relevant info
+     * @param user UserEntity with relevant info
      * @param passwd Password to check
      * @return True on success, false on failure
      */

@@ -7,6 +7,26 @@ import cz.muni.pa165.bookingmanager.persistence.dao.UserDao;
 import cz.muni.pa165.bookingmanager.persistence.dao.UserTokenDao;
 import cz.muni.pa165.bookingmanager.persistence.entity.DatabaseAccountState;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.UserToken;
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.Pair;
+import org.dozer.Mapper;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import javax.inject.Inject;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -15,31 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import cz.muni.pa165.bookingmanager.persistence.entity.UserToken;
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.tuple.Pair;
-
-import org.dozer.Mapper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-
-import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.PageImpl;
-
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import javax.inject.Inject;
 
 /**
  * Tests for implementation of UserService
