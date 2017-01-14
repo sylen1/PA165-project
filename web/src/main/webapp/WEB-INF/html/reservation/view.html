@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (pageTitle='Reservation')"></head>
+<body>
+<div th:replace="fragments/top-bar :: top-bar">top-bar</div>
+<div class="container">
+    <p th:if="${resOptional.isPresent()}" class="pull-right">
+        <a th:href="@{list}">&lt; Back to list of reservations</a></p>
+    <h1 th:text="${'Reservation with ID '+ resOptional.get().getId()}"></h1>
+    <p th:if="${!resOptional.isPresent()}" class="alert alert-info" role="alert">
+        No reservation found for received ID. Please, <a th:href="@{list}">return back to list of reservations</a>.</p>
+
+    <div th:if="${resOptional.isPresent()}" th:with="res=${resOptional.get()}">
+        <h2>Reservation details</h2>
+        <table class="table table-nonfluid table-bordered table-striped table-hover">
+            <tr>
+                <th>Start</th>
+                <td th:text="${res.startDate}"></td>
+            </tr>
+            <tr>
+                <th>End</th>
+                <td th:text="${res.endDate}"></td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td th:text="${res.state}"></td>
+            </tr>
+        </table>
+        <p><a th:href="@{{id}/edit(id=${res.id})}"><span class="glyphicon glyphicon-pencil"></span> Edit details</a></p>
+    </div>
+</div>
+</body>
+</html>

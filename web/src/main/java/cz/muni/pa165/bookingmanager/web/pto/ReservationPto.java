@@ -1,5 +1,6 @@
 package cz.muni.pa165.bookingmanager.web.pto;
 
+import cz.muni.pa165.bookingmanager.iface.dto.ReservationState;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Future;
@@ -24,6 +25,8 @@ public class ReservationPto {
     @Future
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private Date endDate;
+
+    private ReservationState state;
 
     public Long getId() {
         return id;
@@ -55,6 +58,14 @@ public class ReservationPto {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public ReservationState getState() {
+        return state;
+    }
+
+    public void setState(ReservationState state) {
+        this.state = state;
     }
 
     @Override
