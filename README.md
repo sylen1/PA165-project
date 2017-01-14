@@ -7,8 +7,8 @@
 | 422714 | Harčár  Matej | xharcar |
 | 448273 | Gasior  Ondřej | xgasior |
 
-Non-trivial functionality on facade/service layer:
-1) Hotel Statistics: statistics about the hotel in a given time period on demand, eg. amount of revenue earned
+Non-trivial functionality on facade/service layer:  
+1) Hotel Statistics: statistics about the hotel in a given time period on demand, eg. amount of revenue earned  
 2) User registration confirmation: preparation for sending account activation emails with links to activate the account
 
 [For description of REST API there is special Wiki page](https://github.com/sylen1/PA165-project/wiki/Rest-API)

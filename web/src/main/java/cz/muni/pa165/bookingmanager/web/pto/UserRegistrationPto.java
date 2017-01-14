@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class UserRegistrationPto {
@@ -25,7 +24,6 @@ public class UserRegistrationPto {
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     @NotNull
     private Date birthDate;
-    @Pattern(regexp = "^[0-9a-zA-Z]*$")
     @Length(min = 6, max = 32)
     private String password;
 

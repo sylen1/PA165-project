@@ -2,9 +2,9 @@ package cz.muni.pa165.bookingmanager.iface.facade;
 
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationDto;
 import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
+import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
-import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 
 import java.util.Date;
 import java.util.Optional;

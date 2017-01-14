@@ -1,8 +1,8 @@
 package cz.muni.pa165.bookingmanager.application.service.iface;
 
 import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
-import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
+import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 

@@ -2,23 +2,22 @@ package cz.muni.pa165.bookingmanager.application.facade;
 
 import cz.muni.pa165.bookingmanager.application.service.iface.ReservationService;
 import cz.muni.pa165.bookingmanager.iface.dto.ReservationDto;
-import cz.muni.pa165.bookingmanager.iface.dto.ReservationState;
+import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
 import cz.muni.pa165.bookingmanager.iface.util.HotelStatistics;
+import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
-import cz.muni.pa165.bookingmanager.iface.facade.ReservationFacade;
-import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
-
-import java.util.Date;
-import java.util.List;
-import javax.inject.Inject;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.Validate;
 import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of ReservationFacade interface

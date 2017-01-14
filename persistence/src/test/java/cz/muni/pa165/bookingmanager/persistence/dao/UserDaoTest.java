@@ -2,17 +2,18 @@ package cz.muni.pa165.bookingmanager.persistence.dao;
 
 import cz.muni.pa165.bookingmanager.persistence.entity.DatabaseAccountState;
 import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.dao.DataAccessException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.inject.Inject;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.test.context.ContextConfiguration;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import javax.inject.Inject;
-import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.springframework.dao.DataAccessException;
 
 
 /**

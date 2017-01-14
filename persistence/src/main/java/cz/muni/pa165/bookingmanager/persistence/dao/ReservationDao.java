@@ -1,16 +1,16 @@
 package cz.muni.pa165.bookingmanager.persistence.dao;
 
-import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
+import cz.muni.pa165.bookingmanager.persistence.entity.UserEntity;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
 import java.util.List;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 /**
  * DAO for reservations

@@ -1,6 +1,5 @@
 package cz.muni.pa165.bookingmanager.web.pto;
 
-import cz.muni.pa165.bookingmanager.iface.dto.ReservationState;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Future;
