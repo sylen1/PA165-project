@@ -62,8 +62,8 @@ public interface ReservationDao extends JpaRepository<ReservationEntity, Long>{
             + " WHERE re.room.id = :roomId AND re.state <> 'CANCELLED'"
             + "   AND ("
             + "     (re.startDate < :intFrom AND re.endDate > :intTo)" // is valid through the whole interval
-            + "     OR (re.startDate >= :intFrom AND re.startDate <= :intTo)" // or starts in it (and ends either in or out)
-            + "     OR (re.endDate >= :intFrom AND re.endDate <= :intTo)"  // or ends in it (and starts either in or out)
+            + "     OR (re.startDate >= :intFrom AND re.startDate < :intTo)" // or starts in it (and ends either in or out)
+            + "     OR (re.endDate > :intFrom AND re.endDate <= :intTo)"  // or ends in it (and starts either in or out)
             + "   )")
     Long countByRoomIdValidInInterval(@Param("roomId") Long roomId,
              @Param("intFrom") Date validInIntervalFrom, @Param("intTo") Date validInIntervalTo);
