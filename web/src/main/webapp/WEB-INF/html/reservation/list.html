@@ -8,7 +8,7 @@
     <p th:if="${page.entries.isEmpty()}" class="alert alert-info" role="alert">There are no reservations in the system</p>
     <div th:if="${!page.entries.isEmpty()}">
         <p th:text="'Page '+ ${page.pageNumber + 1} +' of '+ ${page.pageCount}
-                        +' ('+ ${page.totalEntries} +' hotel(s) total)'"></p>
+                        +' ('+ ${page.totalEntries} +' reservation(s) total)'"></p>
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -27,7 +27,7 @@
                     <td th:text="${entry.customer.name}"</td>
                     <td th:text="${#calendars.format(entry.startDate,'dd.MM.yyyy')}"></td>
                     <td th:text="${#calendars.format(entry.endDate,'dd.MM.yyyy')}"></td>
-
+                    <td th:text="${entry.state}"</td>
                     <td>
                         <a th:href="@{{id}(id=${entry.id})}"><span class="glyphicon glyphicon-eye-open"></span> View details</a>
                         | <a th:href="@{{id}/edit(id=${entry.id})}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
