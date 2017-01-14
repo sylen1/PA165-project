@@ -25,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -63,7 +64,8 @@ public class HomeController {
     }
 
     @RequestMapping("/list")
-    public String view(@ModelAttribute("filter") RoomFilterPto filter, Model model, @RequestParam(name = "p", defaultValue = "1") Integer page) {
+    public String view(HttpSession session, Model model, @RequestParam(name = "p", defaultValue = "1") Integer page) {
+        RoomFilterPto filter = (RoomFilterPto) session.getAttribute("roomFilter");
         if (filter == null){
             filter = new RoomFilterPto();
         }
@@ -93,16 +95,17 @@ public class HomeController {
     }
 
     @RequestMapping("/clear")
-    public String clear() {
+    public String clear(HttpSession session) {
+        session.setAttribute("roomFilter", null);
 
         return "redirect:/list";
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public String listPost(@Valid @ModelAttribute("filter") RoomFilterPto filter, BindingResult bindingResult, @RequestParam(name = "p", defaultValue = "1") Integer page,
-                         RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+                         RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, HttpSession session) {
 
-        redirectAttributes.addFlashAttribute("filter", filter);
+        session.setAttribute("roomFilter", filter);
 
         return "redirect:list";
     }

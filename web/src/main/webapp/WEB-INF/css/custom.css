@@ -85,3 +85,8 @@ table.admin-list-of-hotels thead th:last-child {
     padding-top: 10px;
     text-align: center;
 }
+
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover,
+.pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    z-index: 0;
+}
