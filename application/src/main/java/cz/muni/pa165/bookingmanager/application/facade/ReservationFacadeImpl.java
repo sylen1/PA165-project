@@ -76,6 +76,11 @@ public class ReservationFacadeImpl implements ReservationFacade {
     }
 
     @Transactional(readOnly = true)
+    public Boolean isRoomReserved(Long roomId, Date intervalStart, Date intervalEnd) {
+        return reservationService.isRoomReserved(roomId, intervalStart, intervalEnd);
+    }
+
+    @Transactional(readOnly = true)
     public HotelStatistics gatherHotelStatistics(Long hotelId, Date intervalStart, Date intervalEnd) {
         return reservationService.gatherHotelStatistics(hotelId, intervalStart, intervalEnd);
     }

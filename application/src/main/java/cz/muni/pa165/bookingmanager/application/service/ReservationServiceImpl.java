@@ -82,6 +82,12 @@ public class ReservationServiceImpl implements ReservationService {
         return mapPageToPageResult(page);
     }
 
+    public Boolean isRoomReserved(Long roomId, Date intervalStart, Date intervalEnd) {
+        return 0 < reservationDao.countByRoomIdValidInInterval(
+                        roomId, new java.sql.Date(intervalStart.getTime()), new java.sql.Date(intervalEnd.getTime())
+                    );
+    }
+
     public HotelStatistics gatherHotelStatistics(Long hotelId, Date intervalStart, Date intervalEnd) {
         if(intervalEnd.before(intervalStart)) {
             throw new IllegalArgumentException("intervalEnd can not be before intervalStart");

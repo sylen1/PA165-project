@@ -60,6 +60,16 @@ public interface ReservationFacade extends PageableFacade<ReservationDto> {
     PageResult<ReservationDto> findFiltered(ReservationFilter filter, PageInfo pageInfo);
 
     /**
+     * Tells, whether specified room is already reserved in given interval of dates
+     *
+     * @param roomId id of concerned room
+     * @param intervalStart inclusive start date of interval for the statistics gathering
+     * @param intervalEnd exclusive end date of interval for the statistics gathering
+     * @return instance of HotelStatistics full of statistics
+     */
+    Boolean isRoomReserved(Long roomId, Date intervalStart, Date intervalEnd);
+
+    /**
      * Assembles instance of HotelStatistics with statistics gathered from database.
      * Takes into account only completed Reservations, so only those with state PAID or ENDED.
      *

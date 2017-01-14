@@ -49,14 +49,24 @@ public interface ReservationDao extends JpaRepository<ReservationEntity, Long>{
     Page<ReservationEntity> findByOptionalCustomCriteria(@Param("roomId") Long roomId,
              @Param("customerId") Long customerId, @Param("startsBefore") Date startsBefore,
              @Param("endsAfter") Date endsAfter, @Param("state") String state, Pageable pageable );
-    
+
     @Query("SELECT COUNT(r.id) FROM ReservationEntity r WHERE (:roomId IS NULL OR r.room.id = :roomId)"
         + " AND (:customerId IS NULL OR r.customer.id = :customerId)"
         + " AND (:startsBefore IS NULL OR r.startDate <= :startsBefore)"
         + " AND (:endsAfter IS NULL OR r.endDate >= :endsAfter) AND (:state IS NULL OR r.state = :state)")
-    Long countByOptionalCustomCriteria( @Param("roomId") Long roomId, 
+    Long countByOptionalCustomCriteria( @Param("roomId") Long roomId,
             @Param("customerId") Long customerId, @Param("startsBefore") Date startsBefore,
             @Param("endsAfter") Date endsAfter, @Param("state") String state );
+
+    @Query("SELECT COUNT(re.id) FROM ReservationEntity re"
+            + " WHERE re.room.id = :roomId AND re.state <> 'CANCELLED'"
+            + "   AND ("
+            + "     (re.startDate < :intFrom AND re.endDate > :intTo)" // is valid through the whole interval
+            + "     OR (re.startDate >= :intFrom AND re.startDate <= :intTo)" // or starts in it (and ends either in or out)
+            + "     OR (re.endDate >= :intFrom AND re.endDate <= :intTo)"  // or ends in it (and starts either in or out)
+            + "   )")
+    Long countByRoomIdValidInInterval(@Param("roomId") Long roomId,
+             @Param("intFrom") Date validInIntervalFrom, @Param("intTo") Date validInIntervalTo);
 
     @Query("SELECT re FROM ReservationEntity re"
             + " WHERE re.room.id IN (SELECT ro.id FROM HotelEntity h JOIN h.rooms ro WHERE h.id = :hotelId)"

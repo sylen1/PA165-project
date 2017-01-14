@@ -37,7 +37,7 @@ public class ReservationController {
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() instanceof ReservationPto) {
-            binder.addValidators(new ReservationPtoValidator());
+            binder.addValidators(new ReservationPtoValidator(reservationFacade));
         }
     }
 

@@ -20,7 +20,7 @@ public interface ReservationService extends PageableService<ReservationEntity> {
      * @param reservation reservation entity to be saved
      * @return saved reservation info
      */
-    public ReservationEntity createReservation(ReservationEntity reservation);
+    ReservationEntity createReservation(ReservationEntity reservation);
     
     /**
      * Updates information about reservation according to information present in
@@ -29,7 +29,7 @@ public interface ReservationService extends PageableService<ReservationEntity> {
      * @param reservation reservation entity to be updated
      * @return saved reservation info
      */
-    public ReservationEntity updateReservation(ReservationEntity reservation);
+    ReservationEntity updateReservation(ReservationEntity reservation);
     
     /**
      * Returns one page of all recorded reservations. Size of page and which
@@ -39,7 +39,7 @@ public interface ReservationService extends PageableService<ReservationEntity> {
      * @return Instance of PageResult containing part of the result
      */
     @Override
-    public PageResult<ReservationEntity> findAll(PageInfo pageInfo);
+    PageResult<ReservationEntity> findAll(PageInfo pageInfo);
     
     /**
      * If reservation with given ID exists in the data source, this method
@@ -48,7 +48,7 @@ public interface ReservationService extends PageableService<ReservationEntity> {
      * @param id id of reservation to be searched for
      * @return Instance of Optional, either empty or with instance of ReservationEntity.
      */
-    public Optional<ReservationEntity> findById(Long id);
+    Optional<ReservationEntity> findById(Long id);
     
     /**
      * Returns one page reservations filtered by properties of given instance of
@@ -56,15 +56,25 @@ public interface ReservationService extends PageableService<ReservationEntity> {
      * @param filter instance of ReservationFilter restricting the result
      * @return PageResult instance containing part of the result
      */
-    public PageResult<ReservationEntity> findFiltered(ReservationFilter filter, PageInfo pageInfo);
+    PageResult<ReservationEntity> findFiltered(ReservationFilter filter, PageInfo pageInfo);
+
+    /**
+     * Tells, whether specified room is already reserved in given interval of dates
+     *
+     * @param roomId id of concerned room
+     * @param intervalStart inclusive start date of interval for the statistics gathering
+     * @param intervalEnd exclusive end date of interval for the statistics gathering
+     * @return instance of HotelStatistics full of statistics
+     */
+    Boolean isRoomReserved(Long roomId, Date intervalStart, Date intervalEnd);
 
     /**
      * Assembles instance of HotelStatistics with statistics gathered from database.
      * Takes into account only completed Reservations, so only those with state PAID or ENDED.
      *
      * @param hotelId id of concerned hotel
-     * @param intervalStart inclusive end date of interval for the statistics gathering
-     * @param intervalEnd inclusive end date of interval for the statistics gathering
+     * @param intervalStart inclusive start date of interval for the statistics gathering
+     * @param intervalEnd exculsive end date of interval for the statistics gathering
      * @return instance of HotelStatistics full of statistics
      */
     HotelStatistics gatherHotelStatistics(Long hotelId, Date intervalStart, Date intervalEnd);
