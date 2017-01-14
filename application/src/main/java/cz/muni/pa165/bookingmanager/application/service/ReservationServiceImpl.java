@@ -6,6 +6,7 @@ import cz.muni.pa165.bookingmanager.iface.util.PageInfo;
 import cz.muni.pa165.bookingmanager.iface.util.PageResult;
 import cz.muni.pa165.bookingmanager.iface.util.ReservationFilter;
 import cz.muni.pa165.bookingmanager.persistence.dao.ReservationDao;
+import cz.muni.pa165.bookingmanager.persistence.entity.DatabaseAccountState;
 import cz.muni.pa165.bookingmanager.persistence.entity.ReservationEntity;
 import cz.muni.pa165.bookingmanager.persistence.entity.RoomEntity;
 import org.apache.commons.lang3.Validate;
@@ -41,6 +42,9 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationEntity createReservation(ReservationEntity reservation) {
         Validate.isTrue(reservation.getId() == null);
+        DatabaseAccountState das = reservation.getCustomer().getAccountState();
+        Validate.isTrue(!das.equals(DatabaseAccountState.INACTIVE));
+        Validate.isTrue(!isRoomReserved(reservation.getRoom().getId(),reservation.getStartDate(),reservation.getEndDate()));
         return reservationDao.save(reservation);
     }
 
